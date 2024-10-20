@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_product_form_custom" model="ir.ui.view">
+        <field name="name">product.template.form.custom</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Adding launch_date and packaging_detail_id fields inside group_standard_price -->
+            <xpath expr="//group[@name='group_standard_price']" position="inside">
+                <field name="launch_date" tracking="True" />
+                <field name="hs_code" tracking="True" />
+                <field name="packaging_detail_id" tracking="True" />
+                <field name="length" tracking="True" />
+                <field name="width" tracking="True" />
+                <field name="height" tracking="True" />
+                <field name="net_weight" tracking="True" />
+                <field name="gross_weight" tracking="True" />
+                <field name="cbm" tracking="True" />
+                <field name="order_cbm" tracking="True" />
+                <field name="fcl_20" tracking="True" />
+                <field name="fcl_40" tracking="True" />
+                <field name="shelf_life" tracking="True" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

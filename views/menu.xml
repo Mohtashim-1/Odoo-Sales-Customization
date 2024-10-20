@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem
+        id="sales_customization"
+        name="Export Module"
+        />
+    <menuitem
+        id="packaging_details"
+        name="Packaging Detail"
+        parent="sales_customization"
+        />
+
+
+
+</odoo>
