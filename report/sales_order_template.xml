@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <template id="report_sales_order" name="Sales Order Report" t-name="sales_customization.report_sales_order"> -->
+        <template id="report_sales_order">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h2>Sales Order</h2>
+                            <div>
+                                <strong>Customer:</strong> <span t-field="doc.partner_id.name"/>
+                                 <strong>Test:</strong> <span t-field="doc.partner_id.name"/>
+                            </div>
+                            <div>
+                                <strong>Order Reference:</strong> <span t-field="doc.name"/>
+                            </div>
+                            <div>
+                                <strong>Date:</strong> <span t-field="doc.date_order"/>
+                            </div>
+                            <t t-if="doc.order_line">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.order_line" t-as="line">
+                                            <tr>
+                                                <td><span t-field="line.product_id.name"/></td>
+                                                <td><span t-field="line.product_uom_qty"/></td>
+                                                <td><span t-field="line.price_unit"/></td>
+                                                <td><span t-field="line.price_subtotal"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- tree view -->
-    <record id="action_packaging_detail_tree" model="ir.ui.view">
+    <record id="view_packaging_detail_tree" model="ir.ui.view">
         <field name="name">packaging.detail.tree</field>
         <field name="model">packaging.detail</field>
         <field name="priority">20</field>
         <field name="arch" type="xml">
-            <tree string="Packaging Detail" >
+            <tree string="Packaging Detail">
                 <field name="net_weight" />
                 <field name="no_of_pieces" />
                 <field name="weight" />
@@ -15,58 +13,40 @@
         </field>
     </record>
 
-    <!-- form view -->
     <record id="view_packaging_detail_form" model="ir.ui.view">
         <field name="name">packaging.detail.form</field>
         <field name="model">packaging.detail</field>
         <field name="arch" type="xml">
             <form string="Packaging Details">
-            <sheet>
-            <group>
-                <field name="net_weight" optional="show"  tracking="True" />
-                <field name="no_of_pieces" optional="show" tracking="True" />
-            
-            
-                
-                <field name="weight" optional="show" tracking="True" />
-                <field name="packaging_detail" optional="show" tracking="True" />
-            </group>
-            </sheet>
-            
-            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <!-- <field name="activity_ids" widget="mail_activity"/> -->
-                <field name="message_ids" widget="mail_thread"/>
-            </div>
-                 
+                <sheet>
+                    <group>
+                        <field name="net_weight" optional="show" tracking="1" />
+                        <field name="no_of_pieces" optional="show" tracking="1" />
+                        <field name="weight" optional="show" tracking="1" />
+                        <field name="packaging_detail" optional="show" tracking="1" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
 
-
-
-    <!-- Define the action for the patient form and tree view -->
     <record id="action_packaging_detail" model="ir.actions.act_window">
         <field name="name">Packaging Detail</field>
         <field name="res_model">packaging.detail</field>
         <field name="view_mode">tree,form</field>
-        
-        <field name="view_ids" eval="[Command.clear(), (0,0,{'view_mode':'tree','view_id':ref('action_packaging_detail_tree')}), (0,0,{'view_mode':'form','view_id':ref('view_packaging_detail_form')})]"/>
-
+        <field name="view_ids" eval="[Command.clear(), (0,0,{'view_mode':'tree','view_id':ref('view_packaging_detail_tree')}), (0,0,{'view_mode':'form','view_id':ref('view_packaging_detail_form')})]"/>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create Packaging Details
-            </p>
+            <p class="o_view_nocontent_smiling_face">Create Packaging Details</p>
         </field>
     </record>
-
-    
 
     <menuitem
         id="packaging_details"
         name="Packaging Detail"
-        parent="sales_customization"
         action="action_packaging_detail"
-        />
-    
+    />
 </odoo>
