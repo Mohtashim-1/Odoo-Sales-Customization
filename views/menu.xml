@@ -10,6 +10,14 @@
         parent="sales_customization"
         />
 
+    <menuitem
+        id="menu_hs_code"
+        name="HS Codes"
+        parent="sales_customization"  
+       
+        sequence="20" 
+    />
+
 
 
 </odoo>

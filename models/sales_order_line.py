@@ -5,7 +5,13 @@ class SaleOrderLine(models.Model):
 
     launch_date = fields.Date(string='Launch Date', related='product_id.product_tmpl_id.launch_date')
     product_code = fields.Char(string='Product Code', related='product_id.product_tmpl_id.product_code')
-    hs_code = fields.Char(string='HS Code', related='product_id.product_tmpl_id.hs_code')
+    hs_code_id = fields.Many2one(
+        'hs.code', 
+        string='HS Code', 
+        related='product_id.product_tmpl_id.hs_code_id',
+        store=True  # This makes the field stored in the database for better performance.
+    )
+    # hs_code_id = fields.Char(string='HS Code', related='product_id.product_tmpl_id.hs_code_id')
     length = fields.Float(string='Length', related='product_id.product_tmpl_id.length')
     width = fields.Float(string='Width', related='product_id.product_tmpl_id.width')
     height = fields.Float(string='Height', related='product_id.product_tmpl_id.height')

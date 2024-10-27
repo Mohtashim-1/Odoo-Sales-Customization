@@ -5,7 +5,8 @@ class ProductTemplate(models.Model):
 
     launch_date = fields.Date(string='Launch Date')
     product_code = fields.Char(string='Product Code',compute='_compute_product_code', store=True)
-    hs_code = fields.Char(string='HS Code')
+    # hs_code = fields.Char(string='HS Code')
+    hs_code_id = fields.Many2one('hs.code', string="HS Code")
     packaging_detail_id = fields.Many2one('packaging.detail', string="Packaging Detail")
     length = fields.Float(string="Length")
     width= fields.Float(string="Width")
