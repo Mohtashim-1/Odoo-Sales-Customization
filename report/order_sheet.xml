@@ -4,67 +4,119 @@
         <template id="report_order_sheet" name="Order Sheet" t-name="sales_customization.report_order_sheet">
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
+                    <div class="header" style="text-align: center; padding: 10px; border-bottom: 2px solid #ccc;">
+                        <img src="https://your-logo-url.com/logo.png" alt="Vital Group Logo" style="width: 150px;"/>
+                        <h2 style="margin: 10px 0;">Vital Group</h2>
+                        <p style="margin: 5px 0;">Your Trusted Partner in Excellence</p>
+                        <p style="margin: 5px 0;"><a href="https://vitalgroup.biz/" style="text-decoration: none; color: #007bff;">www.vitalgroup.biz</a></p>
+                    </div>
+
                     <t t-foreach="docs" t-as="doc">
                         <div class="page" style="padding: 20px;">
-                            <h2 style="margin-bottom: 20px;">Performa Invoice</h2>
-                            
+                            <h2 style="text-align: center; margin-bottom: 20px;">Performa Invoice</h2>
                             <div style="margin-bottom: 10px;">
                                 <strong>Customer:</strong> 
                                 <span t-field="doc.partner_id.name"/>
                             </div>
-                            
                             <div style="margin-bottom: 10px;">
                                 <strong>Order Reference:</strong> 
                                 <span t-field="doc.name"/>
                             </div>
-                            
                             <div style="margin-bottom: 20px;">
                                 <strong>Date:</strong> 
                                 <span t-field="doc.date_order"/>
                             </div>
                             
                             <t t-if="doc.order_line">
-                                <h3>Products</h3>
+                                <h3 style="margin-top: 20px;">Products</h3>
                                 <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                                     <thead>
                                         <tr style="background-color: #f2f2f2;">
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Product Code</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">CTNS</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">HS Code</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Categories</th>
                                             <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Packing</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Unit Price / Carton</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Amount</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Packing Details</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">FOB Unit Price / Carton</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Order Quantity</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Order Value</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Length</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Width</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Height</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Net Weight</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Gross Weight</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">CBM</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Order CBM</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">20ft FCL</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">40ft FCL</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Shelf Life</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <t t-foreach="doc.order_line" t-as="line">
                                             <tr>
                                                 <td style="padding: 8px; border: 1px solid #ddd;">
-                                                    <span t-field="line.product_id.product_code"/> <!-- Product Code -->
+                                                    <span t-field="line.product_id.hs_code_id"/> <!-- HS Code -->
                                                 </td>
-                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
-                                                    <span t-field="line.product_uom_qty"/> <!-- Quantity -->
-                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;"></td> <!-- Categories -->
                                                 <td style="padding: 8px; border: 1px solid #ddd;">
                                                     <span t-field="line.product_id.name"/> <!-- Product Description -->
                                                 </td>
                                                 <td style="padding: 8px; border: 1px solid #ddd;">
-                                                    <span t-field="line.product_id.packaging_detail_id"/>
-                                                   
+                                                    <span t-field="line.product_id.packaging_detail_id"/> <!-- Packing Details -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;"></td> <!-- FOB Unit Price -->
+                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
+                                                    <span t-field="line.product_uom_qty"/> 
                                                 </td>
                                                 <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">
-                                                    <span t-field="line.price_unit"/> <!-- Unit Price -->
+                                                    <span t-field="line.price_unit"/> 
                                                 </td>
-                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">
-                                                    <span t-field="line.price_subtotal"/> <!-- Total Amount -->
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.length"/> <!-- Length -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.width"/> <!-- Width -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.height"/> <!-- Height -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.net_weight"/> <!-- Net Weight -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.gross_weight"/> <!-- Gross Weight -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.cbm"/> <!-- CBM -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.order_cbm"/> <!-- Order CBM -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.fcl_20"/> <!-- 20ft FCL -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.fcl_40"/> <!-- 40ft FCL -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.shelf_life"/> <!-- Shelf Life -->
                                                 </td>
                                             </tr>
                                         </t>
                                     </tbody>
                                 </table>
                             </t>
+                            
+                            <div style="margin-top: 30px; text-align: center;">
+                                <strong>Thank you for your business!</strong>
+                            </div>
                         </div>
                     </t>
+                    
+                    <div class="footer" style="text-align: center; padding: 10px; border-top: 2px solid #ccc; margin-top: 20px;">
+                        <p style="margin: 5px 0;">©  2024 Vital Group | All Rights Reserved</p>
+                        <p style="margin: 5px 0;">Contact: info@vitalgroup.biz | Phone: +1 234 567 890</p>
+                    </div>
                 </t>
             </t>
         </template>
