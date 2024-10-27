@@ -13,7 +13,8 @@
         "report/report_action.xml",
         "report/sales_order_template.xml",
         "security/ir.model.access.csv",
-        "views/hs_code.xml"
+        "views/hs_code.xml",
+        "report/performa_invoice.xml"
         # "report/report.xml"
     ],
     'installable': True,

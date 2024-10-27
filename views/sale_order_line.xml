@@ -8,6 +8,7 @@
                 <field name="launch_date" />
                 <field name="product_code" />
                 <field name="hs_code_id" />
+                <field name="packaging_detail_id" />
                 <field name="length" />
                 <field name="width" />
                 <field name="height" />

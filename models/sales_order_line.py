@@ -11,6 +11,12 @@ class SaleOrderLine(models.Model):
         related='product_id.product_tmpl_id.hs_code_id',
         store=True  # This makes the field stored in the database for better performance.
     )
+    packaging_detail_id = fields.Many2one(
+        'packaging.detail', 
+        string='Packaging Detail', 
+        related='product_id.product_tmpl_id.packaging_detail_id',
+        store=True  # This makes the field stored in the database for better performance.
+    )
     # hs_code_id = fields.Char(string='HS Code', related='product_id.product_tmpl_id.hs_code_id')
     length = fields.Float(string='Length', related='product_id.product_tmpl_id.length')
     width = fields.Float(string='Width', related='product_id.product_tmpl_id.width')
