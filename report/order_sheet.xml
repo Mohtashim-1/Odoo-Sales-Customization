@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_order_sheet" name="Order Sheet" t-name="sales_customization.report_order_sheet">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page" style="padding: 20px;">
+                            <h2 style="margin-bottom: 20px;">Performa Invoice</h2>
+                            
+                            <div style="margin-bottom: 10px;">
+                                <strong>Customer:</strong> 
+                                <span t-field="doc.partner_id.name"/>
+                            </div>
+                            
+                            <div style="margin-bottom: 10px;">
+                                <strong>Order Reference:</strong> 
+                                <span t-field="doc.name"/>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <strong>Date:</strong> 
+                                <span t-field="doc.date_order"/>
+                            </div>
+                            
+                            <t t-if="doc.order_line">
+                                <h3>Products</h3>
+                                <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                                    <thead>
+                                        <tr style="background-color: #f2f2f2;">
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Product Code</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">CTNS</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Packing</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Unit Price / Carton</th>
+                                            <th style="padding: 8px; border: 1px solid #ddd;">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.order_line" t-as="line">
+                                            <tr>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.product_code"/> <!-- Product Code -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
+                                                    <span t-field="line.product_uom_qty"/> <!-- Quantity -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.name"/> <!-- Product Description -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                                    <span t-field="line.product_id.packaging_detail_id"/>
+                                                   
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">
+                                                    <span t-field="line.price_unit"/> <!-- Unit Price -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">
+                                                    <span t-field="line.price_subtotal"/> <!-- Total Amount -->
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
