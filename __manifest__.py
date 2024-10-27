@@ -12,6 +12,7 @@
         'views/menu.xml',
         "report/report_action.xml",
         "report/sales_order_template.xml",
+        "security/ir.model.access.csv"
         # "report/report.xml"
     ],
     'installable': True,

@@ -2,8 +2,9 @@ from odoo import models, fields
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
-    
+
     launch_date = fields.Date(string='Launch Date')
+    product_code = fields.Char(string='Product Code')
     hs_code = fields.Char(string='HS Code')
     packaging_detail_id = fields.Many2one('packaging.detail', string="Packaging Detail")
     length = fields.Float(string="Length")

@@ -4,8 +4,8 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     launch_date = fields.Date(string='Launch Date', related='product_id.product_tmpl_id.launch_date')
+    product_code = fields.Char(string='Product Code', related='product_id.product_tmpl_id.product_code')
     hs_code = fields.Char(string='HS Code', related='product_id.product_tmpl_id.hs_code')
-
     length = fields.Float(string='Length', related='product_id.product_tmpl_id.length')
     width = fields.Float(string='Width', related='product_id.product_tmpl_id.width')
     height = fields.Float(string='Height', related='product_id.product_tmpl_id.height')
