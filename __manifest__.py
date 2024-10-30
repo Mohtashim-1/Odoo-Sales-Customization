@@ -4,6 +4,7 @@
     'category': 'Sales',
     'summary': 'Custom Fields for Product Template',
     'description': 'This module adds custom fields to the Product Template (Item Master).',
+    'author':'Mohtashim',
     'depends': ['base', 'product', 'sale_management', 'web'], 
     'data': [
         'views/product_template_view.xml',
