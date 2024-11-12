@@ -9,15 +9,14 @@ class SaleOrderLine(models.Model):
         'hs.code', 
         string='HS Code', 
         related='product_id.product_tmpl_id.hs_code_id',
-        store=True  # This makes the field stored in the database for better performance.
+        store=True  # Store in the database for better performance
     )
     packaging_detail_id = fields.Many2one(
         'packaging.detail', 
         string='Packaging Detail', 
         related='product_id.product_tmpl_id.packaging_detail_id',
-        store=True  # This makes the field stored in the database for better performance.
+        store=True
     )
-    # hs_code_id = fields.Char(string='HS Code', related='product_id.product_tmpl_id.hs_code_id')
     length = fields.Float(string='Length', related='product_id.product_tmpl_id.length')
     width = fields.Float(string='Width', related='product_id.product_tmpl_id.width')
     height = fields.Float(string='Height', related='product_id.product_tmpl_id.height')
@@ -28,3 +27,7 @@ class SaleOrderLine(models.Model):
     fcl_20 = fields.Float(string='FCL 20', related='product_id.product_tmpl_id.fcl_20')
     fcl_40 = fields.Float(string='FCL 40', related='product_id.product_tmpl_id.fcl_40')
     shelf_life = fields.Float(string='Shelf Life', related='product_id.product_tmpl_id.shelf_life')
+    image = fields.Image(string='Shelf Life')
+    # school_image = fields.Image("School Image")
+    # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
+

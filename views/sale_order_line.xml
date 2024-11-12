@@ -5,21 +5,23 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
-                <field name="launch_date" />
-                <field name="product_code" />
-                <field name="hs_code_id" />
-                <field name="packaging_detail_id" />
-                <field name="length" />
-                <field name="width" />
-                <field name="height" />
-                <field name="net_weight" />
-                <field name="gross_weight" />
-                <field name="cbm" />
-                <field name="order_cbm" />
-                <field name="fcl_20" />
-                <field name="fcl_40" />
-                <field name="shelf_life" />
-
+                <field name="launch_date"/>
+                <!-- <field name="image" widget="image" options="{'height': 150, 'width': 150}"/> -->
+                
+                <field name="product_code"/>
+                <field name="hs_code_id"/>
+                <field name="packaging_detail_id"/>
+                <field name="length"/>
+                <field name="width"/>
+                <field name="height"/>
+                <field name="net_weight"/>
+                <field name="gross_weight"/>
+                <field name="cbm"/>
+                <field name="order_cbm"/>
+                <field name="fcl_20"/>
+                <field name="fcl_40"/>
+                <field name="shelf_life"/>
+                <field name="image"  widget="image" options="{'height': 150, 'width': 150}" />
             </xpath>
         </field>
     </record>
