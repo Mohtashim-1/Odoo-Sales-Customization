@@ -1,10 +1,23 @@
-<record id="view_order_form_inherit" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='partner_id']" position="after">
-            <field name="customer_vat" readonly="1"/>
-        </xpath>
-    </field>
-</record>
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Add customer_vat and shipping_terms after partner_id -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="customer_vat"/>
+                <field name="container_no" />
+                <!-- <field name="freight_charges" />
+                <field name="total" /> -->
+            </xpath>
+
+            <!-- Try a broader XPath if above doesn't work -->
+            <!-- <xpath expr="//*[contains(@name, 'amount_tax')]" position="after">
+                <field name="freight_charges"/> -->
+            <!-- </xpath> -->
+        </field>
+    </record>
+
+    
+</odoo>

@@ -22,6 +22,7 @@
                 <field name="fcl_40"/>
                 <field name="shelf_life"/>
                 <field name="image"  widget="image" options="{'height': 150, 'width': 150}" />
+                <field name="discount" />
             </xpath>
         </field>
     </record>

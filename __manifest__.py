@@ -7,18 +7,27 @@
     'author':'Mohtashim',
     'depends': ['base', 'product', 'sale_management', 'web'], 
     'data': [
-        'views/product_template_view.xml',
-        'views/packaging_details.xml',
-        'views/sale_order_line.xml',
-        'views/menu.xml',
-        "report/report_action.xml",
-        "report/sales_order_template.xml",
-        "security/ir.model.access.csv",
-        "views/hs_code.xml",
-        "report/performa_invoice.xml",
-        "report/order_sheet.xml"
-        # "report/report.xml"
-    ],
+    # 'views/sale_order.xml',
+    
+    'views/product_template_view.xml',
+    'views/sale_order.xml',
+    'views/packaging_details.xml',
+    "views/shipping_terms.xml",
+    "views/hs_code.xml",
+
+   
+    'views/sale_order_line.xml',
+    
+    "report/report_action.xml",
+    "report/sales_order_template.xml",
+    "security/ir.model.access.csv",
+    
+    "report/performa_invoice.xml",
+    "report/order_sheet.xml",
+    'report/commercial_invoice.xml',
+    'views/menu.xml',
+    # "report/report.xml"
+],
     'installable': True,
     'application': False,
     'auto_install': False,

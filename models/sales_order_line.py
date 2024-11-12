@@ -27,7 +27,8 @@ class SaleOrderLine(models.Model):
     fcl_20 = fields.Float(string='FCL 20', related='product_id.product_tmpl_id.fcl_20')
     fcl_40 = fields.Float(string='FCL 40', related='product_id.product_tmpl_id.fcl_40')
     shelf_life = fields.Float(string='Shelf Life', related='product_id.product_tmpl_id.shelf_life')
-    image = fields.Image(string='Shelf Life')
+    image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920')
+    discount = fields.Float(string="Discount")
     # school_image = fields.Image("School Image")
     # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
 

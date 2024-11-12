@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="commercial_invoice_report" name="Commercial Invoice Report" t-name="sales_customization.commercial_invoice_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <!-- Header Section -->
+                        <h3 style="text-align:center;">COMMERCIAL INVOICE</h3>
+                        <p><strong>Invoice No.:</strong> <span t-esc="doc.name"/></p>
+                        <p><strong>Dated:</strong> <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/></p>
+
+                        <!-- Shipment Details Section -->
+                        <table class="table table-condensed" style="width:100%; margin-top:20px;">
+                            <tr>
+                                <td><strong>Container No:</strong></td>
+                                <td t-esc="doc.container_no or 'CMAU5640324'"/>
+                                <td><strong>Date:</strong></td>
+                                <td>22-MAY-24</td>
+                            </tr>
+                            <tr>
+                                <td><strong>From:</strong></td>
+                                <td>Karachi - Pakistan</td>
+                                <td><strong>To:</strong></td>
+                                <td>SOUTHAMPTON UK</td>
+                            </tr>
+                        </table>
+
+                        <!-- Consignee Information -->
+                        <p><strong>Consignee's Address:</strong></p>
+                        <p><span t-esc="doc.partner_shipping_id.display_name"/><br/>
+                        <span t-esc="doc.partner_shipping_id.street"/><br/>
+                        <span t-esc="doc.partner_shipping_id.city"/>, <span t-esc="doc.partner_shipping_id.country_id.name"/></p>
+
+                        <!-- Product Details Table -->
+                        <table class="table table-bordered" style="width:100%; margin-top:20px;">
+                            <thead>
+                                <tr>
+                                    <th>Qty</th>
+                                    <th>Description</th>
+                                    <th>HS Code</th>
+                                    <th>Weight (KG)</th>
+                                    <th>Unit Price (£/CTN)</th>
+                                    <th>Amount (£)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <tr>
+                                        <td t-esc="line.product_uom_qty"/>
+                                        <td t-esc="line.product_id.display_name"/>
+                                        <td>0902.3000</td> <!-- Static for example -->
+                                        <td t-esc="line.product_id.weight"/>
+                                        <td t-esc="line.price_unit"/>
+                                        <td t-esc="line.price_subtotal"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Total Values Section -->
+                        <table style="width:100%; margin-top:20px;">
+                            <tr>
+                                <td style="text-align:right;"><strong>Total CNF Value in USD:</strong></td>
+                                <td><span t-esc="doc.amount_total"/> USD</td>
+                            </tr>
+                        </table>
+
+                        <!-- Footer Section -->
+                        <div style="margin-top:20px;">
+                            <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) declares that the goods... </p>
+                            <p>Gross Weight in KGS: 11,388.35</p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

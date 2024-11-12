@@ -1,23 +1,37 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
+    <!-- Main menu for Export Module -->
     <menuitem
         id="sales_customization"
         name="Export Module"
-        />
+        sequence="10"
+    />
+    
+    <!-- Submenus under Export Module -->
+    <menuitem
+        id="shipping_terms"
+        name="Shipping Terms"
+        parent="sales_customization"
+        sequence="18"
+    />
     <menuitem
         id="packaging_details"
         name="Packaging Detail"
         parent="sales_customization"
-        />
-
+        sequence="15"
+    />
+    
     <menuitem
         id="menu_hs_code"
         name="HS Codes"
-        parent="sales_customization"  
-       
-        sequence="20" 
+        parent="sales_customization"
+        sequence="20"
     />
-
-
+<!--     
+    <menuitem
+        id="menu_shipping_terms"
+        name="Shipping Terms"
+        parent="sales_customization"
+        sequence="25"/> -->
 
 </odoo>

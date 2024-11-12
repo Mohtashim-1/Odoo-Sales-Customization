@@ -1,0 +1,48 @@
+<odoo>
+    <record id="view_shipping_term_tree" model="ir.ui.view">
+        <field name="name">shipping.term.tree</field>
+        <field name="model">shipping.term</field>
+        <field name="arch" type="xml">
+            <tree string="Shipping Terms">
+                <field name="shipping_term"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shipping_term_form" model="ir.ui.view">
+        <field name="name">shipping.term.form</field>
+        <field name="model">shipping.term</field>
+        <field name="arch" type="xml">
+            <form string="Shipping Terms">
+                <sheet>
+                    <group>
+                        <field name="shipping_term" optional="show" tracking="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+   <record id="action_shipping_terms" model="ir.actions.act_window">
+    <field name="name">Shipping Terms</field>
+    <field name="res_model">shipping.term</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('view_shipping_term_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_shipping_term_form')})]"/>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">Create Shipping Term</p>
+    </field>
+</record>
+
+
+<menuitem
+        id="shipping_terms"
+        name="Shipping Terms"
+        action="action_shipping_terms"
+    />
+   
+
+</odoo>

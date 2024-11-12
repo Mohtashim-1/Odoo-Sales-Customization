@@ -1,4 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_packaging_detail,access_packaging_detail,model_packaging_detail,base.group_user,1,1,1,1
 access_hs_code_user,access_hs_code_user,model_hs_code,,1,1,1,1
+access_shipping_term,access_shipping_term,model_shipping_term,,1,1,1,1
 
