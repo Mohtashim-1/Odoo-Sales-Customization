@@ -27,6 +27,7 @@
     'report/commercial_invoice.xml',
     'report/packaging_list.xml',
     'report/export_order.xml',
+    'report/bl_instruction.xml',
     'views/menu.xml',
     # "report/report.xml"
 ],

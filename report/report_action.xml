@@ -52,5 +52,16 @@
             <field name="binding_model_id" ref="sale.model_sale_order"/>
             <field name="binding_type">report</field>
         </record>
+
+        <!-- bl instruction -->
+
+        <record id="action_bl_instruction" model="ir.actions.report">
+            <field name="name">BL instructions</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sales_customization.bl_instruction</field> <!-- Matches t-name -->
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
     </data>
 </odoo>
