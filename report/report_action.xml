@@ -34,5 +34,23 @@
             <field name="binding_model_id" ref="sale.model_sale_order"/>
             <field name="binding_type">report</field>
         </record>
+
+        <record id="action_packaging_list" model="ir.actions.report">
+            <field name="name">Packaging List</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sales_customization.packaging_list</field> <!-- Matches t-name -->
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_commercial_invoice_report1" model="ir.actions.report">
+            <field name="name">Export Order</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sales_customization.commercial_invoice_report1</field> <!-- Matches t-name -->
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
     </data>
 </odoo>

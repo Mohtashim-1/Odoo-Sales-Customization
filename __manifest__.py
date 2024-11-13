@@ -25,6 +25,8 @@
     "report/performa_invoice.xml",
     "report/order_sheet.xml",
     'report/commercial_invoice.xml',
+    'report/packaging_list.xml',
+    'report/export_order.xml',
     'views/menu.xml',
     # "report/report.xml"
 ],
