@@ -59,7 +59,7 @@
             <field name="name">BL instructions</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">sales_customization.bl_instruction</field> <!-- Matches t-name -->
+            <field name="report_name">sales_customization.bl_instruction</field>
             <field name="binding_model_id" ref="sale.model_sale_order"/>
             <field name="binding_type">report</field>
         </record>
@@ -67,12 +67,14 @@
         <!-- custom invoice -->
 
         <record id="action_custom_invoice" model="ir.actions.report">
-            <field name="name">CUSTOM INVOICE</field>
+            <field name="name">Custom Invoice</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">sales_customization.custom_invoice</field> <!-- Matches t-name -->
+            <field name="report_name">sales_customization.custom_invoice</field> 
             <field name="binding_model_id" ref="sale.model_sale_order"/>
             <field name="binding_type">report</field>
         </record>
+
+        
     </data>
 </odoo>

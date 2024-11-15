@@ -7,7 +7,7 @@
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
                         <!-- Header Section -->
                         <div style="text-align: center;">
-                            <h1 style="font-size: 24px; font-weight: bold;">Export Order</h1>
+                            <h1 style="font-size: 24px; font-weight: bold;">Custom Invoice</h1>
                             <!-- <h3 style="font-size: 16px; color: #555;">Dated: <t t-esc="doc.date_order"/></h3>
                             <h3 style="font-size: 16px; color: #555;">Order No: <t t-esc="doc.name"/></h3> -->
                         </div>
@@ -44,11 +44,12 @@
                                 <tr>
                                     <th style="padding: 8px; border: 1px solid #ddd;">S.NO.</th>
                                     <th style="padding: 8px; border: 1px solid #ddd;">PRODUCTS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">CTNS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">PKTS</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">HS CODE</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">ANALYSIS</th>
                                     <th style="padding: 8px; border: 1px solid #ddd;">PACKING</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">STATUS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">DESCRIPTION</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">WEIGHT</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">UNIT PRICE / CTN</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">AMOUNT</th>
                                 </tr>
                             </thead>
                             <tbody style="font-size: 14px;">
@@ -56,11 +57,12 @@
                                     <tr>
                                         <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
                                         <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].ctn"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].pkt"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].hs_code_id"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].analysis"/></td>
                                         <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].packaging_detail_id.display_name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].status"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].description"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].gross_weight"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_unit"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_total"/></td>
                                     </tr>
                                 </t>
                             </tbody>
@@ -70,9 +72,19 @@
                         <div style="margin-top: 30px;">
                             <h4 style="font-size: 16px; font-weight: bold;">Additional Information:</h4>
                             <ul style="font-size: 14px; line-height: 1.6;">
-                                <li><strong>Foreign Language Instructions:</strong> <t t-esc="doc.language_instructions"/></li>
-                                <li><strong>Lot Code:</strong> <t t-esc="doc.lot_code"/></li>
-                                <li><strong>Producer Code:</strong> <t t-esc="doc.producer_code"/></li>
+                                <li><strong>  
+                                The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential 
+                                origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P 
+                                </strong> </li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h4 style="font-size: 16px; font-weight: bold;">Container Cleanliness Statement:</h4>
+                            <ul style="font-size: 14px; line-height: 1.6;">
+                                <li><strong>  
+                                The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil &amp; Is free from KHAPRA BEATLE insect.
+                                </strong> </li>
                             </ul>
                         </div>
 
