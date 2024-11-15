@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="commercial_invoice_report1" name="Commercial Invoice Report" t-name="sales_customization.commercial_invoice_report1">
+        <template id="custom_invoice" name="Custom Invoice" t-name="sales_customization.custom_invoice">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
                         <!-- Header Section -->
                         <div style="text-align: center;">
                             <h1 style="font-size: 24px; font-weight: bold;">Export Order</h1>
-                            <h3 style="font-size: 16px; color: #555;">Dated: <t t-esc="doc.date_order"/></h3>
-                            <h3 style="font-size: 16px; color: #555;">Order No: <t t-esc="doc.name"/></h3>
+                            <!-- <h3 style="font-size: 16px; color: #555;">Dated: <t t-esc="doc.date_order"/></h3>
+                            <h3 style="font-size: 16px; color: #555;">Order No: <t t-esc="doc.name"/></h3> -->
                         </div>
 
                         <div style="margin-top: 30px;">
-                            <p><strong>Buyer:</strong> <t t-esc="doc.partner_id.name"/></p>
-                            <p><strong>Container CBM:</strong> <t t-esc="doc.container_cbm"/></p>
-                            <p><strong>Destination:</strong> <t t-esc="doc.destination"/></p>
-                            <p><strong>Delivery:</strong> <t t-esc="doc.delivery"/></p>
+                            <p><strong>Invoice No:</strong> <t t-esc="doc.name"/></p>
+                            <p><strong>Total Cartoon:</strong> <t t-esc="doc.container_cbm"/></p>
+                            <p><strong>From:</strong> <t t-esc="doc.destination"/></p>
+                            <p><strong>To:</strong> <t t-esc="doc.delivery"/></p>
+                            <p><strong>Payment Terms:</strong> <t t-esc="doc.payment_term_id"/></p>
                         </div>
+
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid #ddd;">
+                            <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
+                                <tr>
+                                    <th style="padding: 8px; border: 1px solid #ddd;"> CONSIGNEE'S  NAME</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;"> CONSIGNEE'S  ADDRESS </th> 
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="doc.partner_id"/></td>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="doc.partner_id"/></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
 
                         <!-- Products Table -->
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid #ddd;">

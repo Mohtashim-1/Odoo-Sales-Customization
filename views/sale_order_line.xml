@@ -28,6 +28,7 @@
                 <field name="status" />
                 <field name="ctn" />
                 <field name="pkt" />
+                <field name="no_of_ctn" />
             </xpath>
         </field>
     </record>

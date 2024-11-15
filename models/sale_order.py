@@ -5,6 +5,8 @@ class SaleOrder(models.Model):
 
     customer_vat = fields.Char(string="Customer VAT", related='partner_id.vat', readonly=True)
 
+    address = fields.Char(string="Address", related='partner_id.vat', readonly=True)
+
 
     # Custom shipping terms field
     shipping_terms = fields.Selection(
