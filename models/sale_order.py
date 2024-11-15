@@ -14,6 +14,13 @@ class SaleOrder(models.Model):
     )
 
     container_no = fields.Char(string="Container Number")
+    container_cbm = fields.Char(string="Container CBM")
+    destination = fields.Char(string="Destination")
+    delivery = fields.Char(string="Delivery")
+
+    language_instructions = fields.Char(string="Language Instructions")
+    lot_code = fields.Char(string="Lot Code")
+    producer_code = fields.Char(string="Producer Code")
 
     # freight_charges = fields.Float(string="Freight Charges", default=0.0)
 

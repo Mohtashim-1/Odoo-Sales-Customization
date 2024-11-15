@@ -29,6 +29,11 @@ class SaleOrderLine(models.Model):
     shelf_life = fields.Float(string='Shelf Life', related='product_id.product_tmpl_id.shelf_life')
     image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920')
     discount = fields.Float(string="Discount")
+    description = fields.Char(string="Description")
+    remarks = fields.Char(string="Remarks")
+    status = fields.Char(string="Status")
+    ctn = fields.Float(string="CTN")
+    pkt = fields.Float(string="PKT")
     # school_image = fields.Image("School Image")
     # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
 

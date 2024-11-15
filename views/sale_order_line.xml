@@ -23,6 +23,11 @@
                 <field name="shelf_life"/>
                 <field name="image"  widget="image" options="{'height': 150, 'width': 150}" />
                 <field name="discount" />
+                <field name="description" />
+                <field name="remarks" />
+                <field name="status" />
+                <field name="ctn" />
+                <field name="pkt" />
             </xpath>
         </field>
     </record>
