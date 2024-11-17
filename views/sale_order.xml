@@ -15,6 +15,9 @@
             <field name="language_instructions" />
             <field name="lot_code" />
             <field name="producer_code" />
+            <field name="fi_number" />
+            <field name="loading_port" />
+            <field name="port_of_discharge" />
         </xpath>
     </field>
 </record>

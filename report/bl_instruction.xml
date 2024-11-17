@@ -2,99 +2,75 @@
 <odoo>
     <data>
         <template id="bl_instruction" name="Commercial Invoice Report" t-name="sales_customization.bl_instruction">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
-                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
-                        <!-- Header Section -->
-                        <div style="text-align: center;">
-                            <h1 style="font-size: 24px; font-weight: bold;">Custom Invoice</h1>
-                            <!-- <h3 style="font-size: 16px; color: #555;">Dated: <t t-esc="doc.date_order"/></h3>
-                            <h3 style="font-size: 16px; color: #555;">Order No: <t t-esc="doc.name"/></h3> -->
-                        </div>
-
-                        <div style="margin-top: 30px;">
-                            <p><strong>Invoice No:</strong> <t t-esc="doc.name"/></p>
-                            <p><strong>Total Cartoon:</strong> <t t-esc="doc.container_cbm"/></p>
-                            <p><strong>From:</strong> <t t-esc="doc.destination"/></p>
-                            <p><strong>To:</strong> <t t-esc="doc.delivery"/></p>
-                            <p><strong>Payment Terms:</strong> <t t-esc="doc.payment_term_id"/></p>
-                        </div>
-
-                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid #ddd;">
-                            <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
-                                <tr>
-                                    <th style="padding: 8px; border: 1px solid #ddd;"> CONSIGNEE'S  NAME</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;"> CONSIGNEE'S  ADDRESS </th> 
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="doc.partner_id"/></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="doc.partner_id"/></td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-
-
-                        <!-- Products Table -->
-                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid #ddd;">
-                            <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
-                                <tr>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">S.NO.</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">PRODUCTS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">HS CODE</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">ANALYSIS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">PACKING</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">WEIGHT</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">UNIT PRICE / CTN</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">AMOUNT</th>
-                                </tr>
-                            </thead>
-                            <tbody style="font-size: 14px;">
-                                <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+            <t t-call="web.external_layout">
+                <main>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <div>
+                                <strong>SHIPPER/EXPORTER</strong><br/>
+                                <span>M/S EASTERN PRODUCTS PVT. LTD</span><br/>
+                                H/O : PLOT NO. 50 &amp; 56, VITAL HOUSE,<br/>
+                                HAROONABAD 62100 - PAKISTAN<br/>
+                                TEL: +92 63 111 037 037
+                            </div>
+                            <br/>
+                            <div>
+                                <strong>CONSIGNEE</strong><br/>
+                                TO THE ORDER OF:<br/>
+                                <strong>MEEZAN BANK LTD</strong><br/>
+                                <p><strong>Invoice No.:</strong> <span t-esc="doc.name"/></p>
+                            </div>
+                            <br/>
+                            <div>
+                                <strong>NOTIFY PARTY PLACE OF DELIVERY:</strong><br/>
+                                M/S ADVANCE FOOD INTL, INC.<br/>
+                                U.S.A<br/>
+                                TEL: +1(718) 482 0123
+                            </div>
+                            <br/>
+                            <div>
+                                LOADING PORT: <span t-field="doc.loading_port"/> 
+                                PORT OF DISCHARGE: <span t-field="doc.port_of_discharge"/>
+                            </div>
+                            <br/>
+                            <div>
+                                <strong>MARKS &amp; NUMBERS DESCRIPTION OF PACKAGES AND GOODS</strong><br/>
+                                SAID TO CONTAIN<br/>
+                            </div>
+                            <table style="width: 100%; margin-top: 10px;">
+                                <thead>
                                     <tr>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].hs_code_id"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].analysis"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].packaging_detail_id.display_name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].gross_weight"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_unit"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_total"/></td>
+                                        <th>Item</th>
+                                        <th>Type</th>
+                                        <th>Package</th>
+                                        <th>Quantity</th>
                                     </tr>
-                                </t>
-                            </tbody>
-                        </table>
-
-                        <!-- Additional Information Section -->
-                        <div style="margin-top: 30px;">
-                            <h4 style="font-size: 16px; font-weight: bold;">Additional Information:</h4>
-                            <ul style="font-size: 14px; line-height: 1.6;">
-                                <li><strong>  
-                                The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential 
-                                origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P 
-                                </strong> </li>
-                            </ul>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.order_line" t-as="item">
+                                        <tr>
+                                            <td><span t-field="item.name"/></td>
+                                            <td></td>
+                                            <td><span t-field="item.packaging_detail_id"/></td>
+                                            <td><span t-field="item.product_uom_qty"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <div>
+                                <strong>NON COMMERCIAL VALUE</strong><br/>
+                                <ul>
+                                    <li>ADVERT - TEA BOILER-10 LTS</li>
+                                    <li>VITAL - (GIFT PACKS - ITEMS)-Paper Cups</li>
+                                    <li>VITAL - (GIFT PACKS - ITEMS)-ELECTRIC KETTLE</li>
+                                    <li>VITAL - (GIFT PACKS - ITEMS)-Tee Shirts / CAPS</li>
+                                    <li>ADVERT - STANDIES</li>
+                                </ul>
+                            </div>
                         </div>
-
-                        <div style="margin-top: 30px;">
-                            <h4 style="font-size: 16px; font-weight: bold;">Container Cleanliness Statement:</h4>
-                            <ul style="font-size: 14px; line-height: 1.6;">
-                                <li><strong>  
-                                The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil &amp; Is free from KHAPRA BEATLE insect.
-                                </strong> </li>
-                            </ul>
-                        </div>
-
-                        <!-- Footer Section (optional) -->
-                        <div style="margin-top: 50px; text-align: center; font-size: 12px; color: #888;">
-                            <p>Company Name | Address | Contact Information</p>
-                            <p>www.companywebsite.com</p>
-                        </div>
-                    </div>
-                </t>
+                    </t>
+                </main>
             </t>
         </template>
     </data>

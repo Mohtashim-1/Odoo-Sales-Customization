@@ -23,6 +23,9 @@ class SaleOrder(models.Model):
     language_instructions = fields.Char(string="Language Instructions")
     lot_code = fields.Char(string="Lot Code")
     producer_code = fields.Char(string="Producer Code")
+    fi_number = fields.Char(string="FI Number")
+    loading_port = fields.Char(string="Loading Port")
+    port_of_discharge = fields.Char(string="Port Of Discharge")
 
     # freight_charges = fields.Float(string="Freight Charges", default=0.0)
 
