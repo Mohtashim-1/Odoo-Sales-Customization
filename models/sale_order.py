@@ -26,6 +26,17 @@ class SaleOrder(models.Model):
     fi_number = fields.Char(string="FI Number")
     loading_port = fields.Char(string="Loading Port")
     port_of_discharge = fields.Char(string="Port Of Discharge")
+    # fi_date = fields.Date(string="FI Date")
+    fi_date = fields.Date(string='FI Date')
+    bl_no = fields.Char(string="BL Number")
+    bl_date = fields.Date(string='BL Date')
+    delivery_date = fields.Date(string='Delivery Date')
+    vessel_voyage = fields.Char(string="Vessel and Voyage")
+    vessel = fields.Char(string="Vessel")
+    voyage = fields.Char(string="Voyage")
+
+
+
 
     # freight_charges = fields.Float(string="Freight Charges", default=0.0)
 

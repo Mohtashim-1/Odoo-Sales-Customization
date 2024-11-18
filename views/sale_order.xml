@@ -9,15 +9,28 @@
         <xpath expr="//field[@name='partner_id']" position="after">
             <field name="customer_vat" readonly="1"/>
             <field name="address"/>
+            <field name="container_no" />
+            <field name="container_cbm" />
         </xpath>
 
         <xpath expr="//field[@name='delivery_status']" position="after">
+            <!-- <field name="delivery_date" /> -->
             <field name="language_instructions" />
             <field name="lot_code" />
             <field name="producer_code" />
             <field name="fi_number" />
+            <field name="fi_date" />
+            <field name="container_no" />
+            <field name="container_cbm" />
+            <field name="bl_no" />
+            <field name="bl_date" />
+            <field name="vessel_voyage" />
             <field name="loading_port" />
             <field name="port_of_discharge" />
+            <field name="vessel" />
+            <field name="voyage" />
+
+            
         </xpath>
     </field>
 </record>
