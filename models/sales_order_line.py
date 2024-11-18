@@ -36,6 +36,7 @@ class SaleOrderLine(models.Model):
     pkt = fields.Float(string="PKT")
     no_of_ctn = fields.Char(string="No of Cartoons")
     analysis = fields.Char(string="Analysis")
+    markings = fields.Char(string="Marks and Analysis")
     # school_image = fields.Image("School Image")
     # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
 

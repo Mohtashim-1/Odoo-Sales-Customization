@@ -1,76 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="bl_instruction" name="Commercial Invoice Report" t-name="sales_customization.bl_instruction">
+        <template id="bl_instruction" name="BL Instruction Report" t-name="sales_customization.bl_instruction">
             <t t-call="web.external_layout">
-                <main>
-                    <t t-foreach="docs" t-as="doc">
-                        <div class="page">
-                            <div>
-                                <strong>SHIPPER/EXPORTER</strong><br/>
-                                <span>M/S EASTERN PRODUCTS PVT. LTD</span><br/>
-                                H/O : PLOT NO. 50 &amp; 56, VITAL HOUSE,<br/>
-                                HAROONABAD 62100 - PAKISTAN<br/>
-                                TEL: +92 63 111 037 037
-                            </div>
-                            <br/>
-                            <div>
-                                <strong>CONSIGNEE</strong><br/>
-                                TO THE ORDER OF:<br/>
-                                <strong>MEEZAN BANK LTD</strong><br/>
-                                <p><strong>Invoice No.:</strong> <span t-esc="doc.name"/></p>
-                            </div>
-                            <br/>
-                            <div>
-                                <strong>NOTIFY PARTY PLACE OF DELIVERY:</strong><br/>
-                                M/S ADVANCE FOOD INTL, INC.<br/>
-                                U.S.A<br/>
-                                TEL: +1(718) 482 0123
-                            </div>
-                            <br/>
-                            <div>
-                                LOADING PORT: <span t-field="doc.loading_port"/> 
-                                PORT OF DISCHARGE: <span t-field="doc.port_of_discharge"/>
-                            </div>
-                            <br/>
-                            <div>
-                                <strong>MARKS &amp; NUMBERS DESCRIPTION OF PACKAGES AND GOODS</strong><br/>
-                                SAID TO CONTAIN<br/>
-                            </div>
-                            <table style="width: 100%; margin-top: 10px;">
-                                <thead>
+                <t t-foreach="docs" t-as="doc">
+                    <main style="font-family: Arial, sans-serif; font-size: 10px;">
+                        <!-- Header Section -->
+                        <div>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="text-align: left; font-weight: bold;">
+                                        SHIPPER/EXPORTER<br />
+                                        M/S EASTERN PRODUCTS PVT. LTD<br />
+                                        PLOT NO. 50 &amp; 56, VITAL HOUSE,<br />
+                                        HAROONABAD 62100 - PAKISTAN<br />
+                                        TEL: +92 63 111 037 037
+                                    </td>
+                                    <td style="text-align: right; font-weight: bold; background-color: lightblue;">
+                                        BL INSTRUCTIONS
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <!-- Consignee Section -->
+                        <div style="margin-top: 10px;">
+                            <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        CONSIGNEE:<br />
+                                        TO THE ORDER OF:<br />
+                                        <strong>MEEZAN BANK LTD</strong>
+                                    </td>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        NOTIFY PARTY PLACE OF DELIVERY:<br />
+                                        M/S ADVANCE FOOD INTL, INC.<br />
+                                        U.S.A<br />
+                                        TEL: +1(718) 482 0123
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Loading and Port Details -->
+                        <div style="margin-top: 10px;">
+                            <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        LOADING PORT: <span t-esc="doc.loading_port" />
+                                    </td>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        PORT OF DISCHARGE: <span t-esc="doc.port_of_discharge" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Goods Table -->
+                        <div style="margin-top: 10px;">
+                            <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                                <thead style="background-color: lightblue; text-align: center;">
                                     <tr>
-                                        <th>Item</th>
-                                        <th>Type</th>
-                                        <th>Package</th>
-                                        <th>Quantity</th>
+                                        <th style="border: 1px solid black; padding: 5px;">Marks &amp; Numbers</th>
+                                        <th style="border: 1px solid black; padding: 5px;">Description of Goods</th>
+                                        <th style="border: 1px solid black; padding: 5px;">Quantity</th>
+                                        <th style="border: 1px solid black; padding: 5px;">Gross Weight</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="doc.order_line" t-as="item">
+                                    <t t-foreach="doc.order_line" t-as="line">
                                         <tr>
-                                            <td><span t-field="item.name"/></td>
-                                            <td></td>
-                                            <td><span t-field="item.packaging_detail_id"/></td>
-                                            <td><span t-field="item.product_uom_qty"/></td>
+                                            
+                                            <td style="border: 1px solid black; padding: 5px;"><span t-esc="line.markings" /></td>
+                                            <td style="border: 1px solid black; padding: 5px;"><span t-esc="line.product_id.display_name" /></td>
+                                            <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                                <span t-esc="line.product_uom_qty" />
+                                            </td>
+                                            <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                                <span t-esc="line.gross_weight" />
+                                            </td>
                                         </tr>
                                     </t>
                                 </tbody>
                             </table>
-                            <br/>
-                            <div>
-                                <strong>NON COMMERCIAL VALUE</strong><br/>
-                                <ul>
-                                    <li>ADVERT - TEA BOILER-10 LTS</li>
-                                    <li>VITAL - (GIFT PACKS - ITEMS)-Paper Cups</li>
-                                    <li>VITAL - (GIFT PACKS - ITEMS)-ELECTRIC KETTLE</li>
-                                    <li>VITAL - (GIFT PACKS - ITEMS)-Tee Shirts / CAPS</li>
-                                    <li>ADVERT - STANDIES</li>
-                                </ul>
-                            </div>
                         </div>
-                    </t>
+
+
+                        <!-- Footer Section -->
+                        <div style="margin-top: 10px; text-align: center; border-top: 1px solid black; padding-top: 10px;">
+                            PL RESOLVE THE DRAFT FOR OUR FINAL APPROVAL<br />
+                            SHIPPER LOAD &amp; COUNT
+                        </div>
                 </main>
+                </t>
             </t>
         </template>
     </data>

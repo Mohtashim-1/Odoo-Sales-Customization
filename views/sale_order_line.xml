@@ -30,6 +30,7 @@
                 <field name="pkt" />
                 <field name="no_of_ctn" />
                 <field name="analysis" />
+                <field name="markings" />
             </xpath>
         </field>
     </record>
