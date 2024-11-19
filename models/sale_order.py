@@ -34,6 +34,7 @@ class SaleOrder(models.Model):
     vessel_voyage = fields.Char(string="Vessel and Voyage")
     vessel = fields.Char(string="Vessel")
     voyage = fields.Char(string="Voyage")
+    terms = fields.Text(string="Terms & Condition")
 
 
 

@@ -7,6 +7,17 @@
                     <t t-foreach="docs" t-as="doc">
                         <div class="page" style="padding: 20px;">
                             <h2 style="margin-bottom: 20px;">PROFORMA INVOICE/ SALES CONTRACT</h2>
+
+                            <div>
+                                CONSIGNED TO: DEALICIOUS MEALZ LIMITED
+                                DESTINATION: MANCHESTER , UK
+                                PAYMENT TERM: 100% DP
+                                NET WEIGHT IN KGS: 1 X 40 - FCL
+                                GROSS WEIGHT IN KGS: CBM 54.49
+                                SHIPMENT:
+                                PRODUCER CODE : 
+                                FDA: 
+                            </div>
                             
                             <div style="margin-bottom: 10px;">
                                 <strong>Customer:</strong> 
@@ -28,6 +39,7 @@
                                 <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                                     <thead>
                                         <tr style="background-color: #f2f2f2;">
+                                            <th style="padding: 8px; border: 1px solid #ddd;">S #</th>
                                             <th style="padding: 8px; border: 1px solid #ddd;">Product Code</th>
                                             <th style="padding: 8px; border: 1px solid #ddd;">CTNS</th>
                                             <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
@@ -36,33 +48,83 @@
                                             <th style="padding: 8px; border: 1px solid #ddd;">Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <t t-foreach="doc.order_line" t-as="line">
-                                            <tr>
-                                                <td style="padding: 8px; border: 1px solid #ddd;">
-                                                    <span t-field="line.product_id.product_code"/> <!-- Product Code -->
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
-                                                    <span t-field="line.product_uom_qty"/> <!-- Quantity -->
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid #ddd;">
-                                                    <span t-field="line.product_id.name"/> <!-- Product Description -->
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid #ddd;">
-                                                    <span t-field="line.product_id.packaging_detail_id"/>
-                                                   
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">
-                                                    <span t-field="line.price_unit"/> <!-- Unit Price -->
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">
-                                                    <span t-field="line.price_subtotal"/> <!-- Total Amount -->
-                                                </td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                </table>
+                                    <tbody style="font-size: 14px;">
+                                <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_code"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_uom_qty"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.name"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.packaging_detail_id.display_name"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_unit"/></td>
+                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_subtotal"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                                    
+                                    
+                                    
+                                                                    </table>
                             </t>
+                            <table style="width: 100%;" >
+                            <tr>
+                            <td>
+                            <span>TERMS AND CONDITION</span>
+                            <br/>
+                            <span t-field="doc.terms"/>
+                            <br/>
+                            
+                            <span>PAYMENT TERMS</span>
+                            <br/>
+                            <span t-field="doc.payment_term_id"/>
+                            <br/>
+                            </td>
+                            
+                            </tr>
+                            <br/>
+                            <tr>
+                            <td>SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT<br/>
+                            VALIDITY :THIS OFFER IS VALID UNTIL 28 / OCT / 2024 <br/>
+                            DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN,</td>
+                            
+                            </tr>
+                            </table>
+                            <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <tr>
+        <td>
+            SELLER BANK DETAILS:
+            <br />
+            BANK : MEEZAN BANK LIMITED
+            <br/>
+            BRANCH: SHAHRAH-E-FAISAL KARACHI
+            <br/>
+            ACCOUNT TITLE: M/S EASTERN PRODUCTS PVT. LTD
+            <br/>
+            ACCOUNT NO: 0104507174
+            <br/>
+            SWIFT CODE: MEZNPKKAXXX
+            <br/>
+            IBAN#: PK79MEZN0001110104507174
+            <br/>
+        </td>
+    </tr>
+</table>
+
+<table style="width: 100%;">
+    <tr>
+        <td style=" padding: 20px; text-align: center;">
+            <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
+            M/S EASTERN PRODUCTS PVT. LTD <br/>
+            SIGNATURE/STAMP
+        </td>
+        <td></td>
+        <td style=" padding: 20px; text-align: center;">
+            <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
+            REF <br/> 
+            SIGNATURE/STAMP
+        </td>
+    </tr>
+</table>
                         </div>
                     </t>
                 </t>

@@ -15,6 +15,7 @@
 
         <xpath expr="//field[@name='delivery_status']" position="after">
             <!-- <field name="delivery_date" /> -->
+            <field name="terms" />
             <field name="language_instructions" />
             <field name="lot_code" />
             <field name="producer_code" />
