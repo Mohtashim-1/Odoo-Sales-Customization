@@ -7,8 +7,8 @@
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
         <xpath expr="//field[@name='partner_id']" position="after">
-            <field name="customer_vat" readonly="1"/>
-            <field name="address"/>
+            <!-- <field name="customer_vat" readonly="1"/>
+            <field name="address"/> -->
             <field name="container_no" />
             <field name="container_cbm" />
         </xpath>

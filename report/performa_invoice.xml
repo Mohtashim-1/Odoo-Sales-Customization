@@ -6,7 +6,7 @@
                 <t t-call="web.external_layout">
                     <t t-foreach="docs" t-as="doc">
                         <div class="page" style="padding: 20px;">
-                            <h2 style="margin-bottom: 20px;">Performa Invoice</h2>
+                            <h2 style="margin-bottom: 20px;">PROFORMA INVOICE/ SALES CONTRACT</h2>
                             
                             <div style="margin-bottom: 10px;">
                                 <strong>Customer:</strong> 

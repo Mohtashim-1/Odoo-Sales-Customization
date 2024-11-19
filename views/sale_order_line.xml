@@ -1,36 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_sale_order_line_inherit_serial_number" model="ir.ui.view">
         <field name="name">sale.order.line.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
-                <field name="launch_date"/>
-                <!-- <field name="image" widget="image" options="{'height': 150, 'width': 150}"/> -->
-                
-                <field name="product_code"/>
-                <field name="hs_code_id"/>
-                <field name="packaging_detail_id"/>
-                <field name="length"/>
-                <field name="width"/>
-                <field name="height"/>
-                <field name="net_weight"/>
-                <field name="gross_weight"/>
-                <field name="cbm"/>
-                <field name="order_cbm"/>
-                <field name="fcl_20"/>
-                <field name="fcl_40"/>
-                <field name="shelf_life"/>
-                <field name="image"  widget="image" options="{'height': 150, 'width': 150}" />
-                <field name="discount" />
-                <field name="description" />
-                <field name="remarks" />
-                <field name="status" />
-                <field name="ctn" />
-                <field name="pkt" />
-                <field name="no_of_ctn" />
-                <field name="analysis" />
-                <field name="markings" />
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
+                <field name="launch_date" invisible="1" nolabel="1"/>
+                <!-- <field name="product_code" /> -->
+                <field name="image" widget="image" options="{'size': [128, 128]}"/>
+
+                <!-- <field name="image" /> -->
+                <field name="hs_code_id" invisible="1" nolabel="1"/>
+                <field name="packaging_detail_id" invisible="1" nolabel="1"/>
+                <field name="length" invisible="1" nolabel="1"/>
+                <field name="width" invisible="1" nolabel="1"/>
+                <field name="height" invisible="1" nolabel="1"/>
+                <field name="net_weight" invisible="1" nolabel="1"/>
+                <field name="gross_weight" invisible="1" nolabel="1"/>
+                <field name="cbm" invisible="1" nolabel="1"/>
+                <field name="order_cbm" invisible="1" nolabel="1"/>
+                <field name="fcl_20" invisible="1" nolabel="1"/>
+                <field name="fcl_40" invisible="1" nolabel="1"/>
+                <field name="shelf_life" invisible="1" nolabel="1"/>
+
             </xpath>
         </field>
     </record>
