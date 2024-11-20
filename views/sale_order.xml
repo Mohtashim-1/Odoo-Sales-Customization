@@ -13,8 +13,9 @@
             <field name="container_cbm" />
         </xpath>
 
-        <!-- <xpath expr="//field[@name='delivery_status']" position="after"> -->
-        <xpath expr="//field[@name='partner_id']" position="after">
+        <xpath expr="//field[@name='delivery_status']" position="after">
+            <!-- <field name="delivery_date" /> -->
+            <field name="terms" />
             <field name="language_instructions" />
             <field name="lot_code" />
             <field name="producer_code" />
