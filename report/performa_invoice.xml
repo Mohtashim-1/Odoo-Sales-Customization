@@ -5,126 +5,90 @@
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
                     <t t-foreach="docs" t-as="doc">
-                        <div class="page" style="padding: 20px;">
-                            <h2 style="margin-bottom: 20px;">PROFORMA INVOICE/ SALES CONTRACT</h2>
+                        <div class="page" style="page-break-before: always; font-size: 12px; line-height: 1.2;">
+                            <!-- Header Section -->
+                            <h2 class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA INVOICE / SALES CONTRACT</h2>
 
-                            <div>
-                                CONSIGNED TO: DEALICIOUS MEALZ LIMITED
-                                DESTINATION: MANCHESTER , UK
-                                PAYMENT TERM: 100% DP
-                                NET WEIGHT IN KGS: 1 X 40 - FCL
-                                GROSS WEIGHT IN KGS: CBM 54.49
-                                SHIPMENT:
-                                PRODUCER CODE : 
-                                FDA: 
-                            </div>
-                            
-                            <div style="margin-bottom: 10px;">
-                                <strong>Customer:</strong> 
-                                <span t-field="doc.partner_id.name"/>
-                            </div>
-                            
-                            <div style="margin-bottom: 10px;">
-                                <strong>Order Reference:</strong> 
-                                <span t-field="doc.name"/>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <strong>Date:</strong> 
-                                <span t-field="doc.date_order"/>
-                            </div>
-                            
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
+                                <tr>
+                                    <td style="vertical-align: top; text-align: left; width: 50%;">INV: AFN/025/05-2024</td>
+                                    <td style="text-align: left; width: 50%;">Consigned To: DEALICIOUS MEALZ LIMITED 
+                                        <br/>
+                                        <p style="margin: 0; padding: 0;">Destination: Manchester, UK</p>
+                                        <p style="margin: 0; padding: 0;">Payment Term: 100% DP</p> 
+                                        <p style="margin: 0; padding: 0;">Shipment:</p> 
+                                        <p style="margin: 0; padding: 0;">Producer Code:</p>
+                                        <p style="margin: 0; padding: 0;">FDA:</p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Products Section -->
                             <t t-if="doc.order_line">
-                                <h3>Products</h3>
-                                <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                                <h3 style="font-size: 14px;">Products</h3>
+                                <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                                     <thead>
                                         <tr style="background-color: #f2f2f2;">
-                                            <th style="padding: 8px; border: 1px solid #ddd;">S #</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Product Code</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">CTNS</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Packing</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Unit Price / Carton</th>
-                                            <th style="padding: 8px; border: 1px solid #ddd;">Amount</th>
+                                            <th style="padding: 4px; border: 1px solid #ddd;">S #</th>
+                                            <th style="padding: 4px; border: 1px solid #ddd;">Description</th>
+                                            <th style="padding: 4px; border: 1px solid #ddd;">Weight In (KGs)</th>
+                                            <th style="padding: 4px; border: 1px solid #ddd;">Unit Price / KGs</th>
+                                            <th style="padding: 4px; border: 1px solid #ddd;">Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody style="font-size: 14px;">
-                                <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
-                                    <tr>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_code"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_uom_qty"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.packaging_detail_id.display_name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_unit"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].price_subtotal"/></td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                                    
-                                    
-                                    
-                                                                    </table>
+                                    <tbody style="font-size: 12px;">
+                                        <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                                            <tr>
+                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
+                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.name"/></td>
+                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].product_uom_qty"/></td>
+                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].price_unit"/></td>
+                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].price_subtotal"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" style="padding: 4px; border: 1px solid #ddd; text-align: right;"><strong>Total FOB Value in CNF:</strong></td>
+                                            <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="amount_total"/></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </t>
-                            <table style="width: 100%;" >
-                            <tr>
-                            <td>
-                            <span>TERMS AND CONDITION</span>
-                            <br/>
-                            <span t-field="doc.terms"/>
-                            <br/>
-                            
-                            <span>PAYMENT TERMS</span>
-                            <br/>
-                            <span t-field="doc.payment_term_id"/>
-                            <br/>
-                            </td>
-                            
-                            </tr>
-                            <br/>
-                            <tr>
-                            <td>SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT<br/>
-                            VALIDITY :THIS OFFER IS VALID UNTIL 28 / OCT / 2024 <br/>
-                            DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN,</td>
-                            
-                            </tr>
-                            </table>
-                            <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-    <tr>
-        <td>
-            SELLER BANK DETAILS:
-            <br />
-            BANK : MEEZAN BANK LIMITED
-            <br/>
-            BRANCH: SHAHRAH-E-FAISAL KARACHI
-            <br/>
-            ACCOUNT TITLE: M/S EASTERN PRODUCTS PVT. LTD
-            <br/>
-            ACCOUNT NO: 0104507174
-            <br/>
-            SWIFT CODE: MEZNPKKAXXX
-            <br/>
-            IBAN#: PK79MEZN0001110104507174
-            <br/>
-        </td>
-    </tr>
-</table>
 
-<table style="width: 100%;">
-    <tr>
-        <td style=" padding: 20px; text-align: center;">
-            <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
-            M/S EASTERN PRODUCTS PVT. LTD <br/>
-            SIGNATURE/STAMP
-        </td>
-        <td></td>
-        <td style=" padding: 20px; text-align: center;">
-            <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
-            REF <br/> 
-            SIGNATURE/STAMP
-        </td>
-    </tr>
-</table>
+                            <!-- Pricing Section -->
+                            <div style="margin-top: 10px;">
+                                <p style="margin: 0; padding: 0;">NET FOB VALUE: <strong>$ 28,010.00</strong></p>
+                                <p style="margin: 0; padding: 0;">USD$ Twenty Eight Thousand Ten Only</p>
+                            </div>
+
+                            <!-- Bank Details Section -->
+                            <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
+                                <p><strong>Seller Bank Details:</strong></p>
+                                <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
+                                <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
+                                <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
+                                <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
+                                <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
+                                <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
+                            </div>
+
+                            <!-- Footer Section -->
+                            <table style="width: 100%; margin-top: 30px;">
+                                <tr>
+                                    <td style=" padding: 10px; text-align: center;">
+                                        <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
+                                        M/S EASTERN PRODUCTS PVT. LTD <br/>
+                                        SIGNATURE/STAMP
+                                    </td>
+                                    <td></td>
+                                    <td style=" padding: 10px; text-align: center;">
+                                        <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
+                                        REF <br/> 
+                                        SIGNATURE/STAMP
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </t>
                 </t>
