@@ -19,6 +19,7 @@ class SaleOrder(models.Model):
     container_cbm = fields.Char(string="Container CBM")
     destination = fields.Char(string="Destination")
     delivery = fields.Char(string="Delivery")
+    fda = fields.Char(string="FDA")
 
     language_instructions = fields.Char(string="Language Instructions")
     lot_code = fields.Char(string="Lot Code")
@@ -30,6 +31,7 @@ class SaleOrder(models.Model):
     fi_date = fields.Date(string='FI Date')
     bl_no = fields.Char(string="BL Number")
     bl_date = fields.Date(string='BL Date')
+    validity = fields.Date(string='Validity Date')
     delivery_date = fields.Date(string='Delivery Date')
     vessel_voyage = fields.Char(string="Vessel and Voyage")
     vessel = fields.Char(string="Vessel")

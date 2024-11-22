@@ -11,12 +11,14 @@
     
     'views/product_template_view.xml',
     'views/sale_order.xml',
+    'views/bank_detail.xml',
     'views/packaging_details.xml',
     "views/shipping_terms.xml",
     "views/hs_code.xml",
 
    
     'views/sale_order_line.xml',
+    
     
     "report/report_action.xml",
     "report/sales_order_template.xml",
@@ -26,6 +28,7 @@
     "report/order_sheet.xml",
     'report/commercial_invoice.xml',
     'report/packaging_list.xml',
+    'report/financial_report.xml',
     'report/export_order.xml',
     'report/bl_instruction.xml',
     'report/custom_invoice.xml',

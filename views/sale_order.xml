@@ -11,10 +11,14 @@
             <field name="address"/> -->
             <field name="container_no" />
             <field name="container_cbm" />
+            <field name="validity" />
         </xpath>
 
-        <xpath expr="//field[@name='commitment_date']" position="after">
+        <xpath expr="//field[@name='delivery_status']" position="after">
             <!-- <field name="delivery_date" /> -->
+            <field name="destination" />
+            <field name="delivery" />
+            <field name="fda" />
             <field name="terms" />
             <field name="language_instructions" />
             <field name="lot_code" />
@@ -30,6 +34,7 @@
             <field name="port_of_discharge" />
             <field name="vessel" />
             <field name="voyage" />
+
 
             
         </xpath>
