@@ -47,11 +47,10 @@
             <p class="o_view_nocontent_smiling_face">Create Bank Details</p>
         </field>
     </record>
-
+    
     <menuitem
         id="bank_detail"
         name="Bank Detail"
         action="action_bank_detail"
-        parent="sales_customization"
     />
 </odoo>

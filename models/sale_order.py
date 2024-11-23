@@ -7,6 +7,12 @@ class SaleOrder(models.Model):
 
     address = fields.Char(string="Address", related='partner_id.vat', readonly=True)
 
+    bank_detail_id = fields.Many2one(
+    'bank.detail',
+    string="Bank Detail",
+    ondelete='set null'  # Ensures safe deletion of referenced bank.detail
+    )
+
 
     # Custom shipping terms field
     shipping_terms = fields.Selection(
@@ -37,6 +43,7 @@ class SaleOrder(models.Model):
     vessel = fields.Char(string="Vessel")
     voyage = fields.Char(string="Voyage")
     terms = fields.Text(string="Terms & Condition")
+    
 
 
 
