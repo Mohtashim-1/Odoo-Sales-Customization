@@ -20,6 +20,13 @@
         parent="sales_customization"
         sequence="15"
     />
+
+    <menuitem
+        id="bank_detail"
+        name="Bank Detail"
+        parent="sales_customization"
+        sequence="25"
+    />
     
     <menuitem
         id="menu_hs_code"

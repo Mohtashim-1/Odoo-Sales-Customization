@@ -21,7 +21,9 @@ class SaleOrderLine(models.Model):
     width = fields.Float(string='Width', related='product_id.product_tmpl_id.width')
     height = fields.Float(string='Height', related='product_id.product_tmpl_id.height')
     net_weight = fields.Float(string='Net Weight', related='product_id.product_tmpl_id.net_weight')
+
     gross_weight = fields.Float(string='Gross Weight', related='product_id.product_tmpl_id.gross_weight')
+    
     cbm = fields.Float(string='CBM', related='product_id.product_tmpl_id.cbm')
     order_cbm = fields.Float(string='Order CBM', related='product_id.product_tmpl_id.order_cbm')
     fcl_20 = fields.Float(string='FCL 20', related='product_id.product_tmpl_id.fcl_20')
@@ -29,7 +31,7 @@ class SaleOrderLine(models.Model):
     shelf_life = fields.Float(string='Shelf Life', related='product_id.product_tmpl_id.shelf_life')
     image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920')
     discount = fields.Float(string="Discount")
-    description = fields.Char(string="Description")
+    description = fields.Char(string="Description1")
     remarks = fields.Char(string="Remarks")
     status = fields.Char(string="Status")
     ctn = fields.Float(string="CTN")
@@ -40,3 +42,4 @@ class SaleOrderLine(models.Model):
     # school_image = fields.Image("School Image")
     # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
 
+    
