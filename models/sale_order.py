@@ -51,19 +51,29 @@ class SaleOrder(models.Model):
     total_net_weight = fields.Float(string="Total Net Weight", compute="_compute_total_net_weight")
     total_gross_weight = fields.Float(string="Total Gross Weight", compute="_compute_total_gross_weight")
 
-    @api.depends('net_weight')
+    @api.depends('order_line.net_weight')  # Correct dependency on related model
     def _compute_total_net_weight(self):
-        net_weight = 0
-        for record in self.order_line:
-            net_weight += record.net_weight
-        self.total_net_weight = net_weight
+        for order in self:
+            order.total_net_weight = sum(line.net_weight for line in order.order_line)
 
-    @api.depends('gross_weight')
+    @api.depends('order_line.gross_weight')  # Correct dependency on related model
     def _compute_total_gross_weight(self):
-        gross_weight = 0
-        for record in self.order_line:
-            gross_weight += record.gross_weight
-        self.total_gross_weight = gross_weight
+        for order in self:
+            order.total_gross_weight = sum(line.gross_weight for line in order.order_line)
+
+    # @api.depends('net_weight')
+    # def _compute_total_net_weight(self):
+    #     net_weight = 0
+    #     for record in self.order_line:
+    #         net_weight += record.net_weight
+    #     self.total_net_weight = net_weight
+
+    # @api.depends('gross_weight')
+    # def _compute_total_gross_weight(self):
+    #     gross_weight = 0
+    #     for record in self.order_line:
+    #         gross_weight += record.gross_weight
+    #     self.total_gross_weight = gross_weight
 
     @api.onchange('freight')
     def add_total_value(self):

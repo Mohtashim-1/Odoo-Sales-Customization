@@ -76,7 +76,7 @@
                                             <td colspan="2" style="padding: 4px; border: 1px solid #ddd;">
                                                 <span t-field="doc.total_qty"/> CARTONS
                                             </td>
-                                            <td colspan="5" style="padding: 4px; border: 1px solid #ddd; text-align: right;"><strong>Total FOB Value in CNF:</strong></td>
+                                            <td colspan="4" style="padding: 4px; border: 1px solid #ddd; text-align: right;"><strong>Total FOB Value in CNF:</strong></td>
                                             <td style="padding: 4px; border: 1px solid #ddd;">
                                             <span t-field="doc.total"/>
                                             </td>
