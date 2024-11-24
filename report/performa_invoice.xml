@@ -14,7 +14,13 @@
 
                             <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
                                 <tr>
-                                    <td style="vertical-align: top; text-align: left; width: 50%;">INV:<span t-field="doc.name"/> </td>
+                                    <td style="vertical-align: top; text-align: left; width: 50%;">
+                                        INV:<span t-field="doc.name"/> <br/>
+                                        <span t-field="doc.total_qty"/> CARTONS OF VITAL BRAND TEA
+                                   
+                                    </td> 
+                                    
+
                                     <td style="text-align: left; width: 50%;">Consigned To: <span t-field="doc.partner_id.name"/>
                                         <br/>
                                         <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/></p>
@@ -25,6 +31,9 @@
                                         <p style="margin: 0; padding: 0;">Producer Code:<span t-field="doc.producer_code"/></p>
                                         <p style="margin: 0; padding: 0;">FDA: <span t-field="doc.fda"/></p>
                                     </td>
+                                </tr>
+                                <tr>
+                                
                                 </tr>
                             </table>
 
@@ -56,8 +65,13 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="5" style="padding: 4px; border: 1px solid #ddd; text-align: right;"><strong>Total FOB Value in CNF:</strong></td>
-                                            <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="amount_total"/></td>
+                                            <td colspan="2" style="padding: 4px; border: 1px solid #ddd;">
+                                                <span t-field="doc.total_qty"/> CARTONS
+                                            </td>
+                                            <td colspan="3" style="padding: 4px; border: 1px solid #ddd; text-align: right;"><strong>Total FOB Value in CNF:</strong></td>
+                                            <td style="padding: 4px; border: 1px solid #ddd;">
+                                            <span t-field="doc.total"/>
+                                            </td>
                                         </tr>
                                     </tfoot>
                                 </table>

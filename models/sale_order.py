@@ -47,11 +47,20 @@ class SaleOrder(models.Model):
     freight = fields.Float(string="Freight")
     discount = fields.Float(string="Discount")
     total = fields.Float(string="Total1", compute="_compute_total")
+    total_qty = fields.Float(string="Total Quantity", compute="_compute_total_qty")
 
     @api.onchange('freight')
     def add_total_value(self):
         self.tax_totals['amount_total'] = self.freight + self.tax_totals['amount_total']
         print(f"test{self.tax_totals['amount_total']}{self.freight}")
+
+    @api.depends('amount_total')
+    def _compute_total_qty(self):
+        qty = 0
+        for record in self.order_line:
+            qty += record.product_uom_qty
+        self.total_qty = qty
+
         
         
 
