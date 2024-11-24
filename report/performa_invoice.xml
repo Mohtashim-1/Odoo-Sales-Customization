@@ -6,6 +6,9 @@
                 <t t-call="web.external_layout">
                     <t t-foreach="docs" t-as="doc">
                         <div class="page" style="page-break-before: always; font-size: 12px; line-height: 1.2;">
+                            
+                            <!-- <t t-set="company_logo" t-value="'/web/static/src/img/header_eastern_product.png'"/>
+                            <img t-att-src="company_logo" alt="Company Logo"/> -->
                             <!-- Header Section -->
                             <h2 class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA INVOICE / SALES CONTRACT</h2>
 

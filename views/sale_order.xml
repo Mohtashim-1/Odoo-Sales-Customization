@@ -33,11 +33,16 @@
             <field name="loading_port" />
             <field name="port_of_discharge" />
             <field name="vessel" />
-            <field name="voyage" />
-
-
-            
+            <field name="voyage" />   
         </xpath>
+
+        <xpath expr="//field[@name='tax_totals']" position="before">
+            <field name="freight" />
+            <field name="discount" />
+            <field name="total" />
+        </xpath>
+
+        
     </field>
 </record>
 

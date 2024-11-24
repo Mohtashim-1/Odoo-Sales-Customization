@@ -43,29 +43,21 @@ class SaleOrder(models.Model):
     vessel = fields.Char(string="Vessel")
     voyage = fields.Char(string="Voyage")
     terms = fields.Text(string="Terms & Condition")
-    
+
+    freight = fields.Float(string="Freight")
+    discount = fields.Float(string="Discount")
+    total = fields.Float(string="Total1", compute="_compute_total")
+
+    @api.onchange('freight')
+    def add_total_value(self):
+        self.tax_totals['amount_total'] = self.freight + self.tax_totals['amount_total']
+        print(f"test{self.tax_totals['amount_total']}{self.freight}")
+        
+        
 
 
-
-
-    # freight_charges = fields.Float(string="Freight Charges", default=0.0)
-
-    # total = fields.Float(string="Total", default=0.0)
-
-    
-
-    # @api.depends('order_line.price_total', 'tax_totals', 'freight_charges')
-    # def _compute_amount(self):
-    #     self.total = self.amount_total - self.freight_charges
-    #     # for order in self:
-    #     #     super(SaleOrder, order)._compute_amount()
-    #     #     order.amount_total += order.freight_charges
-
-    
-    # freight_charge = fields.Float(string="Freight Charge")
-
-    # @api.depends('order_line.price_total', 'freight_charge')
-    # def _compute_amount_all(self):
-    #     super(SaleOrder, self)._compute_amount_all()
-    #     for order in self:
-    #         order.amount_total += order.freight_charge
+    @api.depends('freight')
+    def _compute_total(self):
+        for record in self:
+            record.total = record.freight + record.amount_total
+            # print(f"total_1: {record.amount_total}")
