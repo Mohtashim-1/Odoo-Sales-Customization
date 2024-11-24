@@ -48,6 +48,22 @@ class SaleOrder(models.Model):
     discount = fields.Float(string="Discount")
     total = fields.Float(string="Total1", compute="_compute_total")
     total_qty = fields.Float(string="Total Quantity", compute="_compute_total_qty")
+    total_net_weight = fields.Float(string="Total Net Weight", compute="_compute_total_net_weight")
+    total_gross_weight = fields.Float(string="Total Gross Weight", compute="_compute_total_gross_weight")
+
+    @api.depends('net_weight')
+    def _compute_total_net_weight(self):
+        net_weight = 0
+        for record in self.order_line:
+            net_weight += record.net_weight
+        self.total_net_weight = net_weight
+
+    @api.depends('gross_weight')
+    def _compute_total_gross_weight(self):
+        gross_weight = 0
+        for record in self.order_line:
+            gross_weight += record.gross_weight
+        self.total_gross_weight = gross_weight
 
     @api.onchange('freight')
     def add_total_value(self):
