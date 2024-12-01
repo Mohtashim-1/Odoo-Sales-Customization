@@ -1,146 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <template id="report_performa_invoice" name="Performa Invoice" t-name="sales_customization.report_performa_invoice">
-            <t t-call="web.html_container">
-                <t t-call="web.basic_layout">
-                    <header> 
-                    
+  <data>
+    <template id="report_performa_invoice">
+      <t t-call="web.html_container">
+        <t t-if="not o" t-set="o" t-value="docs" />
+        <t t-set="company" t-value="company_id" />
 
-                        <img t-att-src="'http://mohtashim:8078/sales_customization/static/src/img/header_eastern_product.png'" 
-                            alt="Header Vital Product" 
-                            style="width:100%; max-height:100px;" />
-                    
-                    </header>
-                    <t t-foreach="docs" t-as="doc">
-                        <div class="page" style="font-size: 12px; line-height: 1.2;">
-                            
-                            <!-- <t t-set="company_logo" t-value="'/web/static/src/img/header_eastern_product.png'"/>
-                            <img t-att-src="company_logo" alt="Company Logo"/> -->
-                            <!-- Header Section -->
-                            <h2 class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA INVOICE / SALES CONTRACT</h2>
+        <!-- Header Section -->
+        <div class="header">
+          <div >
+            <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" />
+          </div>
+        </div>
 
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
-                                <tr>
-                                    <td style="vertical-align: top; text-align: left; width: 50%;">
-                                        INV:<span t-field="doc.name"/> <br/>
-                                        <span t-field="doc.total_qty"/> CARTONS OF VITAL BRAND TEA
-                                   
-                                    </td> 
-                                    
+        <!-- Body Section -->
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>
+          <t t-foreach="docs" t-as="doc">
+            <div class="page" style="font-size: 12px; line-height: 1.2;">
+              <!-- Invoice Details -->
+              <h2 class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA INVOICE / SALES CONTRACT</h2>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
+                <tr>
+                  <td style="vertical-align: top; text-align: left; width: 50%;">
+                    INV: <span t-field="doc.name"/>
+                  <br/>
+                  <span t-field="doc.total_qty"/>
+ CARTONS OF VITAL BRAND TEA
+                </td>
+                <td style="text-align: left; width: 50%;"> 
+                    Consigned To: <span t-field="doc.partner_id.name"/>
+                <br/>
+                <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
+                </p>
+                <p style="margin: 0; padding: 0;">Payment Term: <span t-field="doc.producer_code"/>
+                </p>
+                <p style="margin: 0; padding: 0;">Net Weight in KGs: <span t-field="doc.total_net_weight"/>
+                </p>
+                <p style="margin: 0; padding: 0;">Gross Weight in KGs: <span t-field="doc.total_gross_weight"/>
+                </p>
+                <p style="margin: 0; padding: 0;">Shipment: <span t-field="doc.commitment_date"/>
+                </p>
+                <p style="margin: 0; padding: 0;">Producer Code: <span t-field="doc.producer_code"/>
+                </p>
+                <p style="margin: 0; padding: 0;">FDA: <span t-field="doc.fda"/>
+                </p>
+              </td>
+            </tr>
+          </table>
 
-                                    <td style="text-align: left; width: 50%;">Consigned To: <span t-field="doc.partner_id.name"/>
-                                        <br/>
-                                        <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/></p>
-                                        <p style="margin: 0; padding: 0;">Payment Term: <span t-field="doc.producer_code"/></p> 
-                                        <p style="margin: 0; padding: 0;">Net Weight in KGs </p> 
-                                        <p style="margin: 0; padding: 0;">Gross Weight in KGs </p> 
-                                        <p style="margin: 0; padding: 0;">Shipment:<span t-field="doc.commitment_date"/></p> 
-                                        <p style="margin: 0; padding: 0;">Producer Code:<span t-field="doc.producer_code"/></p>
-                                        <p style="margin: 0; padding: 0;">FDA: <span t-field="doc.fda"/></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                
-                                </tr>
-                            </table>
-
-                            <!-- Products Section -->
-                            <t t-if="doc.order_line">
-                                <h3 style="font-size: 14px;">Products</h3>
-                                <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                                    <thead>
-                                        <tr style="background-color: #f2f2f2;">
-                                            <th style="padding: 4px; border: 1px solid #ddd;">S #</th>
-                                            <th style="padding: 4px; border: 1px solid #ddd;">CTN</th>
-                                            <th style="padding: 4px; border: 1px solid #ddd;">Description</th>
-                                            <th style="padding: 4px; border: 1px solid #ddd;">Packaging</th>
-                                            <th style="padding: 4px; border: 1px solid #ddd;">Unit Price / Cartoon</th>
-                                            <th style="padding: 4px; border: 1px solid #ddd;">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size: 12px;">
-                                        <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
-                                            <tr>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].product_uom_qty"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.name"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].packaging_detail_id.display_name"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].price_unit"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].price_subtotal"/></td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2" style="padding: 4px; border: 1px solid #ddd;">
-                                                <span t-field="doc.total_qty"/> CARTONS
-                                            </td>
-                                            <td colspan="3" style="padding: 4px; border: 1px solid #ddd; text-align: right;"><strong>Total FOB Value in CNF:</strong></td>
-                                            <td style="padding: 4px; border: 1px solid #ddd;">
-                                            <span t-field="doc.total"/>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </t>
-
-                            <!-- Pricing Section -->
-                            <div style="margin-top: 10px;">
-                                <p style="margin: 0; padding: 0;">NET FOB VALUE: <strong>$ 28,010.00</strong></p>
-                                <p style="margin: 0; padding: 0;">USD$ Twenty Eight Thousand Ten Only</p>
-                            </div>
-
-                            <!-- Bank Details Section -->
-                            <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
-                                <p><strong>Terms and Condition:</strong></p>
-                                <p style="margin: 0; padding: 0;"> <span t-field="doc.payment_term_id"/> </p>
-                            </div>
-
-                            <!-- Bank Details Section -->
-                            <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
-                                <!-- <p><strong>Seller Bank Details:</strong></p> -->
-                                <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/></p>
-                                <p style="margin: 0; padding: 0;">Validitiy: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/> </p>
-                                <p style="margin: 0; padding: 0;">Documents:  B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN,</p>
-                            </div>
-
-                            <!-- Bank Details Section -->
-                            <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
-                                <p><strong>Seller Bank Details:</strong></p>
-                                <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
-                                <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
-                                <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
-                                <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
-                                <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
-                                <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
-                            </div>
-
-                            <!-- Footer Section -->
-                            <table style="width: 100%; margin-top: 30px;">
-                                <tr>
-                                    <td style=" padding: 10px; text-align: center;">
-                                        <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
-                                        M/S EASTERN PRODUCTS PVT. LTD <br/>
-                                        SIGNATURE/STAMP
-                                    </td>
-                                    <td></td>
-                                    <td style=" padding: 10px; text-align: center;">
-                                        <span style="border-top: 1px solid black; display: inline-block; width: 100%;"></span>
-                                        REF <br/> 
-                                        SIGNATURE/STAMP
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </t>
-                    <br/>
-                    <!-- <br/> -->
-                    <img t-att-src="'http://mohtashim:8078/sales_customization/static/src/img/Footer-Eastern-Product.png'" 
-                            alt="Header Vital Product" 
-                            style="width:100%; max-height:100px;" />
+          <!-- Products Section -->
+          <t t-if="doc.order_line">
+            <h3 style="font-size: 14px;">Products</h3>
+            <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+              <thead>
+                <tr style="background-color: #f2f2f2;">
+                  <th style="padding: 4px; border: 1px solid #ddd;">S #</th>
+                  <th style="padding: 4px; border: 1px solid #ddd;">CTN</th>
+                  <th style="padding: 4px; border: 1px solid #ddd;">Description</th>
+                  <th style="padding: 4px; border: 1px solid #ddd;">Packaging</th>
+                  <th style="padding: 4px; border: 1px solid #ddd;">Unit Price / Cartoon</th>
+                  <th style="padding: 4px; border: 1px solid #ddd;">Amount</th>
+                </tr>
+              </thead>
+              <tbody style="font-size: 12px;">
+                <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                  <tr>
+                    <td style="padding: 4px; border: 1px solid #ddd;">
+                      <t t-esc="line[0]"/>
+                    </td>
+                    <td style="padding: 4px; border: 1px solid #ddd;">
+                      <t t-esc="line[1].product_uom_qty"/>
+                    </td>
+                    <td style="padding: 4px; border: 1px solid #ddd;">
+                      <t t-esc="line[1].product_id.name"/>
+                    </td>
+                    <td style="padding: 4px; border: 1px solid #ddd;">
+                      <t t-esc="line[1].packaging_detail_id.display_name"/>
+                    </td>
+                    <td style="padding: 4px; border: 1px solid #ddd;">
+                      <t t-esc="line[1].price_unit"/>
+                    </td>
+                    <td style="padding: 4px; border: 1px solid #ddd;">
+                      <t t-esc="line[1].price_subtotal"/>
+                    </td>
+                  </tr>
                 </t>
-            </t>
-        </template>
-    </data>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2" style="padding: 4px; border: 1px solid #ddd;">
+                    <span t-field="doc.total_qty"/>
+ CARTONS
+                  </td>
+                  <td colspan="3" style="padding: 4px; border: 1px solid #ddd; text-align: right;">
+                    <strong>Total FOB Value in CNF:</strong>
+                  </td>
+                  <td style="padding: 4px; border: 1px solid #ddd;">
+                    <span t-field="doc.total"/>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </t>
+
+          <!-- Pricing Section -->
+          <div style="margin-top: 10px;">
+            <p style="margin: 0; padding: 0;">NET FOB VALUE: <strong>$ 28,010.00</strong>
+            </p>
+            <p style="margin: 0; padding: 0;">USD$ Twenty Eight Thousand Ten Only</p>
+          </div>
+
+          <!-- Terms and Conditions Section -->
+          <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
+            <p>
+              <strong>Terms and Condition:</strong>
+            </p>
+            <p style="margin: 0; padding: 0;">
+              <span t-field="doc.payment_term_id"/>
+            </p>
+          </div>
+
+          <!-- Bank Details Section -->
+          <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
+            <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
+            </p>
+            <p style="margin: 0; padding: 0;">Validity: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
+            </p>
+            <p style="margin: 0; padding: 0;">Documents: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
+          </div>
+
+          <!-- Seller Bank Details Section -->
+          <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
+            <p>
+              <strong>Seller Bank Details:</strong>
+            </p>
+            <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
+            <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
+            <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
+            <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
+            <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
+            <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
+          </div>
+
+          <!-- Footer Section -->
+          <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
+          <img t-if="o.company_id.image_field_2" 
+               t-att-src="image_data_uri(o.company_id.image_field_2)" 
+               alt="Company Logo" 
+               style="width: 100%; height: auto;" />
+          <p style="font-size: 10px; margin: 0;">Thank you for your business!</p>
+        </div>
+        </div>        <!-- End of page -->
+      </t>
+    </div>    <!-- End of body -->
+
+  </t>
+</template>
+</data>
 </odoo>

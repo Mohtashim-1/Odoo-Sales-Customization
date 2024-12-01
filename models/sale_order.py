@@ -21,7 +21,8 @@ class SaleOrder(models.Model):
         default='FOB',
     )
 
-    container_no = fields.Char(string="Container Number")
+    # container_no = fields.Char(string="Container Number")
+    container_no = fields.Char(string='Container Number')
     container_cbm = fields.Char(string="Container CBM")
     destination = fields.Char(string="Destination")
     delivery = fields.Char(string="Delivery")

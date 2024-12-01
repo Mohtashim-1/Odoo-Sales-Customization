@@ -15,6 +15,7 @@
     'views/packaging_details.xml',
     "views/shipping_terms.xml",
     "views/hs_code.xml",
+    "views/company.xml",
     # "report/custom_header.xml",
 
    
