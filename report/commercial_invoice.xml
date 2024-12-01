@@ -3,110 +3,160 @@
     <data>
         <template id="commercial_invoice_report" name="Commercial Invoice Report" t-name="sales_customization.commercial_invoice_report">
             <t t-call="web.html_container">
-                <t t-call="web.external_layout">
-                    <t t-foreach="docs" t-as="doc">
-                        <div class="page">
-                            <!-- Header Section -->
-                            <h3 style="text-align:center;">COMMERCIAL INVOICE</h3>
-                            <p><strong>Invoice No.:</strong> <span t-esc="doc.name"/></p>
-                            <p><strong>Dated:</strong> <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/></p>
-
-                            <!-- Shipment Details Section -->
-                            <table class="table table-condensed" style="width:100%; margin-top:20px;">
-                                <tr>
-                                    <td><strong>CARTONS OF VITAL BRAND TEA:</strong></td>
-                                    <td t-esc="doc.total_qty"/>
-                                </tr>
-                                <tr>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                        <!-- Header Section -->
+                        <div class="header" style="text-align: center; margin-bottom: 30px;">
+                            <div>
+                                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;"/>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
+                            </div>
+                        </div>
+                        <!-- Header Section -->
+                        <p>
+                            Invoice No.: 
+                            <span t-esc="doc.name"/>
+                        </p>
+                        <p>
+                            Dated: 
+                            <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/>
+                        </p>
+                        <!-- Shipment Details Section -->
+                        <table class="table table-condensed" style="width:100%; margin-top:20px;">
+                            <tr>
                                 <td>
-                                SHIPPED IN SOUND CONDITION PER S.S.CSCL JUPITER
+                                    Cartoons of Vital Tea: 
+                                </td>
+                                <td t-esc="doc.total_qty"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                Shipped in sound condition <br/>
+ per S.S.CSCL Jupiter
                                 </td>
                                 <td>VOYAGE NO.</td>
                                 <td t-esc="doc.voyage"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                   Container No: 
+                                </td>
+                                <td t-esc="doc.container_no or 'CMAU5640324'"/>
+                                <td>
+                                    Date: 
+                                </td>
+                                <td>22-MAY-24</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    From: 
+                                </td>
+                                <td>Karachi - Pakistan</td>
+                                <td>
+                                    To: 
+                                </td>
+                                <td>SOUTHAMPTON UK</td>
+                            </tr>
+                        </table>
+                        <!-- Consignee Information -->
+                        <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="padding: 10px;">
+                                    <span>Consignee's Address:</span>
+                                    <span t-esc="doc.partner_shipping_id.display_name"/>
+                                    <span t-esc="doc.partner_shipping_id.street"/>
+                                    <span t-esc="doc.partner_shipping_id.city"/>
+                                    <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Product Details Table -->
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <thead>
+                                <tr style="background-color: #f2f2f2;">
+                                    <th style="padding: 4px; border: 1px solid black;">S #</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Qty</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Description</th>
+                                    <th style="padding: 4px; border: 1px solid black;">HS Code</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Weight (KG)</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Unit Price (£/CTN)</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Amount (£)</th>
                                 </tr>
-                                <tr>
-                                    <td><strong>Container No:</strong></td>
-                                    <td t-esc="doc.container_no or 'CMAU5640324'"/>
-                                    <td><strong>Date:</strong></td>
-                                    <td>22-MAY-24</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>From:</strong></td>
-                                    <td>Karachi - Pakistan</td>
-                                    <td><strong>To:</strong></td>
-                                    <td>SOUTHAMPTON UK</td>
-                                </tr>
-                            </table>
-
-                            <!-- Consignee Information -->
-                            <p><strong>Consignee's Address:</strong></p>
-                            <p><span t-esc="doc.partner_shipping_id.display_name"/>
-                            <span t-esc="doc.partner_shipping_id.street"/>
-                            <span t-esc="doc.partner_shipping_id.city"/>,
-                            <span t-esc="doc.partner_shipping_id.country_id.name"/></p>
-
-                            <!-- Product Details Table -->
-                            <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                                <thead>
-                                    <tr style="background-color: #f2f2f2;">
-                                        <th style="padding: 4px; border: 1px solid #ddd;">S #</th>
-                                        <th style="padding: 4px; border: 1px solid #ddd;">Qty</th>
-                                        <th style="padding: 4px; border: 1px solid #ddd;">Description</th>
-                                        <th style="padding: 4px; border: 1px solid #ddd;">HS Code</th>
-                                        <th style="padding: 4px; border: 1px solid #ddd;">Weight (KG)</th>
-                                        <th style="padding: 4px; border: 1px solid #ddd;">Unit Price (£/CTN)</th>
-                                        <th style="padding: 4px; border: 1px solid #ddd;">Amount (£)</th>
+                            </thead>
+                            <tbody style="font-size: 12px;">
+                                <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                                    <tr>
+                                        <td style="padding: 4px; border: 1px solid black;">
+                                            <t t-esc="line[0]"/>
+                                        </td>
+                                        <td style="padding: 4px; border: 1px solid black;">
+                                            <t t-esc="line[1].product_uom_qty"/>
+                                        </td>
+                                        <td style="padding: 4px; border: 1px solid black;">
+                                            <t t-esc="line[1].product_id.display_name"/>
+                                        </td>
+                                        <td style="padding: 4px; border: 1px solid black;">
+                                            <t t-esc="line[1].hs_code_id.display_name"/>
+                                        </td>
+                                        <td style="padding: 4px; border: 1px solid black;">
+                                            <t t-esc="line[1].product_id.weight"/>
+                                        </td>
+                                        <td style="padding: 4px; border: 1px solid black;">
+                                            <t t-esc="line[1].price_unit"/>
+                                        </td>
+                                        <td style="padding: 4px; border: 1px solid black;">
+                                            <t t-esc="line[1].price_subtotal"/>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody style="font-size: 12px;">
-                                        <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
-                                            <tr>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].product_uom_qty"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.display_name"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].hs_code_id.display_name"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].product_id.weight"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].price_unit"/></td>
-                                                <td style="padding: 4px; border: 1px solid #ddd;"><t t-esc="line[1].price_subtotal"/></td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2" style="padding: 4px; border: 1px solid #ddd;">
-                                                <span t-field="doc.total_qty"/> CARTONS
-                                            </td>
-                                            <td colspan="4" style="padding: 4px; border: 1px solid #ddd; text-align: right;"><strong>Total FOB Value in CNF:</strong></td>
-                                            <td style="padding: 4px; border: 1px solid #ddd;">
-                                            <span t-field="doc.total"/>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                            </table>
-
-                            <!-- Total Values Section -->
-                            
-
-                            <!-- Footer Section -->
-                            <div style="margin-top:20px;">
-                                <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) declares that the goods... </p>
-                                <p>Gross Weight in KGS: 11,388.35</p>
-                            </div>
-
-                            <div style="margin-top:20px;">
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; border: 1px solid black;">
+                                        <span t-field="doc.total_qty"/>
+ Cartons
+                                    </td>
+                                    <td colspan="4" style="padding: 4px; border: 1px solid black; text-align: right;">
+                                        Total FOB Value in CNF: 
+                                    </td>
+                                    <td style="padding: 4px; border: 1px solid black;">
+                                        <span t-field="doc.total"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <!-- Footer Section -->
+                        <div style="margin-top:20px;">
+                            <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P” </p>
+                            <p>                       
+                                Container Cleanliness Statement
+                            </p>
+                            <p>The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil and is free from KHAPRA BEATLE insect.</p>
+                        </div>
+                        <div style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: flex-start; text-align: right;">
+                            <div style="margin-right: 10px;">
                                 <div>
-                                    NET WEIGHT IN KGS
+                                    <strong>NET WEIGHT IN KGS:</strong>
                                     <span t-field="doc.total_net_weight"/>
                                 </div>
                                 <div>
-                                    GROSS WEIGHT IN KGS
+                                    <strong>GROSS WEIGHT IN KGS:</strong>
                                     <span t-field="doc.total_gross_weight"/>
                                 </div>
-
                             </div>
                         </div>
-
-                    </t>
+                        <!-- Custom Footer -->
+                        <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
+                            <img t-if="docs and docs[0].company_id.image_field_2" t-att-src="image_data_uri(docs[0].company_id.image_field_2)" alt="Footer Logo" style="width: 100%; height: auto;"/>
+                        </div>
+                    </div>
                 </t>
             </t>
         </template>
