@@ -24,14 +24,14 @@
           <t t-foreach="docs" t-as="doc">
             <div class="page" style="font-size: 12px; line-height: 1.2;">
               <!-- Invoice Details -->
-              <h2 class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA INVOICE / SALES CONTRACT</h2>
+              <p class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA INVOICE / SALES CONTRACT</p>
               <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
                 <tr>
                   <td style="vertical-align: top; text-align: left; width: 50%;">
                     INV: <span t-field="doc.name"/>
                   <br/>
                   <span t-field="doc.total_qty"/>
- CARTONS OF VITAL BRAND TEA
+                    Cartoons of Vital Tea
                 </td>
                 <td style="text-align: left; width: 50%;"> 
                     Consigned To: <span t-field="doc.partner_id.name"/>
@@ -60,33 +60,33 @@
             <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
               <thead>
                 <tr style="background-color: #f2f2f2;">
-                  <th style="padding: 4px; border: 1px solid #ddd;">S #</th>
-                  <th style="padding: 4px; border: 1px solid #ddd;">CTN</th>
-                  <th style="padding: 4px; border: 1px solid #ddd;">Description</th>
-                  <th style="padding: 4px; border: 1px solid #ddd;">Packaging</th>
-                  <th style="padding: 4px; border: 1px solid #ddd;">Unit Price / Cartoon</th>
-                  <th style="padding: 4px; border: 1px solid #ddd;">Amount</th>
+                  <th style="padding: 4px; border: 1px solid black;">S #</th>
+                  <th style="padding: 4px; border: 1px solid black;">CTN</th>
+                  <th style="padding: 4px; border: 1px solid black;">Description</th>
+                  <th style="padding: 4px; border: 1px solid black;">Packaging</th>
+                  <th style="padding: 4px; border: 1px solid black;">Unit Price / Cartoon</th>
+                  <th style="padding: 4px; border: 1px solid black;">Amount</th>
                 </tr>
               </thead>
               <tbody style="font-size: 12px;">
                 <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
                   <tr>
-                    <td style="padding: 4px; border: 1px solid #ddd;">
+                    <td style="padding: 4px; border: 1px solid black;">
                       <t t-esc="line[0]"/>
                     </td>
-                    <td style="padding: 4px; border: 1px solid #ddd;">
+                    <td style="padding: 4px; border: 1px solid black;">
                       <t t-esc="line[1].product_uom_qty"/>
                     </td>
-                    <td style="padding: 4px; border: 1px solid #ddd;">
+                    <td style="padding: 4px; border: 1px solid black;">
                       <t t-esc="line[1].product_id.name"/>
                     </td>
-                    <td style="padding: 4px; border: 1px solid #ddd;">
+                    <td style="padding: 4px; border: 1px solid black;">
                       <t t-esc="line[1].packaging_detail_id.display_name"/>
                     </td>
-                    <td style="padding: 4px; border: 1px solid #ddd;">
+                    <td style="padding: 4px; border: 1px solid black;">
                       <t t-esc="line[1].price_unit"/>
                     </td>
-                    <td style="padding: 4px; border: 1px solid #ddd;">
+                    <td style="padding: 4px; border: 1px solid black;">
                       <t t-esc="line[1].price_subtotal"/>
                     </td>
                   </tr>
@@ -94,14 +94,14 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="2" style="padding: 4px; border: 1px solid #ddd;">
+                  <td colspan="2" style="padding: 4px; border: 1px solid black;">
                     <span t-field="doc.total_qty"/>
  CARTONS
                   </td>
-                  <td colspan="3" style="padding: 4px; border: 1px solid #ddd; text-align: right;">
+                  <td colspan="3" style="padding: 4px; border: 1px solid black; text-align: right;">
                     <strong>Total FOB Value in CNF:</strong>
                   </td>
-                  <td style="padding: 4px; border: 1px solid #ddd;">
+                  <td style="padding: 4px; border: 1px solid black;">
                     <span t-field="doc.total"/>
                   </td>
                 </tr>
