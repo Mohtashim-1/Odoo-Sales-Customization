@@ -6,65 +6,142 @@
                 <t t-foreach="docs" t-as="doc">
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
                         <!-- Header Section -->
-                        <div style="text-align: center;">
-                            <h1 style="font-size: 24px; font-weight: bold;">Export Order</h1>
-                            <h3 style="font-size: 16px; color: #555;">Dated: <t t-esc="doc.date_order"/></h3>
-                            <h3 style="font-size: 16px; color: #555;">Order No: <t t-esc="doc.name"/></h3>
+                        <div class="header" style="text-align: center; margin-bottom: 30px;">
+                            <div>
+                                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
+                            </div>
+                            <div >
+                                <h1 style="font-size: 24px; font-weight: bold;">Export Order</h1>
+                                <!-- <h3>Invoice No. <span t-esc="doc.name" /></h3> -->
+                            </div>
                         </div>
+                        <!-- <div style="text-align: center;">
+                            
+                        </div> -->
 
                         <div style="margin-top: 30px;">
-                            <p><strong>Buyer:</strong> <t t-esc="doc.partner_id.name"/></p>
-                            <p><strong>Container CBM:</strong> <t t-esc="doc.container_cbm"/></p>
-                            <p><strong>Destination:</strong> <t t-esc="doc.destination"/></p>
-                            <p><strong>Delivery:</strong> <t t-esc="doc.delivery"/></p>
+                            <p>Dated: <t t-esc="doc.date_order"/>
+                            </p>
+                            <p>Order No: <t t-esc="doc.name"/>
+                            </p>
+                            <p>Buyer: <t t-esc="doc.partner_id.name"/>
+                            </p>
+                            <p>Container CBM: <t t-esc="doc.container_cbm"/>
+                            </p>
+                            <p>Destination: <t t-esc="doc.destination"/>
+                            </p>
+                            <p>Delivery:<t t-esc="doc.delivery"/>
+                            </p>
+                            <p>Container: <t t-esc="doc.container_no"/>
+                            </p>
                         </div>
 
                         <!-- Products Table -->
-                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid #ddd;">
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
                             <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
                                 <tr>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">S.NO.</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">PRODUCTS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">CTNS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">PKTS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">PACKING</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">STATUS</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd;">DESCRIPTION</th>
+                                    <th style="padding: 8px; border: 1px solid black;">S.NO.</th>
+                                    <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
+                                    <th style="padding: 8px; border: 1px solid black;">CTNS</th>
+                                    <th style="padding: 8px; border: 1px solid black;">PKTS</th>
+                                    <th style="padding: 8px; border: 1px solid black;">PACKING</th>
+                                    <th style="padding: 8px; border: 1px solid black;">STATUS</th>
+                                    <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
                                 </tr>
                             </thead>
                             <tbody style="font-size: 14px;">
                                 <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
                                     <tr>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[0]"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].ctn"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].pkt"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].packaging_detail_id.display_name"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].status"/></td>
-                                        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="line[1].description"/></td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[0]"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].name"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].ctn"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].pkt"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].packaging_detail_id.display_name"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].status"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].description"/>
+                                        </td>
                                     </tr>
                                 </t>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" style="padding: 4px; border: 1px solid black;">
+                                       Total Cartons <span t-field="doc.total_qty"/>
+                                    </td>
+
+
+                                </tr>
+                            </tfoot>
                         </table>
 
-                        <!-- Additional Information Section -->
-                        <div style="margin-top: 30px;">
-                            <h4 style="font-size: 16px; font-weight: bold;">Additional Information:</h4>
-                            <ul style="font-size: 14px; line-height: 1.6;">
-                                <li><strong>Foreign Language Instructions:</strong> <t t-esc="doc.language_instructions"/></li>
-                                <li><strong>Lot Code:</strong> <t t-esc="doc.lot_code"/></li>
-                                <li><strong>Producer Code:</strong> <t t-esc="doc.producer_code"/></li>
-                            </ul>
-                        </div>
+                        <br/>
+                        <br/>
 
-                        <!-- Footer Section (optional) -->
-                        <div style="margin-top: 50px; text-align: center; font-size: 12px; color: #888;">
-                            <p>Company Name | Address | Contact Information</p>
-                            <p>www.companywebsite.com</p>
+                        <!-- Additional Information Section -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <strong>FOREIGN LANGUAGE INSTRUCTIONS</strong>
+                                <br />
+                                ON PACKETS / LABELS FOR PRODUCTS' NAME:
+                            </div>
+                            <br/>
+                            <div>
+                                <strong>MANUFACTORY / EXPIRY / BEST BEFORE PERIOD:</strong>
+                            </div>
                         </div>
+                        <br/>
+
+
+                        <strong>LANGUAGE OF NUTRITION FACTS AND INGREDIENT LIST:</strong>
+                        <br/>
+                        <div>
+                            <strong>
+                                <span>PRINT INSTRUCTIONS: - OPTION - 1 - (5 LINES)</span>
+                            </strong>
+                            <br/>
+                            <span t-field="doc.partner_id.name"/>
+                            <br/>
+                            <span t-esc="doc.partner_shipping_id.street"/>
+                            <span t-esc="doc.partner_shipping_id.city"/>
+                            <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                            Contact <br/>
+                            Best Before: <br/>
+                            Lot Code: , Producer Code
+
                     </div>
-                </t>
+
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <table style="width: 100%; table-layout: fixed;">
+    <tr>
+        <td style="width: 40%; text-align: left;">Prepared By: _______________</td>
+        <td style="width: 20%;"></td>
+        <td style="width: 40%; text-align: right;">Dated By: __________________</td>
+    </tr>
+</table>
+
+                    <!-- Footer Section (optional) -->
+                    <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
+                        <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 210mm; height: auto;" />
+                    </div>
+                </div>
             </t>
-        </template>
-    </data>
+        </t>
+    </template>
+</data>
 </odoo>
