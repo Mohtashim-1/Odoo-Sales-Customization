@@ -18,9 +18,9 @@
         <field name="name">hs.code.tree</field>
         <field name="model">hs.code</field>
         <field name="arch" type="xml">
-            <tree string="HS Codes">
+            <list string="HS Codes">
                 <field name="name"/>
-            </tree>
+            </list>
         </field>
     </record>
 
