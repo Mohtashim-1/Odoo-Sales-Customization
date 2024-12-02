@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="packaging_list" name="Commercial Invoice Report" t-name="sales_customization.packaging_list">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                        <!-- Header Section -->
+                        <div class="header" style="text-align: center; margin-bottom: 30px;">
+                            <div>
+                                <img t-if="doc.company_id.image_field_1" 
+                                     t-att-src="image_data_uri(doc.company_id.image_field_1)" 
+                                     alt="Company Logo" 
+                                     style="width: 100%; max-width: 210mm; height: 30mm;" />
+                            </div>
+                            <div >
+                                <h1 style="font-size: 24px; font-weight: bold;">PACKING LIST</h1>
+                                <h3>Invoice No. <span t-esc="doc.name" /></h3>
+                            </div>
+                        </div>
+                        <br/><br/><br/>
+                        <!-- Products Table -->
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
+                            <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
+                                <tr>
+                                    <th style="padding: 8px; border: 1px solid black;">S.NO.</th>
+                                    <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
+                                    <th style="padding: 8px; border: 1px solid black;">PACKING</th>
+                                    <th style="padding: 8px; border: 1px solid black;">NO OF CTN</th>
+                                    <th style="padding: 8px; border: 1px solid black;">QTY</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 14px;">
+                                <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[0]" />
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].name" />
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].packaging_detail_id.display_name" />
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].no_of_ctn" />
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].product_uom_qty" />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; border: 1px solid black;">
+                                        <span t-field="doc.total_qty"/> Items
+                                    </td>
+                                    <td colspan="3" style="padding: 4px; border: 1px solid black; text-align: right;">
+                                      Cartons <span t-field="doc.total_qty"/> 
+                                    </td>
+                                    
+                                </tr>
+                            </tfoot>
+                        </table>
+                        
+                        <!-- Additional Information Section -->
+                        <div style="margin-top: 30px;">
+                            <h4 style="font-size: 16px; font-weight: bold;">DECLARATION:</h4>
+                            <ul style="font-size: 14px; line-height: 1.6;">
+                                <li>
+                                    <strong>The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil &amp; is free from KHAPRA BEETLE insect.</strong>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Weight Information -->
+                        <div style="margin-top: 30px; display: flex; justify-content: flex-end; align-items: flex-start; text-align: right;">
+                            <div style="margin-right: 10px;">
+                                <div>
+                                    <strong>NET WEIGHT IN KGS:</strong>
+                                    <span t-field="doc.total_net_weight" />
+                                </div>
+                                <div>
+                                    <strong>GROSS WEIGHT IN KGS:</strong>
+                                    <span t-field="doc.total_gross_weight" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Custom Footer -->
+                        <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
+                            <img t-if="doc.company_id.image_field_2" 
+                                 t-att-src="image_data_uri(doc.company_id.image_field_2)" 
+                                 alt="Footer Logo" 
+                                 style="width: 100%; max-width: 210mm; height: auto;" />
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

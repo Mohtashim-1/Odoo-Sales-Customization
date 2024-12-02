@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="commercial_invoice_report1" name="Commercial Invoice Report" t-name="sales_customization.commercial_invoice_report1">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                        <!-- Header Section -->
+                        <div class="header" style="text-align: center; margin-bottom: 30px;">
+                            <div>
+                                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
+                            </div>
+                            <div >
+                                <h1 style="font-size: 24px; font-weight: bold;">Export Order</h1>
+                                <!-- <h3>Invoice No. <span t-esc="doc.name" /></h3> -->
+                            </div>
+                        </div>
+                        <!-- <div style="text-align: center;">
+                            
+                        </div> -->
+
+                        <div style="margin-top: 30px;">
+                            <p>Dated: <t t-esc="doc.date_order"/>
+                            </p>
+                            <p>Order No: <t t-esc="doc.name"/>
+                            </p>
+                            <p>Buyer: <t t-esc="doc.partner_id.name"/>
+                            </p>
+                            <p>Container CBM: <t t-esc="doc.container_cbm"/>
+                            </p>
+                            <p>Destination: <t t-esc="doc.destination"/>
+                            </p>
+                            <p>Delivery:<t t-esc="doc.delivery"/>
+                            </p>
+                            <p>Container: <t t-esc="doc.container_no"/>
+                            </p>
+                        </div>
+
+                        <!-- Products Table -->
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
+                            <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
+                                <tr>
+                                    <th style="padding: 8px; border: 1px solid black;">S.NO.</th>
+                                    <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
+                                    <th style="padding: 8px; border: 1px solid black;">CTNS</th>
+                                    <th style="padding: 8px; border: 1px solid black;">PKTS</th>
+                                    <th style="padding: 8px; border: 1px solid black;">PACKING</th>
+                                    <th style="padding: 8px; border: 1px solid black;">STATUS</th>
+                                    <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 14px;">
+                                <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[0]"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].name"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].ctn"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].pkt"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].packaging_detail_id.display_name"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].status"/>
+                                        </td>
+                                        <td style="padding: 8px; border: 1px solid black;">
+                                            <t t-esc="line[1].description"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" style="padding: 4px; border: 1px solid black;">
+                                       Total Cartons <span t-field="doc.total_qty"/>
+                                    </td>
+
+
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <br/>
+                        <br/>
+
+                        <!-- Additional Information Section -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <strong>FOREIGN LANGUAGE INSTRUCTIONS</strong>
+                                <br />
+                                ON PACKETS / LABELS FOR PRODUCTS' NAME:
+                            </div>
+                            <br/>
+                            <div>
+                                <strong>MANUFACTORY / EXPIRY / BEST BEFORE PERIOD:</strong>
+                            </div>
+                        </div>
+                        <br/>
+
+
+                        <strong>LANGUAGE OF NUTRITION FACTS AND INGREDIENT LIST:</strong>
+                        <br/>
+                        <div>
+                            <strong>
+                                <span>PRINT INSTRUCTIONS: - OPTION - 1 - (5 LINES)</span>
+                            </strong>
+                            <br/>
+                            <span t-field="doc.partner_id.name"/>
+                            <br/>
+                            <span t-esc="doc.partner_shipping_id.street"/>
+                            <span t-esc="doc.partner_shipping_id.city"/>
+                            <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                            Contact <br/>
+                            Best Before: <br/>
+                            Lot Code: , Producer Code
+
+                    </div>
+
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <table style="width: 100%; table-layout: fixed;">
+    <tr>
+        <td style="width: 40%; text-align: left;">Prepared By: _______________</td>
+        <td style="width: 20%;"></td>
+        <td style="width: 40%; text-align: right;">Dated By: __________________</td>
+    </tr>
+</table>
+
+                    <!-- Footer Section (optional) -->
+                    <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
+                        <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 210mm; height: auto;" />
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</data>
+</odoo>
