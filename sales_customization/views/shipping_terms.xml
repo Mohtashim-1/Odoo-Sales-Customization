@@ -30,7 +30,7 @@
    <record id="action_shipping_terms" model="ir.actions.act_window">
     <field name="name">Shipping Terms</field>
     <field name="res_model">shipping.term</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
     <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('view_shipping_term_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_shipping_term_form')})]"/>
     <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">Create Shipping Term</p>
