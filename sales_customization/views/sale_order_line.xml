@@ -6,23 +6,23 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
-                <field name="launch_date" invisible="1" nolabel="1"/>
+                <field name="launch_date" column_invisible="True" nolabel="1"/>
                 <!-- <field name="product_code" /> -->
                 <field name="image" widget="image" options="{'size': [128, 128]}"/>
 
                 <!-- <field name="image" /> -->
-                <field name="hs_code_id" invisible="1" nolabel="1"/>
-                <field name="packaging_detail_id" invisible="1" nolabel="1"/>
-                <field name="length" invisible="1" nolabel="1"/>
-                <field name="width" invisible="1" nolabel="1"/>
-                <field name="height" invisible="1" nolabel="1"/>
-                <field name="net_weight" invisible="1" nolabel="1"/>
-                <field name="gross_weight" invisible="1" nolabel="1"/>
-                <field name="cbm" invisible="1" nolabel="1"/>
-                <field name="order_cbm" invisible="1" nolabel="1"/>
-                <field name="fcl_20" invisible="1" nolabel="1"/>
-                <field name="fcl_40" invisible="1" nolabel="1"/>
-                <field name="shelf_life" invisible="1" nolabel="1"/>
+                <field name="hs_code_id" column_invisible="True" nolabel="1"/>
+                <field name="packaging_detail_id" column_invisible="True" nolabel="1"/>
+                <field name="length" column_invisible="True" nolabel="1"/>
+                <field name="width" column_invisible="True" nolabel="1"/>
+                <field name="height" column_invisible="True" nolabel="1"/>
+                <field name="net_weight" column_invisible="True" nolabel="1"/>
+                <field name="gross_weight" column_invisible="True" nolabel="1"/>
+                <field name="cbm" column_invisible="True" nolabel="1"/>
+                <field name="order_cbm" column_invisible="True" nolabel="1"/>
+                <field name="fcl_20" column_invisible="True" nolabel="1"/>
+                <field name="fcl_40" column_invisible="True" nolabel="1"/>
+                <field name="shelf_life" column_invisible="True" nolabel="1"/>
 
             </xpath>
         </field>
