@@ -16,7 +16,7 @@
             <field name="total_net_weight" />
         </xpath>
 
-        <xpath expr="//field[@name='delivery_dates']" position="after">
+        <xpath expr="//field[@name='delivery_date']" position="after">
             <!-- <field name="delivery_date" /> -->
             <field name="destination" />
             <field name="delivery" />
