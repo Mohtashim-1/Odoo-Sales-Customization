@@ -95,6 +95,7 @@
                 <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
                 <t t-set="sub_category_lst" t-value="[]"/>
                 <t t-set="product_lst" t-value="[]"/>
+                <t t-set="s_no" t-value="1"/>
 
                 <t t-foreach="doc.order_line" t-as="line">
                     <t t-if="line.product_id.categ_id.name not in sub_category_lst">
@@ -104,7 +105,7 @@
                             <td style="padding: 8px; border: 1px solid black;" />
                             <td style="padding: 8px; border: 1px solid black;" />
                             <td style="padding: 8px; border: 1px solid black;">
-                                <span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" style="padding-left: 20px;" />
+                                <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong>
                             </td>
                             <td style="padding: 8px; border: 1px solid black;" />
                             <td style="padding: 8px; border: 1px solid black;" />
@@ -117,7 +118,8 @@
 
                                 <tr>
                                     <td style="padding: 8px; border: 1px solid black; text-align: left;">
-                                      <span t-esc="line"/>
+                                      <span t-esc="s_no"/>
+                                      <t t-set="s_no" t-value="s_no+1"/>
                                     </td>
                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
                                       <span t-esc="line.product_uom_qty"/>
