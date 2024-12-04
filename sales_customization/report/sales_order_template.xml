@@ -69,6 +69,7 @@
 
                                     <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
                                     <t t-set="sub_category_lst" t-value="[]"/>
+                                    <t t-set="product_lst" t-value="[]"/>
 
                                     <t t-foreach="doc.order_line" t-as="line">
                                         <t t-if="line.product_id.categ_id.name not in sub_category_lst">
@@ -86,7 +87,9 @@
                                             </tr>
 
                                             <t t-foreach="doc.order_line" t-as="line">
-                                                <t t-if="line.product_id.categ_id.name in sub_category_lst">
+                                                <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id no in product_lst">
+                                                    <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
+
                                                     <tr>
                                                         <td style="padding: 8px; border: 1px solid black;">
                                                             <span t-esc="line.product_id.name"/>
