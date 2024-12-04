@@ -42,8 +42,6 @@
                                     
                                     <!-- Syed Owais Noor ( Added Parent and Child Category Columns ) -->
                                     <tr style="background-color: #f2f2f2;">
-                                        <th style="padding: 8px; border: 1px solid black;">Parent Category</th>
-                                        <th style="padding: 8px; border: 1px solid black;">Child Category</th>
                                         <th style="padding: 8px; border: 1px solid black;">Product</th>
                                         <th style="padding: 8px; border: 1px solid black;">Quantity</th>
                                         <th style="padding: 8px; border: 1px solid black;">Unit Price</th>
@@ -79,20 +77,8 @@
                                             <tr>
                                                 <td style="padding: 8px; border: 1px solid black;">
                                                     <span t-esc="line.product_id.categ_id.parent_id.name" />
+                                                    <span t-esc="'&nbsp;&nbsp;&nbsp;' + line.product_id.categ_id.name" />
                                                 </td>
-                                                <td style="padding: 8px; border: 1px solid black;" />
-                                                <td style="padding: 8px; border: 1px solid black;" />
-                                                <td style="padding: 8px; border: 1px solid black;" />
-                                                <td style="padding: 8px; border: 1px solid black;" />
-                                                <td style="padding: 8px; border: 1px solid black;" />
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td style="padding: 8px; border: 1px solid black;" />
-                                                <td style="padding: 8px; border: 1px solid black;">
-                                                    <span t-esc="line.product_id.categ_id.name" />
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid black;" />
                                                 <td style="padding: 8px; border: 1px solid black;" />
                                                 <td style="padding: 8px; border: 1px solid black;" />
                                                 <td style="padding: 8px; border: 1px solid black;" />
@@ -101,8 +87,6 @@
                                             <t t-foreach="doc.order_line" t-as="line">
                                                 <t t-if="line.product_id.categ_id.name in sub_category_lst">
                                                     <tr>
-                                                        <td style="padding: 8px; border: 1px solid black;" />
-                                                        <td style="padding: 8px; border: 1px solid black;" />
                                                         <td style="padding: 8px; border: 1px solid black;">
                                                             <span t-esc="line.product_id.name"/>
                                                         </td>
