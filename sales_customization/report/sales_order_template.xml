@@ -87,7 +87,7 @@
                                             </tr>
 
                                             <t t-foreach="doc.order_line" t-as="line">
-                                                <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id no in product_lst">
+                                                <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
                                                     <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
 
                                                     <tr>
