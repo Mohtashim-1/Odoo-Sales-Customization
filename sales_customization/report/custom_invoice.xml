@@ -131,7 +131,7 @@
                                                 <t t-esc="line.packaging_detail_id.display_name"/>
                                             </td>
                                             <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                <span t-esc="line.gross_weightv"/>
+                                                <span t-esc="line.gross_weight"/>
                                             </td>
                                             <td style="padding: 8px; border: 1px solid black; text-align: right;">
                                                 <span t-esc="line.price_unit"/>
