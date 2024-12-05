@@ -77,15 +77,15 @@
                                 </t> -->
 
                                 <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
-                                <t t-set="sub_category_lst" t-value="{}"/> <!-- Use a set to avoid duplicates -->
-                                <t t-set="product_lst" t-value="{}"/> <!-- Use a set to track product ids -->
+                                <t t-set="sub_category_lst" t-value="[]"/> <!-- Initialize as an empty list -->
+                                <t t-set="product_lst" t-value="[]"/> <!-- Initialize as an empty list -->
                                 <t t-set="s_no" t-value="1"/>
 
                                 <!-- Iterate over the order lines once -->
                                 <t t-foreach="doc.order_line" t-as="line">
                                     <!-- Check if the category is not already added to sub_category_lst -->
                                     <t t-if="line.product_id.categ_id.name not in sub_category_lst">
-                                        <t t-set="sub_category_lst" t-value="sub_category_lst | {line.product_id.categ_id.name}"/> <!-- Using set union for efficiency -->
+                                        <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/> <!-- Append category name -->
 
                                         <tr>
                                             <td style="padding: 8px; border: 1px solid black;" />
@@ -96,12 +96,13 @@
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
                                         </tr>
                                     </t>
                                     
                                     <!-- Display products of the current category, ensuring unique product lines are shown -->
                                     <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
-                                        <t t-set="product_lst" t-value="product_lst | {line.product_id.id}"/> <!-- Set union to avoid duplicates -->
+                                        <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/> <!-- Append product ID -->
 
                                         <tr>
                                             <td style="padding: 8px; border: 1px solid black;">
