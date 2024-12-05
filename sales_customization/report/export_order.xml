@@ -121,6 +121,9 @@
                                                     <td style="padding: 8px; border: 1px solid black;">
                                                         <span t-esc="line.status"/>
                                                     </td>
+                                                    <td style="padding: 8px; border: 1px solid black;">
+                                                        <span t-esc="line.description"/>
+                                                    </td>
                                                 </tr>
                                             </t>
                                         </t>
