@@ -87,10 +87,11 @@
 
                                         <tr>
                                             <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;">
                                                 <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong>
                                             </td>
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />

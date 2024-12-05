@@ -129,6 +129,7 @@
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
                                         </tr>
 
                                         <t t-foreach="doc.order_line" t-as="line">
