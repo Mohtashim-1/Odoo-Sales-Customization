@@ -60,7 +60,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size: 14px;">
-                        <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                        <!-- <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
                             <tr>
                                 <td style="padding: 8px; border: 1px solid black;">
                                     <t t-esc="line[0]"/>
@@ -87,7 +87,64 @@
                                     <t t-esc="line[1].price_total"/>
                                 </td>
                             </tr>
+                        </t> -->
+
+                        <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
+                        <t t-set="sub_category_lst" t-value="[]"/>
+                        <t t-set="product_lst" t-value="[]"/>
+                        <t t-set="s_no" t-value="1"/>
+
+                        <t t-foreach="doc.order_line" t-as="line">
+                            <t t-if="line.product_id.categ_id.name not in sub_category_lst">
+                                <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
+
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid black;" />
+                                    <td style="padding: 8px; border: 1px solid black;" />
+                                    <td style="padding: 8px; border: 1px solid black;">
+                                        <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid black;" />
+                                    <td style="padding: 8px; border: 1px solid black;" />
+                                    <td style="padding: 8px; border: 1px solid black;" />
+                                </tr>
+
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
+                                        <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
+
+                                        <tr>
+                                            <td style="padding: 8px; border: 1px solid black;">
+                                                <span t-esc="s_no"/>
+                                                <t t-set="s_no" t-value="s_no+1"/>
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid black;">
+                                                <span t-esc="line.name"/>
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid black;">
+                                                <span t-esc="line.hs_code_id.name"/>
+                                            </td>
+                                            <td style="padding: 4px; border: 1px solid black;">
+                                                <t t-esc="line.analysis"/>
+                                            </td>
+                                            <td style="padding: 4px; border: 1px solid black;">
+                                                <t t-esc="line.packaging_detail_id.display_name"/>
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                <span t-esc="line.gross_weightv"/>
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                <span t-esc="line.price_unit"/>
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                <span t-esc="line.price_total"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
                         </t>
+                        <!-- Syed Owais Noor <-> ByteCode -->
                     </tbody>
                 </table>                <!-- Additional Sections -->
                 <div style="margin-top: 30px;">
