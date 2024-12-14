@@ -50,6 +50,7 @@
                     <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
                         <tr>
                             <th style="padding: 8px; border: 1px solid black;">S.No.</th>
+                            <th style="padding: 8px; border: 1px solid black;">Image</th>
                             <th style="padding: 8px; border: 1px solid black;">Product</th>
                             <th style="padding: 8px; border: 1px solid black;">HS Code</th>
                             <th style="padding: 8px; border: 1px solid black;">Analysis</th>
@@ -100,8 +101,10 @@
 
                                 <tr>
                                     <td style="padding: 8px; border: 1px solid black;" />
+                                    <td style="padding: 8px; border: 1px solid black;" />
                                     <td style="padding: 8px; border: 1px solid black;">
-                                        <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong>
+                                        <strong><span t-esc="line.product_id.categ_id.name" /></strong>
+                                        <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
                                     </td>
                                     <td style="padding: 8px; border: 1px solid black;" />
                                     <td style="padding: 8px; border: 1px solid black;" />
