@@ -1,4 +1,7 @@
 from odoo import fields, models, api
+from num2words import num2words
+# from odoo.addons.base.models.res_currency import amount_to_text
+
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -51,6 +54,8 @@ class SaleOrder(models.Model):
     total_qty = fields.Float(string="Total Quantity", compute="_compute_total_qty")
     total_net_weight = fields.Float(string="Total Net Weight", compute="_compute_total_net_weight")
     total_gross_weight = fields.Float(string="Total Gross Weight", compute="_compute_total_gross_weight")
+    total_in_words = fields.Char(string="Total in Words", compute="_compute_amount_to_words", store=True)
+
 
     @api.depends('order_line.net_weight')  # Correct dependency on related model
     def _compute_total_net_weight(self):
@@ -97,3 +102,8 @@ class SaleOrder(models.Model):
         for record in self:
             record.total = record.freight + record.amount_total
             # print(f"total_1: {record.amount_total}")
+
+    @api.depends('total')
+    def _compute_amount_to_words(self):
+        for record in self:
+            record.total_in_words = num2words(record.total, to='currency', lang="en")
