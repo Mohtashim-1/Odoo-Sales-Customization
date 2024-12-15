@@ -82,6 +82,10 @@
                                                         <span t-esc="s_no"/>
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50%; max-width: 250mm; height: 30mm;" />
+                                                        <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
+                                                    </td>
                                                     <td style="padding: 8px; border: 1px solid black;">
                                                         <span t-esc="line.name"/>
                                                     </td>
