@@ -140,7 +140,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7" style="padding: 4px; border: 1px solid black;">
+                                    <td colspan="8" style="padding: 4px; border: 1px solid black;">
                                        Total Cartons <span t-field="doc.total_qty"/>
                                     </td>
 

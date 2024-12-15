@@ -110,7 +110,7 @@
                                     <td colspan="2" style="padding: 4px; border: 1px solid black;">
                                         <span t-field="doc.total_qty"/> Items
                                     </td>
-                                    <td colspan="3" style="padding: 4px; border: 1px solid black; text-align: right;">
+                                    <td colspan="4" style="padding: 4px; border: 1px solid black; text-align: right;">
                                       Cartons <span t-field="doc.total_qty"/> 
                                     </td>
                                     
