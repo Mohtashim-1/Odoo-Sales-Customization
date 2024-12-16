@@ -6,3 +6,5 @@ from . import hs_code
 from . import shipping_terms
 from . import bank_detail
 from . import company
+from . import partner
+

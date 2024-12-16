@@ -16,6 +16,8 @@
     "views/shipping_terms.xml",
     "views/hs_code.xml",
     "views/company.xml",
+    # "views/res_partner_view.xml",
+    
     # "report/custom_header.xml",
 
    

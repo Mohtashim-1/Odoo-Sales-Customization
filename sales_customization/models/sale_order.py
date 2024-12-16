@@ -1,5 +1,7 @@
 from odoo import fields, models, api
 from num2words import num2words
+from datetime import datetime
+
 # from odoo.addons.base.models.res_currency import amount_to_text
 
 
@@ -9,6 +11,7 @@ class SaleOrder(models.Model):
     customer_vat = fields.Char(string="Customer VAT", related='partner_id.vat', readonly=True)
 
     address = fields.Char(string="Address", related='partner_id.vat', readonly=True)
+    
 
     bank_detail_id = fields.Many2one(
     'bank.detail',
@@ -55,6 +58,20 @@ class SaleOrder(models.Model):
     total_net_weight = fields.Float(string="Total Net Weight", compute="_compute_total_net_weight")
     total_gross_weight = fields.Float(string="Total Gross Weight", compute="_compute_total_gross_weight")
     total_in_words = fields.Char(string="Total in Words", compute="_compute_amount_to_words", store=True)
+    customer_container = fields.Char(string="Customer Container No.")
+    pi_no = fields.Char(string="PI No", compute="_compute_pi_no")
+    partner_code = fields.Char(string="Address", related='partner_id.ref', readonly=True)
+    total_cbm = fields.Float(string="Total CBM")
+
+    @api.depends('customer_container', 'partner_code')
+    def _compute_pi_no(self):
+        for record in self:
+            if record.customer_container and record.partner_code:
+                current_month = datetime.now().strftime('%m')  # Current month in MM format
+                current_year = datetime.now().strftime('%Y')  # Current year in YYYY format
+                record.pi_no = f"{record.partner_code}/{record.customer_container}/{current_month}/{current_year}"
+            else:
+                record.pi_no = ''
 
 
     @api.depends('order_line.net_weight')  # Correct dependency on related model
