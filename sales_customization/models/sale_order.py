@@ -106,4 +106,4 @@ class SaleOrder(models.Model):
     @api.depends('total')
     def _compute_amount_to_words(self):
         for record in self:
-            record.total_in_words = num2words(record.total, to='currency', lang="en")
+            record.total_in_words = num2words(record.total)

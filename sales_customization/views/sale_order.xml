@@ -15,6 +15,7 @@
             <field name="total_gross_weight" />
             <field name="total_net_weight" />
             <field name="total_in_words" />
+            
         </xpath>
 
         <xpath expr="//field[@name='commitment_date']" position="after">
