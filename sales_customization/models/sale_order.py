@@ -62,6 +62,8 @@ class SaleOrder(models.Model):
         for order in self:
             order.total_net_weight = sum(line.net_weight for line in order.order_line)
 
+    
+
     @api.depends('order_line.gross_weight')  # Correct dependency on related model
     def _compute_total_gross_weight(self):
         for order in self:

@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -22,7 +22,7 @@ class SaleOrderLine(models.Model):
     height = fields.Float(string='Height', related='product_id.product_tmpl_id.height')
     net_weight = fields.Float(string='Net Weight', related='product_id.product_tmpl_id.net_weight')
 
-    gross_weight = fields.Float(string='Gross Weight', related='product_id.product_tmpl_id.gross_weight')
+    gross_weight = fields.Float(string='Gross Weight', compute="_compute_gross_weight")
     
     cbm = fields.Float(string='CBM', related='product_id.product_tmpl_id.cbm')
     order_cbm = fields.Float(string='Order CBM', related='product_id.product_tmpl_id.order_cbm')
@@ -42,4 +42,7 @@ class SaleOrderLine(models.Model):
     # school_image = fields.Image("School Image")
     # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
 
-    
+    @api.depends('net_weight', 'product_uom_qty')
+    def _compute_gross_weight(self):
+        for record in self:
+            record.gross_weight = (record.net_weight) + (record.product_uom_qty * 1.5)
