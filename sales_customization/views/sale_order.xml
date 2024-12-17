@@ -20,6 +20,7 @@
             <field name="total_gross_weight" />
             <field name="total_net_weight" />
             <field name="total_cbm" />
+            <field name="total_order_cbm" />
             <field name="total_in_words" />
             
         </xpath>

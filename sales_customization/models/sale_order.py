@@ -77,7 +77,7 @@ class SaleOrder(models.Model):
 
     # sum of cbm
     @api.depends('order_line.order_cbm')  # Correct dependency on related model
-    def _compute_total_cbm(self):
+    def _compute_total_order_cbm(self):
         order_cbm = 0
         for record in self.order_line:
             order_cbm += record.order_cbm
