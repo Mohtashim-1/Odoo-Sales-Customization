@@ -25,7 +25,7 @@ class SaleOrderLine(models.Model):
     gross_weight = fields.Float(string='Gross Weight', compute="_compute_gross_weight")
     
     cbm = fields.Float(string='CBM', related='product_id.product_tmpl_id.cbm')
-    order_cbm = fields.Float(string='Order CBM', related='product_id.product_tmpl_id.order_cbm')
+    order_cbm = fields.Float(string='Order CBM', compute='_compute_total_cbm')
     fcl_20 = fields.Float(string='FCL 20', related='product_id.product_tmpl_id.fcl_20')
     fcl_40 = fields.Float(string='FCL 40', related='product_id.product_tmpl_id.fcl_40')
     shelf_life = fields.Float(string='Shelf Life', related='product_id.product_tmpl_id.shelf_life')
@@ -46,3 +46,8 @@ class SaleOrderLine(models.Model):
     def _compute_gross_weight(self):
         for record in self:
             record.gross_weight = (record.net_weight) + (record.product_uom_qty * 1.5)
+
+    @api.depends('cbm','product_uom_qty')
+    def _compute_total_cbm(self):
+        for record in self:
+            record.order_cbm = record.product_uom_qty * record.cbm

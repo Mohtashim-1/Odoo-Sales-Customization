@@ -94,7 +94,7 @@
             INVOICE / SALES CONTRACT</p>
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
                   <tr>
-                    <td style="vertical-align: top; text-align: left; width: 50%;"> INV: <span t-field="doc.name" />
+                    <td style="vertical-align: top; text-align: left; width: 50%;"> INV: <span t-field="doc.pi_no" />
                     <br />
                     <span t-field="doc.total_qty" />
  Cartoons of

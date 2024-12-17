@@ -61,7 +61,8 @@ class SaleOrder(models.Model):
     customer_container = fields.Char(string="Customer Container No.")
     pi_no = fields.Char(string="PI No", compute="_compute_pi_no")
     partner_code = fields.Char(string="Address", related='partner_id.ref', readonly=True)
-    total_cbm = fields.Float(string="Total CBM")
+    total_cbm = fields.Float(string="Total CBM", compute="_compute_total_cbm")
+    total_order_cbm = fields.Float(string="Total Order CBM", compute="_compute_total_order_cbm")
 
     @api.depends('customer_container', 'partner_code')
     def _compute_pi_no(self):
@@ -72,6 +73,25 @@ class SaleOrder(models.Model):
                 record.pi_no = f"{record.partner_code}/{record.customer_container}/{current_month}/{current_year}"
             else:
                 record.pi_no = ''
+
+
+    # sum of cbm
+    @api.depends('order_line.order_cbm')  # Correct dependency on related model
+    def _compute_total_cbm(self):
+        order_cbm = 0
+        for record in self.order_line:
+            order_cbm += record.order_cbm
+        self.total_order_cbm = order_cbm
+
+    # sum of cbm
+    @api.depends('order_line.cbm')  # Correct dependency on related model
+    def _compute_total_cbm(self):
+        cbm = 0
+        for record in self.order_line:
+            cbm += record.cbm
+        self.total_cbm = cbm
+
+
 
 
     @api.depends('order_line.net_weight')  # Correct dependency on related model

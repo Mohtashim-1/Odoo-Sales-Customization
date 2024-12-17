@@ -19,7 +19,7 @@
                 <field name="net_weight" column_invisible="True" nolabel="1"/>
                 <field name="gross_weight" column_invisible="True" nolabel="1"/>
                 <field name="cbm" column_invisible="True" nolabel="1"/>
-                <field name="order_cbm" column_invisible="True" nolabel="1"/>
+                <field name="order_cbm" />
                 <field name="fcl_20" column_invisible="True" nolabel="1"/>
                 <field name="fcl_40" column_invisible="True" nolabel="1"/>
                 <field name="shelf_life" column_invisible="True" nolabel="1"/>
