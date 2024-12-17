@@ -8,17 +8,16 @@
                         <!-- Header Section -->
                         <div class="header" style="text-align: center; margin-bottom: 30px;">
                             <div>
-                                <img t-if="doc.company_id.image_field_1" 
-                                     t-att-src="image_data_uri(doc.company_id.image_field_1)" 
-                                     alt="Company Logo" 
-                                     style="width: 100%; max-width: 210mm; height: 30mm;" />
+                                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
                             </div>
                             <div >
                                 <h1 style="font-size: 24px; font-weight: bold;">PACKING LIST</h1>
-                                <h3>Invoice No. <span t-esc="doc.name" /></h3>
+                                <span t-esc="doc.pi_no"/>
                             </div>
                         </div>
-                        <br/><br/><br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         <!-- Products Table -->
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
                             <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
@@ -65,7 +64,9 @@
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;">
-                                                <strong><span t-esc="line.product_id.categ_id.name" /></strong>
+                                                <strong>
+                                                    <span t-esc="line.product_id.categ_id.name" />
+                                                </strong>
                                                 <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
                                             </td>
                                             <td style="padding: 8px; border: 1px solid black;" />
@@ -96,7 +97,7 @@
                                                         <span t-esc="line.no_of_ctn"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <span t-esc="line.product_uom_qty"/>
+                                                        <span t-esc="line.product_uom_qty" />
                                                     </td>
                                                 </tr>
                                             </t>
@@ -108,16 +109,17 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="2" style="padding: 4px; border: 1px solid black;">
-                                        <span t-field="doc.total_qty"/> Items
+                                        <span t-field="doc.total_qty"/>
+ Items
                                     </td>
                                     <td colspan="4" style="padding: 4px; border: 1px solid black; text-align: right;">
-                                      Cartons <span t-field="doc.total_qty"/> 
+                                      Cartons <span t-field="doc.total_qty"/>
                                     </td>
-                                    
+
                                 </tr>
                             </tfoot>
                         </table>
-                        
+
                         <!-- Additional Information Section -->
                         <div style="margin-top: 30px;">
                             <h4 style="font-size: 16px; font-weight: bold;">DECLARATION:</h4>
@@ -129,25 +131,31 @@
                         </div>
 
                         <!-- Weight Information -->
-                        <div style="margin-top: 30px; display: flex; justify-content: flex-end; align-items: flex-start; text-align: right;">
-                            <div style="margin-right: 10px;">
-                                <div>
-                                    <strong>NET WEIGHT IN KGS:</strong>
-                                    <span t-field="doc.total_net_weight" />
-                                </div>
-                                <div>
-                                    <strong>GROSS WEIGHT IN KGS:</strong>
-                                    <span t-field="doc.total_gross_weight" />
-                                </div>
-                            </div>
+
+                        <div style="margin-top: 20px;">
+                            <table style="width: 100%; text-align: center;">
+                                <tr>
+                                    <!-- NET WEIGHT -->
+                                    <td style="text-align: right; padding-right: 50px;">
+                                        <strong>NET WEIGHT IN KGS</strong>
+                                        <br />
+                                        <span t-field="doc.total_net_weight" />
+                                    </td>
+
+                                    <!-- GROSS WEIGHT -->
+                                    <td style="text-align: left; padding-left: 50px;">
+                                        <strong>GROSS WEIGHT IN KGS</strong>
+                                        <br />
+                                        <span t-field="doc.total_gross_weight" />
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
+
 
                         <!-- Custom Footer -->
                         <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
-                            <img t-if="doc.company_id.image_field_2" 
-                                 t-att-src="image_data_uri(doc.company_id.image_field_2)" 
-                                 alt="Footer Logo" 
-                                 style="width: 100%; max-width: 210mm; height: auto;" />
+                            <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 210mm; height: auto;" />
                         </div>
                     </div>
                 </t>

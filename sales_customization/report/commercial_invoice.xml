@@ -195,7 +195,8 @@
                         </tfoot>
                     </table>
                     <br/>
-                    <span t-field="doc.total_in_words"/>
+                    <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/> </p>
+                    
                     <br/>
                     <br/>
                     <br/>
