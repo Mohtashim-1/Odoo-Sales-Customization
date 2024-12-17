@@ -64,6 +64,8 @@ class SaleOrder(models.Model):
     total_cbm = fields.Float(string="Total CBM", compute="_compute_total_cbm")
     total_order_cbm = fields.Float(string="Total Order CBM", compute="_compute_total_order_cbm")
 
+    shipping_line = fields.Char(string="Shipping Lline")
+
     @api.depends('customer_container', 'partner_code')
     def _compute_pi_no(self):
         for record in self:

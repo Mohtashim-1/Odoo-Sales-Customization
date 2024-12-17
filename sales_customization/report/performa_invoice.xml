@@ -112,8 +112,7 @@
                   </p>
                   <p style="margin: 0; padding: 0;">Shipment: <span t-field="doc.commitment_date" />
                   </p>
-                  <p style="margin: 0; padding: 0;">Producer Code: <span t-field="doc.producer_code" />
-                  </p>
+                  
                   <p style="margin: 0; padding: 0;">FDA: <span t-field="doc.fda" />
                   </p>
                 </td>

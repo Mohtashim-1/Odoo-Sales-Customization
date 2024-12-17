@@ -12,6 +12,7 @@
             <field name="partner_code"  />
             <field name="customer_container"  />
             <field name="pi_no"  />
+            <field name="shipping_line" />
            
 
             <field name="container_no" />
@@ -25,7 +26,7 @@
             
         </xpath>
 
-        <xpath expr="//field[@name='commitment_date']" position="after">
+        <xpath expr="//field[@name='tag_ids']" position="after">
             <!-- <field name="delivery_date" /> -->
             <field name="destination" />
             <field name="delivery" />
