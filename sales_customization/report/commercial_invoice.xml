@@ -191,7 +191,8 @@
                                                     <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
                                                 </td>
                                                 <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                    <span t-esc="line.product_uom_qty"/>
+                                                    <!-- <span t-esc="line.product_uom_qty"/> -->
+                                                    <span t-esc="int(line.product_uom_qty)"/>
                                                 </td>
                                                 <td style="padding: 8px; border: 1px solid black;">
                                                     <span t-esc="line.product_id.display_name"/>

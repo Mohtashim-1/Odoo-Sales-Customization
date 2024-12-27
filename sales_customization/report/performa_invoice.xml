@@ -89,38 +89,41 @@
           <!-- Content Section (this will scroll and fit in the middle of the page) -->
           <div class="content" style="padding-top: 20%; ">
             <t t-foreach="docs" t-as="doc">
+             <div style="margin-top: 10px;">
+                                <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
+                            </div>
               <div class="page" style="font-size: 12px; line-height: 1.2;">
-                <p class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA
-            INVOICE / SALES CONTRACT</p>
+              
+                <!-- <p class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA -->
+            <!-- INVOICE / SALES CONTRACT</p> -->
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
                   <tr>
-                    <td style="vertical-align: top; text-align: left; width: 50%;"> INV: <span t-field="doc.pi_no" />
+                    <td style="vertical-align: top; text-align: left; width: 50%;"> <strong>INV:</strong> <span t-field="doc.pi_no" />
                     <br />
                     <span t-field="doc.total_qty" />
- Cartoons of
-            Vital Tea </td>
-                  <td style="text-align: left; width: 50%;"> Consigned To: <span t-field="doc.partner_id.name" />
+CARTONS OF VITAL TEA </td>
+                  <td style="text-align: left; width: 50%;"> <strong>CONSIGNED TO:</strong> <span t-field="doc.partner_id.name" />
                   <br />
                   <p style="margin: 0; padding: 0;">
-            Destination: <span t-field="doc.destination" />
+            <strong>DESTINATION:</strong> <span t-field="doc.destination" />
                   </p>
-                  <p style="margin: 0; padding: 0;">Payment Term: <span t-field="doc.producer_code" />
+                  <p style="margin: 0; padding: 0;"><strong>PAYMENT TERMS:</strong> <span t-field="doc.producer_code" />
                   </p>
-                  <p style="margin: 0; padding: 0;">Net Weight in KGs: <span t-field="doc.total_net_weight" />
+                  <p style="margin: 0; padding: 0;"><strong>NET WEIGHT IN KGs:</strong> <span t-field="doc.total_net_weight" />
                   </p>
-                  <p style="margin: 0; padding: 0;">Gross Weight in KGs: <span t-field="doc.total_gross_weight" />
+                  <p style="margin: 0; padding: 0;"><strong>GROSS WEIGHT IN KGs:</strong> <span t-field="doc.total_gross_weight" />
                   </p>
-                  <p style="margin: 0; padding: 0;">Shipment: <span t-field="doc.commitment_date" />
+                  <p style="margin: 0; padding: 0;"><strong>SHIPMENT:</strong> <span t-field="doc.commitment_date" />
                   </p>
                   
-                  <p style="margin: 0; padding: 0;">FDA: <span t-field="doc.fda" />
+                  <p style="margin: 0; padding: 0;"><strong>FDA:</strong> <span t-field="doc.fda" />
                   </p>
                 </td>
               </tr>
             </table>
 
             <t t-if="doc.order_line">
-              <h3 style="font-size: 14px;">Products</h3>
+              <h3 style="font-size: 14px;">PRODUCTS</h3>
               <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <thead>
                   <tr style="background-color: #f2f2f2;">
@@ -193,7 +196,7 @@
                               <t t-set="s_no" t-value="s_no+1" />
                             </td>
                             <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                              <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 60px; max-width: 60px; height: 60px;" />
+                              <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 60px; max-width: 80px; height: 80px;" />
                               <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%;
                                   max-width: 210mm; height: 30mm;" /> -->
                             </td>
@@ -237,44 +240,65 @@
             </t>
 
             <div style="margin-top: 10px; text-align: right;">
-              <p style="margin: 0; padding: 0;">FRIEGHT: <strong>$                <span t-field="doc.total"/>
+              <p style="margin: 0; padding: 0;">FRIEGHT: <strong>$                <span t-field="doc.freight"/>
               </strong>
             </p>
-            <p style="margin: 0; padding: 0;">CREDIT NOTE: <strong>$              <span t-field="doc.total"/>
+            <p style="margin: 0; padding: 0;">CREDIT NOTE: <strong>$             
             </strong>
           </p>
-          <p style="margin: 0; padding: 0;">NET CNF VALUE: <strong>$            <span t-field="doc.total"/>
+          <!-- <p style="margin: 0; padding: 0;">NET CNF VALUE: <strong>$            <span t-field="doc.frieght"/>
           </strong>
+        </p> -->
+        
+
+        <p style="margin: 0; padding: 0;">
+            <strong>
+                <t t-if="doc.freight and doc.freight > 0">NET CNF VALUE:</t>
+                <t t-else="">NET FOB VALUE:</t>
+            </strong>
+            <span>$ <t t-esc="doc.freight or '0.00'"/></span>
         </p>
       </div>
-
+    
 
       <!-- Pricing Section -->
       <div style="margin-top: 10px;">
-        <p style="margin: 0; padding: 0;">NET FOB VALUE: <strong>$          <span t-field="doc.total"/>
+        <!-- <p style="margin: 0; padding: 0;">NET FOB VALUE: <strong>$          <span t-field="doc.total"/>
         </strong>
-      </p>
+      </p> -->
+
+      <p style="margin: 0; padding: 0;">
+            <strong>
+                <t t-if="doc.freight and doc.freight > 0">NET CNF VALUE:</t>
+                <t t-else="">NET FOB VALUE:</t>
+            </strong>
+            <span>$ <t t-esc="doc.total or '0.00'"/></span>
+        </p>
+
+
       <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/> </p>
     </div>
 
     <!-- Terms and Conditions Section -->
     <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
       <p>
-        <strong>Terms and Condition:</strong>
+        <strong>TERMS AND CONDITION:</strong>
       </p>
       <p style="margin: 0; padding: 0;">
-        <span t-field="doc.payment_term_id"/>
+      PAYMENT TERMS:  <span t-field="doc.payment_term_id"/>
       </p>
 
     </div>
 
     <!-- Bank Details Section -->
     <div style="margin-top: 20px; font-size: 12px; border-top: 1px solid #000; padding-top: 10px;">
-      <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
+      <p style="margin: 0; padding: 0;">DESTINATION: <span t-field="doc.destination"/>
       </p>
-      <p style="margin: 0; padding: 0;">Validity: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
+      <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
       </p>
-      <p style="margin: 0; padding: 0;">Documents: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
+      <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
+      </p>
+      <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
     </div>
 
     <!-- Seller Bank Details Section -->
