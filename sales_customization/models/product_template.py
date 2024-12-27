@@ -20,6 +20,10 @@ class ProductTemplate(models.Model):
 
     net_weight= fields.Float(string="Net Weight", compute="_compute_net_weight")
     gross_weight= fields.Float(string="Gross Weight")
+    # lbs = fields.Float(string="Pounds")
+
+    # lbs = fields.Char(string='LBS Oz')
+    # lbs = fields.char(strings="LBS OZ")
     
     order_cbm= fields.Float(string="Order CBM")
 

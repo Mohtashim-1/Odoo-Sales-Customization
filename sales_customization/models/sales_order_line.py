@@ -39,8 +39,36 @@ class SaleOrderLine(models.Model):
     no_of_ctn = fields.Char(string="No of Cartoons")
     analysis = fields.Char(string="Analysis")
     markings = fields.Char(string="Marks and Analysis")
+    custom_price = fields.Float(string="Custom Price",compute="_compute_custom_price", store=True)
+    # lbs_oz = fields.Char(string='LBS OZ', related='product_id.product_tmpl_id.lbs')
     # school_image = fields.Image("School Image")
     # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
+
+    @api.depends('product_uom_qty')
+    def _compute_no_of_cartoons(self):
+        cumulative_qty = 0  # Initialize cumulative quantity
+        for line in self.order_id.order_line:  # Loop through all order lines in sequence
+            initial = cumulative_qty + 1  # Start of the range
+            final = initial + line.product_uom_qty - 1  # End of the range
+            cumulative_qty = final  # Update cumulative quantity for the next line
+            line.no_of_ctn = f"{initial} to {final}"  # Set the computed range for the line
+
+    @api.depends('price_subtotal', 'product_uom_qty', 'order_id.total', 'order_id.amount_total')
+    def _compute_custom_price(self):
+        for line in self:
+            sales_order_total = line.order_id.amount_total or 1.0  
+            price_subtotal = line.price_subtotal or 0.0
+            product_uom_qty = line.product_uom_qty or 1.0 
+            net_total_amount = line.order_id.total or 0.0
+
+            # Ensure non-zero values to avoid division by zero errors
+            if price_subtotal > 0 and product_uom_qty > 0:
+ 
+                intermediate1 = price_subtotal / sales_order_total
+                intermediate2 = net_total_amount / product_uom_qty
+                line.custom_price = intermediate1 * intermediate2
+            else:
+                line.custom_price = 0.0
 
     @api.depends('net_weight', 'product_uom_qty')
     def _compute_gross_weight(self):
@@ -51,3 +79,5 @@ class SaleOrderLine(models.Model):
     def _compute_total_cbm(self):
         for record in self:
             record.order_cbm = record.product_uom_qty * record.cbm
+
+    

@@ -29,6 +29,7 @@ class SaleOrder(models.Model):
 
     # container_no = fields.Char(string="Container Number")
     container_no = fields.Char(string='Container Number')
+    # container_carrier = fields.Char(string='Container Carrier')
     container_cbm = fields.Char(string="Container CBM")
     destination = fields.Char(string="Destination")
     delivery = fields.Char(string="Delivery")
@@ -66,13 +67,15 @@ class SaleOrder(models.Model):
 
     shipping_line = fields.Char(string="Shipping Lline")
 
+    
+
     @api.depends('customer_container', 'partner_code')
     def _compute_pi_no(self):
         for record in self:
             if record.customer_container and record.partner_code:
                 current_month = datetime.now().strftime('%m')  # Current month in MM format
                 current_year = datetime.now().strftime('%Y')  # Current year in YYYY format
-                record.pi_no = f"{record.partner_code}/{record.customer_container}/{current_month}/{current_year}"
+                record.pi_no = f"{record.partner_code}/{record.customer_container}/{current_month}-{current_year}"
             else:
                 record.pi_no = ''
 

@@ -23,6 +23,8 @@
                 <field name="fcl_20" column_invisible="True" nolabel="1"/>
                 <field name="fcl_40" column_invisible="True" nolabel="1"/>
                 <field name="shelf_life" column_invisible="True" nolabel="1"/>
+                <field name="custom_price" column_invisible="True" nolabel="1" />
+                <field name="no_of_ctn" column_invisible="True" nolabel="1" />
 
             </xpath>
         </field>

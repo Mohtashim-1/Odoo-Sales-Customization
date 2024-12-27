@@ -45,6 +45,7 @@
                                     <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
                                     <th style="padding: 8px; border: 1px solid black;">CTNS</th>
                                     <th style="padding: 8px; border: 1px solid black;">PKTS</th>
+                                    <th style="padding: 8px; border: 1px solid black;">LBS OZ</th>
                                     <th style="padding: 8px; border: 1px solid black;">PACKING</th>
                                     <th style="padding: 8px; border: 1px solid black;">STATUS</th>
                                     <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
@@ -122,6 +123,9 @@
                                                     <td style="padding: 4px; border: 1px solid black;">
                                                         <t t-esc="line.pkt"/>
                                                     </td>
+                                                    <!-- <td style="padding: 8px; border: 1px solid black;"> -->
+                                                        <!-- <span t-esc="line.lbs"/> -->
+                                                    <!-- </td> -->
                                                     <td style="padding: 8px; border: 1px solid black;">
                                                         <span t-esc="line.packaging_detail_id.display_name"/>
                                                     </td>
