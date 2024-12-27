@@ -22,7 +22,7 @@
                         <div style="margin-top: 30px;">
                             <p><strong>DATED:</strong> <t t-esc="doc.date_order"/>
                             </p>
-                            <p><strong>ORDER NO:</strong> <t t-esc="doc.name"/>
+                            <p><strong>ORDER NO:</strong> <t t-esc="doc.pi_no"/>
                             </p>
                             <p><strong>NAME OF BUYER:</strong> <t t-esc="doc.partner_id.name"/>
                             </p>

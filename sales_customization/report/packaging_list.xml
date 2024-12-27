@@ -23,7 +23,7 @@
                             <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
                                 <tr>
                                     <th style="padding: 8px; border: 1px solid black;">S.NO.</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Image</th>
+                                    <th style="padding: 8px; border: 1px solid black;">IMAGE</th>
                                     <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
                                     <th style="padding: 8px; border: 1px solid black;">PACKING</th>
                                     <th style="padding: 8px; border: 1px solid black;">NO OF CTN</th>
@@ -84,7 +84,7 @@
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 100%; max-width: 210mm; height: 30mm;" />
+                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 80px; height: 80px;" />
                                                         <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black;">
@@ -97,7 +97,7 @@
                                                         <span t-esc="line.no_of_ctn"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <span t-esc="line.product_uom_qty" />
+                                                        <span t-esc="line.product_uom_qty"  />
                                                     </td>
                                                 </tr>
                                             </t>
@@ -109,12 +109,13 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="2" style="padding: 4px; border: 1px solid black;">
-                                        <span t-field="doc.total_qty"/>
- Items
+                                       <strong> <span t-field="doc.total_items" />
+                                        <!-- <span t-field="doc.total_qty" t-options='{"precision": 0}' /> -->
+ ITEMS </strong>
                                     </td>
                                     <td colspan="4" style="padding: 4px; border: 1px solid black; text-align: right;">
-                                      Cartons <span t-field="doc.total_qty"/>
-                                    </td>
+                                    <strong>  CARTONS <span t-field="doc.total_qty" t-options='{"precision": 0}'/> </strong>
+                                    </td> 
 
                                 </tr>
                             </tfoot>
@@ -139,14 +140,14 @@
                                     <td style="text-align: right; padding-right: 50px;">
                                         <strong>NET WEIGHT IN KGS</strong>
                                         <br />
-                                        <span t-field="doc.total_net_weight" />
+                                        <span t-field="doc.total_net_weight" t-options='{"precision": 2}' />
                                     </td>
 
                                     <!-- GROSS WEIGHT -->
                                     <td style="text-align: left; padding-left: 50px;">
                                         <strong>GROSS WEIGHT IN KGS</strong>
                                         <br />
-                                        <span t-field="doc.total_gross_weight" />
+                                        <span t-field="doc.total_gross_weight" t-options='{"precision": 2}' />
                                     </td>
                                 </tr>
                             </table>

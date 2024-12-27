@@ -67,6 +67,12 @@ class SaleOrder(models.Model):
     total_order_cbm = fields.Float(string="Total Order CBM", compute="_compute_total_order_cbm")
 
     shipping_line = fields.Char(string="Shipping Lline")
+    total_items = fields.Integer(string="Total Items", compute="_compute_total_items")
+
+    @api.depends('order_line')
+    def _compute_total_items(self):
+        for order in self:
+            order.total_items = len(order.order_line)
 
     
 

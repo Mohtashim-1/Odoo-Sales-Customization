@@ -90,7 +90,7 @@
           <div class="content" style="padding-top: 20%; ">
             <t t-foreach="docs" t-as="doc">
              <div style="margin-top: 10px;">
-                                <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
+                                <h1 style="font-size: 24px; font-weight: bold;">PERFORMA INVOICE</h1>
                             </div>
               <div class="page" style="font-size: 12px; line-height: 1.2;">
               
