@@ -40,10 +40,9 @@ class SaleOrderLine(models.Model):
     analysis = fields.Char(string="Analysis")
     markings = fields.Char(string="Marks and Analysis")
     custom_price = fields.Float(string="Custom Price",compute="_compute_custom_price", store=True)
-    # lbs_oz = fields.Char(string='LBS OZ', related='product_id.product_tmpl_id.lbs')
-    # school_image = fields.Image("School Image")
-    # image = fields.Image(string='Image', related='product_id.product_tmpl_id.image_1920', readonly=True)
+    lbs_oz = fields.Char(string='LBS OZ', compute="_compute_lbs_oz", store=True)
 
+    
     @api.depends('product_uom_qty')
     def _compute_no_of_cartoons(self):
         cumulative_qty = 0  # Initialize cumulative quantity
@@ -80,4 +79,14 @@ class SaleOrderLine(models.Model):
         for record in self:
             record.order_cbm = record.product_uom_qty * record.cbm
 
+
+    @api.depends('gross_weight')
+    def _compute_lbs_oz(self):
+        for line in self.order_id.order_line:
+            gross_weight_grams = line.gross_weight or 0
+            lbs = gross_weight_grams / 453.59237  # Convert grams to pounds
+            pounds = float(lbs)  # Whole pounds
+            ounces = lbs * 16  # Remainder as ounces
+            # Format pounds and ounces with 2 decimal places
+            line.lbs_oz = f"{pounds:.2f} lbs {ounces:.2f} oz"
     

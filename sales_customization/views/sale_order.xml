@@ -14,6 +14,7 @@
             <!-- <field name="container_carrier"  /> -->
             <field name="pi_no"  />
             <field name="shipping_line" />
+            <field name="order_date" />
            
 
             <field name="container_no" />

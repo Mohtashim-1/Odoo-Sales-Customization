@@ -43,6 +43,7 @@ class SaleOrder(models.Model):
     port_of_discharge = fields.Char(string="Port Of Discharge")
     # fi_date = fields.Date(string="FI Date")
     fi_date = fields.Date(string='FI Date')
+    order_date = fields.Date(string='Order Date')
     bl_no = fields.Char(string="BL Number")
     bl_date = fields.Date(string='BL Date')
     validity = fields.Date(string='Validity Date')

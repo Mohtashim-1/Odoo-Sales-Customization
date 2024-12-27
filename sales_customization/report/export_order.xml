@@ -20,19 +20,21 @@
                         </div> -->
 
                         <div style="margin-top: 30px;">
-                            <p>Dated: <t t-esc="doc.date_order"/>
+                            <p><strong>DATED:</strong> <t t-esc="doc.date_order"/>
                             </p>
-                            <p>Order No: <t t-esc="doc.name"/>
+                            <p><strong>ORDER NO:</strong> <t t-esc="doc.name"/>
                             </p>
-                            <p>Buyer: <t t-esc="doc.partner_id.name"/>
+                            <p><strong>NAME OF BUYER:</strong> <t t-esc="doc.partner_id.name"/>
                             </p>
-                            <p>Container CBM: <t t-esc="doc.container_cbm"/>
+                            <p><strong>CONTAINER CBM:</strong> <t t-esc="doc.container_cbm"/>
                             </p>
-                            <p>Destination: <t t-esc="doc.destination"/>
+                            <p><strong>DESTINATION:</strong> <t t-esc="doc.destination"/>
                             </p>
-                            <p>Delivery:<t t-esc="doc.delivery"/>
+                            <p><strong>DELIVERY:</strong><t t-esc="doc.delivery"/>
                             </p>
-                            <p>Container: <t t-esc="doc.container_no"/>
+                            <!-- <p><strong>CONTAINER:</strong> <t t-esc="doc.container_no"/>
+                            </p> -->
+                            <p><strong>ORDER DATE:</strong> <t t-esc="doc.order_date"/>
                             </p>
                         </div>
 
@@ -99,6 +101,7 @@
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
                                             <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
                                         </tr>
 
                                         <t t-foreach="doc.order_line" t-as="line">
@@ -111,21 +114,21 @@
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 100%; max-width: 210mm; height: 30mm;" />
+                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 80px; height: 80px;" />
                                                         <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black;">
                                                         <span t-esc="line.name"/>
                                                     </td>
                                                     <td style="padding: 4px; border: 1px solid black;">
-                                                        <t t-esc="line.ctn"/>
+                                                        <t t-esc="int(line.product_uom_qty)"/>
                                                     </td>
                                                     <td style="padding: 4px; border: 1px solid black;">
                                                         <t t-esc="line.pkt"/>
                                                     </td>
-                                                    <!-- <td style="padding: 8px; border: 1px solid black;"> -->
-                                                        <!-- <span t-esc="line.lbs"/> -->
-                                                    <!-- </td> -->
+                                                     <td style="padding: 8px; border: 1px solid black;">
+                                                        <span t-esc="line.lbs_oz"/>
+                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black;">
                                                         <span t-esc="line.packaging_detail_id.display_name"/>
                                                     </td>
@@ -144,8 +147,10 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="8" style="padding: 4px; border: 1px solid black;">
-                                       Total Cartons <span t-field="doc.total_qty"/>
+                                    <td colspan="9" style="padding: 4px; border: 1px solid black;">
+                                       <strong>TOTAL CARTONS</strong>    
+                                        <span t-field="doc.total_qty" t-options='{"precision": 0}'/>
+
                                     </td>
 
 
@@ -158,14 +163,16 @@
 
                         <!-- Additional Information Section -->
                         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            
                             <div>
-                                <strong>FOREIGN LANGUAGE INSTRUCTIONS</strong>
+                                <strong>INSTRUCTIONS:</strong><br/>
+                                FOREIGN LANGUAGE INSTRUCTIONS
                                 <br />
                                 ON PACKETS / LABELS FOR PRODUCTS' NAME:
                             </div>
                             <br/>
                             <div>
-                                <strong>MANUFACTORY / EXPIRY / BEST BEFORE PERIOD:</strong>
+                                MANUFACTORY / EXPIRY / BEST BEFORE PERIOD:
                             </div>
                         </div>
                         <br/>
@@ -183,9 +190,9 @@
                             <span t-esc="doc.partner_shipping_id.street"/>
                             <span t-esc="doc.partner_shipping_id.city"/>
                             <span t-esc="doc.partner_shipping_id.country_id.name"/>
-                            Contact <br/>
-                            Best Before: <br/>
-                            Lot Code: , Producer Code
+                            CONTACT <br/>
+                            <strong> BEST BEFORE: </strong> <br/>
+                            LOT CODE: , PRODUCER CODE
 
                     </div>
 
@@ -195,9 +202,9 @@
 
                     <table style="width: 100%; table-layout: fixed;">
     <tr>
-        <td style="width: 40%; text-align: left;">Prepared By: _______________</td>
+        <td style="width: 40%; text-align: left;">PREPARED BY: _______________</td>
         <td style="width: 20%;"></td>
-        <td style="width: 40%; text-align: right;">Dated By: __________________</td>
+        <td style="width: 40%; text-align: right;">DATED BY: __________________</td>
     </tr>
 </table>
 
