@@ -20,8 +20,8 @@ class SaleOrderLine(models.Model):
     length = fields.Float(string='Length', related='product_id.product_tmpl_id.length')
     width = fields.Float(string='Width', related='product_id.product_tmpl_id.width')
     height = fields.Float(string='Height', related='product_id.product_tmpl_id.height')
-    net_weight = fields.Float(string='Net Weight', related='product_id.product_tmpl_id.net_weight')
-
+    net_weight1 = fields.Float(string='Net Weight', related='product_id.product_tmpl_id.net_weight')
+    net_weight = fields.Float(string="Net", compute="_calculated_net_weight", store=True)
     gross_weight = fields.Float(string='Gross Weight', compute="_compute_gross_weight")
     
     cbm = fields.Float(string='CBM', related='product_id.product_tmpl_id.cbm')
@@ -36,11 +36,17 @@ class SaleOrderLine(models.Model):
     status = fields.Char(string="Status")
     ctn = fields.Float(string="CTN")
     pkt = fields.Float(string="PKT")
-    no_of_ctn = fields.Char(string="No of Cartoons")
+    no_of_ctn = fields.Char(string="No of Cartoons", compute="_compute_no_of_cartoons", store=True)
     analysis = fields.Char(string="Analysis")
     markings = fields.Char(string="Marks and Analysis")
     custom_price = fields.Float(string="Custom Price",compute="_compute_custom_price", store=True)
     lbs_oz = fields.Char(string='LBS OZ', compute="_compute_lbs_oz", store=True)
+
+    @api.depends('net_weight1', 'product_uom_qty')
+    def _calculated_net_weight(self):
+        for line in self:
+            line.net_weight = line.net_weight1 * line.product_uom_qty
+
 
     
     @api.depends('product_uom_qty')

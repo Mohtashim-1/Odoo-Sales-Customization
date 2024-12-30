@@ -8,10 +8,10 @@
 
         <style>
           /* Ensure header and footer are positioned correctly on every page */
-          @page {
-          margin-top: 160px; /* Margin for the header and space above content */
-          margin-bottom: 70px; /* Margin for footer */
-          }
+          <!-- @page {
+          margin-top: 160px;
+          margin-bottom: 70px;
+          } -->
 
           /* Header styles */
           .header {
@@ -50,13 +50,10 @@
           }
 
           /* To force page breaks between pages */
-          .page {
-          <!-- page-break-before: always;
-          padding-top: 60%;
-          margin: 100px -->
-          margin-top: 160px; /* Margin for the header and space above content */
-            margin-bottom: 70px; /* Margin for footer */
-          }
+          <!-- .page {
+          margin-top: 90px; 
+            margin-bottom: 30px;
+          } -->
 
 
           /* Adjusting image sizes */
@@ -76,7 +73,7 @@
         <!-- Main structure -->
         <div class="main">
           <!-- Header section (fixed at the top of each page) -->
-          <div class="header">
+          <div class="header" style="padding-bottom: 100px;">
             <!-- Header Content: Company logo -->
             <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; height: 30mm;" />
           </div>
@@ -87,11 +84,12 @@
           </div>
 
           <!-- Content Section (this will scroll and fit in the middle of the page) -->
-          <div class="content" style="padding-top: 20%; ">
+          <div class="content" style="padding-top: 100px; ">
             <t t-foreach="docs" t-as="doc">
-             <div style="margin-top: 10px;">
-                                <h1 style="font-size: 24px; font-weight: bold;">PERFORMA INVOICE</h1>
-                            </div>
+
+             <div style="margin-top: 10px; text-align: center;">
+    <h1 style="font-size: 24px; font-weight: bold;">PROFORMA INVOICE / SALES CONTRACT</h1>
+</div>
               <div class="page" style="font-size: 12px; line-height: 1.2;">
               
                 <!-- <p class="text-center" style="margin-bottom: 20px; font-size: 18px;">PROFORMA -->
@@ -129,10 +127,10 @@ CARTONS OF VITAL TEA </td>
                   <tr style="background-color: #f2f2f2;">
                     <th style="padding: 4px; border: 1px solid black;">S #</th>
                     <th style="padding: 4px; border: 1px solid black;">IMAGE</th>
-                    <th style="padding: 4px; border: 1px solid black;">CTN</th>
+                    <th style="padding: 4px; border: 1px solid black;">CTN's</th>
                     <th style="padding: 4px; border: 1px solid black;">DESCRIPTION</th>
                     <th style="padding: 4px; border: 1px solid black;">PACKAGING</th>
-                    <th style="padding: 4px; border: 1px solid black;">UNIT PRICE / CARTOON</th>
+                    <th style="padding: 4px; border: 1px solid black;">UNIT PRICE / CARTON</th>
                     <th style="padding: 4px; border: 1px solid black;">AMOUNT</th>
                   </tr>
                 </thead>
@@ -253,10 +251,10 @@ CARTONS OF VITAL TEA </td>
 
         <p style="margin: 0; padding: 0;">
             <strong>
-                <t t-if="doc.freight and doc.freight > 0">NET CNF VALUE:</t>
+                <t t-if="doc.total and doc.total > 0">NET CNF VALUE:</t>
                 <t t-else="">NET FOB VALUE:</t>
             </strong>
-            <span>$ <t t-esc="doc.freight or '0.00'"/></span>
+            <span>$ <t t-esc="doc.total or '0.00'"/></span>
         </p>
       </div>
     

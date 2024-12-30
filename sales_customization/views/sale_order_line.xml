@@ -6,26 +6,26 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
-                <field name="launch_date" column_invisible="True" nolabel="1"/>
+                <field name="launch_date" optional="show" />
                 <!-- <field name="product_code" /> -->
-                <field name="image" widget="image" options="{'size': [60, 60]}"/>
+                <field name="image" widget="image" options="{'size': [60, 60]}" optional="show"/>
 
                 <!-- <field name="image" /> -->
-                <field name="hs_code_id" column_invisible="True" nolabel="1"/>
-                <field name="packaging_detail_id" column_invisible="True" nolabel="1"/>
-                <field name="length" column_invisible="True" nolabel="1"/>
-                <field name="width" column_invisible="True" nolabel="1"/>
-                <field name="height" column_invisible="True" nolabel="1"/>
-                <field name="net_weight" column_invisible="True" nolabel="1"/>
-                <field name="gross_weight" column_invisible="True" nolabel="1" />
-                <field name="cbm" column_invisible="True" nolabel="1"/>
-                <field name="order_cbm" column_invisible="True" nolabel="1"/>
-                <field name="fcl_20" column_invisible="True" nolabel="1"/>
-                <field name="fcl_40" column_invisible="True" nolabel="1"/>
-                <field name="shelf_life" column_invisible="True" nolabel="1"/>
-                <field name="custom_price" column_invisible="True" nolabel="1" />
-                <field name="no_of_ctn" column_invisible="True" nolabel="1" />
-                <field name="lbs_oz" column_invisible="True" nolabel="1" />
+                <field name="hs_code_id" optional="show"/>
+                <field name="packaging_detail_id" optional="show" />
+                <field name="length" optional="show" />
+                <field name="width" optional="show" />
+                <field name="height" optional="show"/>
+                <field name="net_weight" optional="show" />
+                <field name="gross_weight" optional="show" />
+                <field name="cbm" optional="show" />
+                <field name="order_cbm" optional="show" />
+                <field name="fcl_20" optional="show" />
+                <field name="fcl_40" optional="show" />
+                <field name="shelf_life" optional="show" />
+                <field name="custom_price" optional="show"  />
+                <field name="no_of_ctn" optional="show"  />
+                <field name="lbs_oz" optional="show"  />
 
             </xpath>
         </field>
