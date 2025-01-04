@@ -4,6 +4,38 @@
         <template id="commercial_invoice_report" name="Commercial Invoice Report" t-name="sales_customization.commercial_invoice_report">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
+                    <style>
+                    .footer {
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        text-align: center;
+                        font-size: 12px;
+                        padding: 10px;
+                        border-top: 1px solid #000;
+                        z-index: 999;
+                    }
+                    .footer img {
+                        width: 100%;
+                        max-width: 210mm;
+                        height: auto;
+                    }
+                    table {
+                        border: 1px solid black;
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: left;
+                        border: 1px solid black;
+                    }
+                    .header img {
+                        width: 100%;
+                        height: auto;
+                    }
+                    </style>
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
                         <!-- Header Section -->
                         <div class="header" style="text-align: center; margin-bottom: 30px;">
@@ -14,6 +46,13 @@
                                 <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
                             </div>
                         </div>
+                        <!-- Custom Footer -->
+                        <!-- Custom Footer -->
+                            <div class="footer">
+                                <img t-if="doc.company_id.image_field_2" 
+                                    t-att-src="image_data_uri(doc.company_id.image_field_2)" 
+                                    alt="Footer Logo" />
+                            </div>
                         <!-- Header Section -->
                         <p>
                             INVOICE NO: 
@@ -38,94 +77,94 @@
                             <td>VOYAGE NO.</td>
                             <td t-esc="doc.voyage"/>
                         </tr> -->
-                        <tr>
-                            <td>
+                            <tr>
+                                <td>
                                    CONTAINERS OF VITAL TEA: 
-                            </td>
-                            <td t-esc="doc.total_qty or ''"/>
-                            <td>
+                                </td>
+                                <td t-esc="doc.total_qty or ''"/>
+                                <td>
                                     SHIPPED IN SOUND CONDITION 
-                            </td>
-                            <td t-esc="doc.shipping_line or ''"/>
-                        </tr>
-                        <tr>
-                            <td>
-                                   CONTAINER NO: 
-                            </td>
-                            <td t-esc="doc.container_no or ''"/>
-                            <td>
-                                    DATE: 
-                            </td>
-                            <td t-esc="doc.bl_date or ''"/>
-                        </tr>
-                        <tr>
-                            <td>
-                                    FROM: 
-                            </td>
-                            <td t-esc="doc.destination or ''"/>
-                            <td>
-                                    TO: 
-                            </td>
-                            <td t-esc="doc.delivery or ''"/>
-                        </tr>
-                        <tr>
-                            <td>
-                                    PAYMENT TERMS: 
-                            </td>
-                            <td t-esc="doc.destination or ''"/>
-                            <td>
-                                    FDA: 
-                            </td>
-                            <td t-esc="doc.fda or ''"/>
-                        </tr>
-                        <tr>
-                            <td>
-                                    FI # 
-                            </td>
-                            <td t-esc="doc.fi_number or ''"/>
-                            <td>
-                                    DATED: 
-                            </td>
-                            <td t-esc="doc.fi_date or ''"/>
-                        </tr>
-
-
-                    </table>
-                    <!-- Consignee Information -->
-                    <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
-                        <tr>
-                            <td style="padding: 10px;">
-                                <span>CONSIGNEE'S NAME:</span>
-                                <span t-esc="doc.partner_shipping_id.display_name"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">
-                                <span>CONSIGNEE'S ADDRESS:</span>
-                                <span t-esc="doc.partner_shipping_id.street"/>
-                                <span t-esc="doc.partner_shipping_id.city"/>
-                                <span t-esc="doc.partner_shipping_id.country_id.name"/>
-                            </td>
-                        </tr>
-                    </table>
-                    <!-- Product Details Table -->
-                    <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                        <thead>
-                            <tr style="background-color: #f2f2f2;">
-                                <th style="padding: 4px; border: 1px solid black;">S #</th>
-                                <th style="padding: 4px; border: 1px solid black;">IMAGE</th>
-                                <th style="padding: 4px; border: 1px solid black;">QTY</th>
-                                <th style="padding: 4px; border: 1px solid black;">DESCRIPTION</th>
-                                <th style="padding: 4px; border: 1px solid black;">HS CODE</th>
-                                <th style="padding: 4px; border: 1px solid black;">PACKAGING</th>
-                                <th style="padding: 4px; border: 1px solid black;">WEIGHT KG(s)</th>
-                                <th style="padding: 4px; border: 1px solid black;">UNIT PRICE / <br/>
- CTN(s)</th>
-                                <th style="padding: 4px; border: 1px solid black;">AMOUNT</th>
+                                </td>
+                                <td t-esc="doc.shipping_line or ''"/>
                             </tr>
-                        </thead>
-                        <tbody style="font-size: 12px;">
-                            <!-- <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                            <tr>
+                                <td>
+                                   CONTAINER NO: 
+                                </td>
+                                <td t-esc="doc.container_no or ''"/>
+                                <td>
+                                    DATE: 
+                                </td>
+                                <td t-esc="doc.bl_date or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    FROM: 
+                                </td>
+                                <td t-esc="doc.destination or ''"/>
+                                <td>
+                                    TO: 
+                                </td>
+                                <td t-esc="doc.delivery or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    PAYMENT TERMS: 
+                                </td>
+                                <td t-esc="doc.destination or ''"/>
+                                <td>
+                                    FDA: 
+                                </td>
+                                <td t-esc="doc.fda or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    FI # 
+                                </td>
+                                <td t-esc="doc.fi_number or ''"/>
+                                <td>
+                                    DATED: 
+                                </td>
+                                <td t-esc="doc.fi_date or ''"/>
+                            </tr>
+
+
+                        </table>
+                        <!-- Consignee Information -->
+                        <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="padding: 10px;">
+                                    <span>CONSIGNEE'S NAME:</span>
+                                    <span t-esc="doc.partner_shipping_id.display_name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">
+                                    <span>CONSIGNEE'S ADDRESS:</span>
+                                    <span t-esc="doc.partner_shipping_id.street"/>
+                                    <span t-esc="doc.partner_shipping_id.city"/>
+                                    <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Product Details Table -->
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <thead>
+                                <tr style="background-color: #f2f2f2;">
+                                    <th style="padding: 4px; border: 1px solid black;">S #</th>
+                                    <th style="padding: 4px; border: 1px solid black;">IMAGE</th>
+                                    <th style="padding: 4px; border: 1px solid black;">QTY</th>
+                                    <th style="padding: 4px; border: 1px solid black;">DESCRIPTION</th>
+                                    <th style="padding: 4px; border: 1px solid black;">HS CODE</th>
+                                    <th style="padding: 4px; border: 1px solid black;">PACKAGING</th>
+                                    <th style="padding: 4px; border: 1px solid black;">WEIGHT KG(s)</th>
+                                    <th style="padding: 4px; border: 1px solid black;">UNIT PRICE / <br/>
+ CTN(s)</th>
+                                    <th style="padding: 4px; border: 1px solid black;">AMOUNT</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px;">
+                                <!-- <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
                                     <tr>
                                         <td style="padding: 4px; border: 1px solid black;">
                                             <t t-esc="line[0]"/>
@@ -151,134 +190,134 @@
                                     </tr>
                                 </t> -->
 
-                            <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
-                            <t t-set="sub_category_lst" t-value="[]"/>
-                            <t t-set="product_lst" t-value="[]"/>
-                            <t t-set="s_no" t-value="1"/>
+                                <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
+                                <t t-set="sub_category_lst" t-value="[]"/>
+                                <t t-set="product_lst" t-value="[]"/>
+                                <t t-set="s_no" t-value="1"/>
 
-                            <t t-foreach="doc.order_line" t-as="line">
-                                <t t-if="line.product_id.categ_id.name not in sub_category_lst">
-                                    <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <t t-if="line.product_id.categ_id.name not in sub_category_lst">
+                                        <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
 
-                                    <tr>
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                        <td style="padding: 8px; border: 1px solid black;">
-                                            <strong>
-                                                <span t-esc="line.product_id.categ_id.name" />
-                                            </strong>
-                                            <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
-                                        </td>
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                        <td style="padding: 8px; border: 1px solid black;" />
-                                    </tr>
+                                        <tr>
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;">
+                                                <strong>
+                                                    <span t-esc="line.product_id.categ_id.name" />
+                                                </strong>
+                                                <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="padding: 8px; border: 1px solid black;" />
+                                        </tr>
 
-                                    <t t-foreach="doc.order_line" t-as="line">
-                                        <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
-                                            <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
+                                        <t t-foreach="doc.order_line" t-as="line">
+                                            <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
+                                                <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
 
-                                            <tr>
-                                                <td style="padding: 8px; border: 1px solid black;">
-                                                    <span t-esc="s_no"/>
-                                                    <t t-set="s_no" t-value="s_no+1"/>
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                    <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 80px; height: 80px;" />
-                                                    <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                    <!-- <span t-esc="line.product_uom_qty"/> -->
-                                                    <span t-esc="int(line.product_uom_qty)"/>
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid black;">
-                                                    <span t-esc="line.product_id.display_name"/>
-                                                </td>
-                                                <td style="padding: 4px; border: 1px solid black;">
-                                                    <t t-esc="line.hs_code_id.display_name"/>
-                                                </td>
-                                                <td style="padding: 4px; border: 1px solid black;">
-                                                    <t t-esc="line.packaging_detail_id.display_name"/>
-                                                </td>
-                                                <td style="padding: 4px; border: 1px solid black; text-align: right;">
-                                                    <t t-esc="line.product_id.weight"/>
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                    <span t-esc="line.price_unit"/>
-                                                </td>
-                                                <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                    <span t-esc="line.price_total"/>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td style="padding: 8px; border: 1px solid black;">
+                                                        <span t-esc="s_no"/>
+                                                        <t t-set="s_no" t-value="s_no+1"/>
+                                                    </td>
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 80px; height: 80px;" />
+                                                        <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
+                                                    </td>
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                        <!-- <span t-esc="line.product_uom_qty"/> -->
+                                                        <span t-esc="int(line.product_uom_qty)"/>
+                                                    </td>
+                                                    <td style="padding: 8px; border: 1px solid black;">
+                                                        <span t-esc="line.product_id.display_name"/>
+                                                    </td>
+                                                    <td style="padding: 4px; border: 1px solid black;">
+                                                        <t t-esc="line.hs_code_id.display_name"/>
+                                                    </td>
+                                                    <td style="padding: 4px; border: 1px solid black;">
+                                                        <t t-esc="line.packaging_detail_id.display_name"/>
+                                                    </td>
+                                                    <td style="padding: 4px; border: 1px solid black; text-align: right;">
+                                                        <t t-esc="line.product_id.weight"/>
+                                                    </td>
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                        <span t-esc="line.price_unit"/>
+                                                    </td>
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                        <span t-esc="line.price_total"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
                                         </t>
                                     </t>
                                 </t>
-                            </t>
-                            <!-- Syed Owais Noor <-> ByteCode -->
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2" style="padding: 4px; border: 1px solid black;">
-                                    <span t-field="doc.total_qty"/>
+                                <!-- Syed Owais Noor <-> ByteCode -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; border: 1px solid black;">
+                                        <span t-field="doc.total_qty"/>
  CARTONS
-                                </td>
-                                <td colspan="6" style="padding: 4px; border: 1px solid black; text-align: right;">
+                                    </td>
+                                    <td colspan="6" style="padding: 4px; border: 1px solid black; text-align: right;">
                                         TOAL FOB VALUE IN USD $ : 
-                                </td>
-                                <td style="padding: 4px; border: 1px solid black;">
-                                    <span t-field="doc.total"/>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    <br/>
-                    <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/> </p>
-                    
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <!-- Footer Section -->
-                    <div style="margin-top:20px;">
-                        <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P” </p>
-                        <p>                       
-                                Container Cleanliness Statement
+                                    </td>
+                                    <td style="padding: 4px; border: 1px solid black;">
+                                        <span t-field="doc.total"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <br/>
+                        <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/>
                         </p>
-                        <p>The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil and is free from KHAPRA BEATLE insect.</p>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <!-- Footer Section -->
+                        <div style="margin-top:20px;">
+                            <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P” </p>
+                            <p>                       
+                                Container Cleanliness Statement
+                            </p>
+                            <p>The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil and is free from KHAPRA BEATLE insect.</p>
+                        </div>
+
+
+                        <div style="margin-top: 20px;">
+                            <table style="width: 100%; text-align: center;">
+                                <tr>
+                                    <!-- NET WEIGHT -->
+                                    <td style="text-align: right; padding-right: 50px;">
+                                        <strong>NET WEIGHT IN KGS</strong>
+                                        <br />
+                                        <span t-field="doc.total_net_weight" />
+                                    </td>
+
+                                    <!-- GROSS WEIGHT -->
+                                    <td style="text-align: left; padding-left: 50px;">
+                                        <strong>GROSS WEIGHT IN KGS</strong>
+                                        <br />
+                                        <span t-field="doc.total_gross_weight" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+
+
                     </div>
-
-
-                    <div style="margin-top: 20px;">
-    <table style="width: 100%; text-align: center;">
-        <tr>
-            <!-- NET WEIGHT -->
-            <td style="text-align: right; padding-right: 50px;">
-                <strong>NET WEIGHT IN KGS</strong><br />
-                <span t-field="doc.total_net_weight" />
-            </td>
-
-            <!-- GROSS WEIGHT -->
-            <td style="text-align: left; padding-left: 50px;">
-                <strong>GROSS WEIGHT IN KGS</strong><br />
-                <span t-field="doc.total_gross_weight" />
-            </td>
-        </tr>
-    </table>
-</div>
-
-
-
-
-                    <!-- Custom Footer -->
-                    <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
-                        <img t-if="docs and docs[0].company_id.image_field_2" t-att-src="image_data_uri(docs[0].company_id.image_field_2)" alt="Footer Logo" style="width: 100%; height: auto;"/>
-                    </div>
-                </div>
+                </t>
             </t>
-        </t>
-    </template>
-</data>
+        </template>
+    </data>
 </odoo>
