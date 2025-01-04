@@ -15,7 +15,7 @@
 
           /* Header styles */
           .header {
-          position: fixed;
+          <!-- position: fixed; -->
           top: 0;
           left: 0;
           width: 100%;
@@ -30,7 +30,7 @@
 
           /* Footer styles */
           .footer {
-          position: fixed;
+          <!-- position: fixed; -->
           bottom: 0;
           left: 0;
           width: 100%;
@@ -50,10 +50,10 @@
           }
 
           /* To force page breaks between pages */
-          <!-- .page {
+          .page {
           margin-top: 90px; 
             margin-bottom: 30px;
-          } -->
+          }
 
 
           /* Adjusting image sizes */
@@ -75,7 +75,7 @@
           <!-- Header section (fixed at the top of each page) -->
           <div class="header" style="padding-bottom: 100px;">
             <!-- Header Content: Company logo -->
-            <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; height: 30mm;" />
+            <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; height: 20mm;" />
           </div>
 
           <div class="footer">
@@ -84,7 +84,7 @@
           </div>
 
           <!-- Content Section (this will scroll and fit in the middle of the page) -->
-          <div class="content" style="padding-top: 100px; ">
+          <div class="content" style="padding-top: 30px; ">
             <t t-foreach="docs" t-as="doc">
 
              <div style="margin-top: 10px; text-align: center;">
@@ -121,7 +121,7 @@ CARTONS OF VITAL TEA </td>
             </table>
 
             <t t-if="doc.order_line">
-              <h3 style="font-size: 14px;">PRODUCTS</h3>
+              <h3 style="font-size: 14px;">PRODUCTS</h3> 
               <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <thead>
                   <tr style="background-color: #f2f2f2;">
