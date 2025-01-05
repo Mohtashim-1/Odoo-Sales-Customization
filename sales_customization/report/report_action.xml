@@ -40,25 +40,25 @@
             
         </record>
 
-        <record id="action_report_performa_invoice2" model="ir.actions.report">
+        <!-- <record id="action_report_performa_invoice2" model="ir.actions.report">
             <field name="name">Financial Invoice</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">sales_customization.report_performa_invoice2</field> <!-- Matches t-name -->
+            <field name="report_name">sales_customization.report_performa_invoice2</field>
             <field name="binding_model_id" ref="sale.model_sale_order"/>
             <field name="binding_type">report</field>
-        </record>
+        </record> -->
 
         
 
-        <record id="action_report_order_sheet" model="ir.actions.report">
+        <!-- <record id="action_report_order_sheet" model="ir.actions.report">
             <field name="name">Order Sheet</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">sales_customization.report_order_sheet</field> <!-- Matches t-name -->
+            <field name="report_name">sales_customization.report_order_sheet</field> 
             <field name="binding_model_id" ref="sale.model_sale_order"/>
             <field name="binding_type">report</field>
-        </record>
+        </record> -->
 
         <record id="action_commercial_invoice_report" model="ir.actions.report">
             <field name="name">Commercial Invoice</field>
@@ -69,15 +69,7 @@
             <field name="binding_type">report</field>
         </record>
 
-        <record id="action_pi_report" model="ir.actions.report">
-            <field name="name">PI Invoice</field>
-            <field name="model">sale.order</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">sales_customization.pi</field> <!-- Matches t-name -->
-            <field name="binding_model_id" ref="sale.model_sale_order"/>
-            <field name="binding_type">report</field>
-        </record>
-
+      
         <record id="action_packaging_list" model="ir.actions.report">
             <field name="name">Packaging List</field>
             <field name="model">sale.order</field>
