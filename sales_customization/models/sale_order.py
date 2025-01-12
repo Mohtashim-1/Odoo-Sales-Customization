@@ -2,6 +2,7 @@ from odoo import fields, models, api
 from num2words import num2words
 from datetime import datetime
 from datetime import datetime, timedelta
+from odoo.exceptions import ValidationError
 
 # from odoo.addons.base.models.res_currency import amount_to_text
 
@@ -84,6 +85,25 @@ class SaleOrder(models.Model):
 
     shipping_line = fields.Char(string="Shipping Lline")
     total_items = fields.Integer(string="Total Items", compute="_compute_total_items")
+
+
+    @api.onchange('container_type', 'total_cbm','total_qty')
+    def _onchange_cbm_limit(self):
+        for record in self:
+            if record.container_type == '20fcl' and record.total_cbm > 27:
+                return {
+                    'warning': {
+                        'title': "CBM Exceeds Limit",
+                        'message': "The Total CBM exceeds the limit for 20FCL (27 CBM). Please check your data.",
+                    }
+                }
+            elif record.container_type == '40fcl' and record.total_cbm > 64:
+                return {
+                    'warning': {
+                        'title': "CBM Exceeds Limit",
+                        'message': "The Total CBM exceeds the limit for 40FCL (64 CBM). Please check your data.",
+                    }
+                }
 
     @api.depends('order_line')
     def _compute_total_items(self):
