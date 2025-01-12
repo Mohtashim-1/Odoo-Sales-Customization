@@ -56,7 +56,8 @@ class SaleOrderLine(models.Model):
             initial = cumulative_qty + 1  # Start of the range
             final = initial + line.product_uom_qty - 1  # End of the range
             cumulative_qty = final  # Update cumulative quantity for the next line
-            line.no_of_ctn = f"{initial} to {final}"  # Set the computed range for the line
+            # line.no_of_ctn = f"{initial} to {final}" 
+            line.no_of_ctn = f"{int(initial)} to {int(final)}"
 
     @api.depends('price_subtotal', 'product_uom_qty', 'order_id.total', 'order_id.amount_total')
     def _compute_custom_price(self):

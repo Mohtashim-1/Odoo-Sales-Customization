@@ -1,42 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <template id="bl_instruction" name="BL Instruction Report" t-name="sales_customization.bl_instruction">
-            <t t-call="web.external_layout">
+            <t t-call="web.html_container">
+                <t t-if="not o" t-set="o" t-value="docs" />
+                <t t-set="company" t-value="company_id" />
+
+                <style>
+                    table {
+                        page-break-inside: auto;
+                        border-collapse: collapse;
+                        width: 100%;
+                        border: 1px solid black;
+                    }
+                    tr {
+                        page-break-inside: avoid; /* Ensure rows do not break across pages */
+                        page-break-after: auto;
+                        border: 1px solid black;
+                    }
+                    thead {
+                        display: table-header-group;
+                    }
+                    tfoot {
+                        display: table-footer-group;
+                    }
+                    tbody {
+                        display: table-row-group;
+                    }
+                    .page-break {
+                        page-break-before: always;
+                    }
+                </style>
+
                 <t t-foreach="docs" t-as="doc">
+                    <t t-set="categories" t-value="list(set(doc.order_line.mapped('product_id.categ_id.name')))"/>
+                    <t t-set="total_rows" t-value="len(doc.order_line) + len(categories)"/>
+
                     <main style="font-family: Arial, sans-serif; font-size: 10px;">
                         <!-- Header Section -->
                         <div>
-                            <table style="width: 100%; border-collapse: collapse;">
+                            <table>
                                 <tr>
-                                    <td style="text-align: left; font-weight: bold;">
+                                    <td style="width: 50%; padding: 5px; text-align: left; font-weight: bold; border-right: 1px solid black;">
                                         SHIPPER/EXPORTER<br />
                                         M/S EASTERN PRODUCTS PVT. LTD<br />
-                                        PLOT NO. 50 &amp; 56, VITAL HOUSE,<br />
+                                        H/O: PLOT NO. 50 &amp; 56, VITAL HOUSE,<br />
                                         HAROONABAD 62100 - PAKISTAN<br />
-                                        TEL: +92 63 111 037 037
+                                        TEL: +92 63 111 037 037<br />
+                                        <br />
+                                        CONSIGNEE<br />
+                                        TO THE ORDER OF:<br />
+                                        MEEZAN BANK LTD<br />
+                                        SHAHRAH-E-FAISAL BRANCH<br />
+                                        <br />
+                                        FI # MBL-EXP-333266-16082024<br />
+                                        DATED: 16-08-2024
                                     </td>
-                                    <td style="text-align: right; font-weight: bold; background-color: lightblue;">
+                                    <td style="width: 50%; text-align: center; font-weight: 900; font-size: 30px; background-color: lightblue;">
                                         BL INSTRUCTIONS
                                     </td>
                                 </tr>
                             </table>
                         </div>
                         
-                        <!-- Consignee Section -->
+                        <!-- Notify Party Section -->
                         <div style="margin-top: 10px;">
-                            <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                            <table>
                                 <tr>
                                     <td style="padding: 5px; border: 1px solid black;">
-                                        CONSIGNEE:<br />
-                                        TO THE ORDER OF:<br />
-                                        <strong>MEEZAN BANK LTD</strong>
-                                    </td>
-                                    <td style="padding: 5px; border: 1px solid black;">
-                                        NOTIFY PARTY PLACE OF DELIVERY:<br />
+                                        <strong>NOTIFY PARTY PLACE OF DELIVERY:</strong><br />
                                         M/S ADVANCE FOOD INTL, INC.<br />
                                         U.S.A<br />
                                         TEL: +1(718) 482 0123
+                                    </td>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        <strong>PLACE OF DELIVERY:</strong> <br />
                                     </td>
                                 </tr>
                             </table>
@@ -44,13 +81,36 @@
 
                         <!-- Loading and Port Details -->
                         <div style="margin-top: 10px;">
-                            <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                            <table>
                                 <tr>
                                     <td style="padding: 5px; border: 1px solid black;">
-                                        LOADING PORT: <span t-esc="doc.loading_port" />
+                                        <strong>LOADING PORT:</strong> <span t-esc="doc.loading_port" />
                                     </td>
                                     <td style="padding: 5px; border: 1px solid black;">
-                                        PORT OF DISCHARGE: <span t-esc="doc.port_of_discharge" />
+                                       <strong> PORT OF DISCHARGE:</strong> <span t-esc="doc.port_of_discharge" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+						<!-- Loading and Port Details -->
+                        <div style="margin-top: 10px;">
+                            <table>
+                                <tr>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        <strong>MARKS &amp; NUMBERS </strong>
+										<!-- <span t-esc="doc.markings" /> -->
+                                    </td>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        <strong>NO OF PKGS</strong> <span><t t-if="doc.total_cbm > 30">
+                                                    <p> 1 x 40 FCL</p>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>1 x 20 FCL</p>
+                                                </t></span>
+                                    </td>
+									<td style="padding: 5px; border: 1px solid black;">
+                                        <strong>GROSS WEIGHT</strong> <span t-esc="doc.port_of_discharge" />
                                     </td>
                                 </tr>
                             </table>
@@ -58,40 +118,51 @@
 
                         <!-- Goods Table -->
                         <div style="margin-top: 10px;">
-                            <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                            <table>
                                 <thead style="background-color: lightblue; text-align: center;">
                                     <tr>
-                                        <th style="border: 1px solid black; padding: 5px;">Marks &amp; Numbers</th>
                                         <th style="border: 1px solid black; padding: 5px;">Description of Goods</th>
                                         <th style="border: 1px solid black; padding: 5px;">Quantity</th>
-                                        <th style="border: 1px solid black; padding: 5px;">Gross Weight</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="doc.order_line" t-as="line">
-                                        <tr>
-                                            
-                                            <td style="border: 1px solid black; padding: 5px;"><span t-esc="line.markings" /></td>
-                                            <td style="border: 1px solid black; padding: 5px;"><span t-esc="line.product_id.display_name" /></td>
-                                            <td style="border: 1px solid black; padding: 5px; text-align: center;">
-                                                <span t-esc="line.product_uom_qty" />
-                                            </td>
-                                            <td style="border: 1px solid black; padding: 5px; text-align: center;">
-                                                <span t-esc="line.gross_weight" />
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        
+                                        <t t-set="first_category" t-value="categories[0] if categories else ''"/>
+                                        <td colspan="2" style="border: 1px solid black; padding: 8px; background-color: lightgray;">
+                                            <strong><span t-esc="first_category"/></strong>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Categories and Products -->
+                                    <t t-foreach="categories" t-as="category">
+                                        <t t-if="category != first_category">
+                                            <tr>
+                                                <td colspan="2" style="border: 1px solid black; padding: 8px; background-color: lightgray;">
+                                                    <strong><span t-esc="category"/></strong>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <!-- Product lines -->
+                                        <t t-foreach="doc.order_line.filtered(lambda l: l.product_id.categ_id.name == category)" t-as="line">
+                                            <tr>
+                                               
+                                                <td style="border: 1px solid black; padding: 5px;">
+                                                    <span t-esc="line.product_id.display_name"/>
+                                                </td>
+                                                <td style="border: 1px solid black; padding: 5px; text-align: center;">
+                                                    <span t-esc="line.product_uom_qty"/>
+                                                </td>
+                                                
+                                            </tr>
+                                        </t>
                                     </t>
                                 </tbody>
                             </table>
                         </div>
-
-
-                        <!-- Footer Section -->
-                        <div style="margin-top: 10px; text-align: center; border-top: 1px solid black; padding-top: 10px;">
-                            PL RESOLVE THE DRAFT FOR OUR FINAL APPROVAL<br />
-                            SHIPPER LOAD &amp; COUNT
-                        </div>
-                </main>
+                    </main>
                 </t>
             </t>
         </template>

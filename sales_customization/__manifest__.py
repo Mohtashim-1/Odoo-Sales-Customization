@@ -32,10 +32,12 @@
     "report/order_sheet.xml",
     'report/commercial_invoice.xml',
     'report/packaging_list.xml',
+    'report/pi.xml',
     'report/financial_report.xml',
     'report/export_order.xml',
     'report/bl_instruction.xml',
     'report/custom_invoice.xml',
+    
     'views/menu.xml',
     # "report/report.xml"
 ],

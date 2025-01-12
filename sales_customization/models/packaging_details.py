@@ -31,6 +31,6 @@ class PackagingDetails(models.Model):
                 weight = int(record.weight) if record.weight.is_integer() else record.weight
                 
                 # Set the packaging_detail field
-                record.packaging_detail = f"{net_weight} GM X {no_of_pieces} POUCH X {weight} CTN"
+                record.packaging_detail = f"{net_weight} Gm X {no_of_pieces} Pouch X {weight} Ctn"
             else:
                 record.packaging_detail = "0 GM X 0 POUCH X 0 CTN"

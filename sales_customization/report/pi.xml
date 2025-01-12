@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="commercial_invoice_report" name="Commercial Invoice Report" t-name="sales_customization.commercial_invoice_report">
+        <template id="pi_report" name="Invoice Report" t-name="sales_customization.pi">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <style>
@@ -49,17 +49,17 @@
                         <!-- Custom Footer -->
                         <!-- Custom Footer -->
                             <div class="footer">
-    <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" 
-         style="width: 100%; max-width: 240mm; height: auto;" />
-</div>
-
+                                <img t-if="doc.company_id.image_field_2" 
+                                    t-att-src="image_data_uri(doc.company_id.image_field_2)" 
+                                    alt="Footer Logo" />
+                            </div>
                         <!-- Header Section -->
                         <p>
-                            <strong>INVOICE NO: </strong>
+                            INVOICE NO: 
                             <span t-esc="doc.pi_no"/>
                         </p>
                         <p>
-                           <strong> DATED: </strong>
+                            DATED: 
                             <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/>
                         </p>
                         <!-- Shipment Details Section -->
@@ -79,51 +79,51 @@
                         </tr> -->
                             <tr>
                                 <td>
-                                  <strong> CONTAINERS OF VITAL TEA: </strong>
+                                   CONTAINERS OF VITAL TEA: 
                                 </td>
                                 <td t-esc="doc.total_qty or ''"/>
                                 <td>
-                                    <strong>SHIPPED IN SOUND CONDITION </strong>
+                                    SHIPPED IN SOUND CONDITION 
                                 </td>
                                 <td t-esc="doc.shipping_line or ''"/>
                             </tr>
                             <tr>
                                 <td>
-                                  <strong> CONTAINER NO: </strong>
+                                   CONTAINER NO: 
                                 </td>
                                 <td t-esc="doc.container_no or ''"/>
                                 <td>
-                                    <strong>DATE: </strong>
+                                    DATE: 
                                 </td>
                                 <td t-esc="doc.bl_date or ''"/>
                             </tr>
                             <tr>
                                 <td>
-                                   <strong> FROM: </strong>
+                                    FROM: 
                                 </td>
                                 <td t-esc="doc.destination or ''"/>
                                 <td>
-                                   <strong> TO: </strong>
+                                    TO: 
                                 </td>
                                 <td t-esc="doc.delivery or ''"/>
                             </tr>
                             <tr>
                                 <td>
-                                   <strong> PAYMENT TERMS: </strong>
+                                    PAYMENT TERMS: 
                                 </td>
                                 <td t-esc="doc.destination or ''"/>
                                 <td>
-                                 <strong>   FDA: </strong>
+                                    FDA: 
                                 </td>
                                 <td t-esc="doc.fda or ''"/>
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>FI # </strong>
+                                    FI # 
                                 </td>
                                 <td t-esc="doc.fi_number or ''"/>
                                 <td>
-                                 <strong>   DATED:  </strong>
+                                    DATED: 
                                 </td>
                                 <td t-esc="doc.fi_date or ''"/>
                             </tr>
@@ -134,13 +134,13 @@
                         <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
                             <tr>
                                 <td style="padding: 10px;">
-                                    <span><strong>CONSIGNEE'S NAME:</strong></span>
+                                    <span>CONSIGNEE'S NAME:</span>
                                     <span t-esc="doc.partner_shipping_id.display_name"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px;">
-                                    <span><strong>CONSIGNEE'S ADDRESS:</strong></span>
+                                    <span>CONSIGNEE'S ADDRESS:</span>
                                     <span t-esc="doc.partner_shipping_id.street"/>
                                     <span t-esc="doc.partner_shipping_id.city"/>
                                     <span t-esc="doc.partner_shipping_id.country_id.name"/>
@@ -226,13 +226,12 @@
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
+                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 80px; height: 80px;" />
                                                         <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
                                                         <!-- <span t-esc="line.product_uom_qty"/> -->
-                                                        <!-- <span t-esc="int(line.product_uom_qty)"/> -->
-                                                        <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
+                                                        <span t-esc="int(line.product_uom_qty)"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black;">
                                                         <span t-esc="line.product_id.display_name"/>
@@ -245,14 +244,12 @@
                                                     </td>
                                                     <td style="padding: 4px; border: 1px solid black; text-align: right;">
                                                         <t t-esc="line.product_id.weight"/>
-                                                        <span t-esc="'{:.0f}'.format(line.product_id.weight)" />
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <span t-esc="line.custom_price" />
+                                                        <span t-esc="line.price_unit"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <!-- <span t-esc="line.price_total"/> -->
-                                                         <span t-esc="'{:.2f}'.format(line.price_total)" />
+                                                        <span t-esc="line.price_total"/>
                                                     </td>
                                                 </tr>
                                             </t>

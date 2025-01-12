@@ -4,6 +4,28 @@
         <template id="custom_invoice" name="Custom Invoice" t-name="sales_customization.custom_invoice">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
+                <style>
+                    
+                    .footer img {
+                        width: 100%;
+                        max-width: 210mm;
+                        height: auto;
+                    }
+                    table {
+                        border: 1px solid black;
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: left;
+                        border: 1px solid black;
+                    }
+                    .header img {
+                        width: 100%;
+                        height: auto;
+                    }
+                </style>
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">                        <!-- Header Section -->
                         <div class="header" style="text-align: center; margin-bottom: 30px;">
                             <div>
@@ -13,30 +35,36 @@
                                 <h1 style="font-size: 24px; font-weight: bold;">Custom Invoice</h1>
                             </div>
                         </div>                        <!-- Invoice Details -->
+                        
+            <div class="footer">
+    <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" 
+         style="width: 100%; max-width: 240mm; height: auto;" />
+</div>
+
                         <div style="margin-top: 20px;">
                             <p>
-                                <strong>Invoice No:</strong>
+                                <strong>INVOICE NO:</strong>
                                 <span t-esc="doc.pi_no"/>
                             </p>
                             <p>
-                                <strong>Total Cartoon:</strong>
+                                <strong>TOTAL CARTON:</strong>
                                 <t t-esc="doc.container_cbm"/>
                             </p>
 
                             <P>
-                                Shipped in sound condition <br/>
+                                SHIPPED IN SOUND CONDITION <br/>
                             <span t-esc="doc.shipping_line"/>
                         </P>
                         <p>
-                            <strong>From:</strong>
+                            <strong>FROM:</strong>
                             <t t-esc="doc.destination"/>
                         </p>
                         <p>
-                            <strong>To:</strong>
+                            <strong>TO:</strong>
                             <t t-esc="doc.delivery"/>
                         </p>
                         <p>
-                            <strong>Payment Terms:</strong>
+                            <strong>PAYMENT TERMS:</strong>
                             <t t-esc="doc.payment_term_id.name"/>
                         </p>
 
@@ -60,9 +88,9 @@
                     <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; border: 1px solid black;">
                         <tr>
                             <td style="border: 1px solid black; padding: 5px;">
-            Consignee Name : <t t-esc="doc.partner_id.name"/>
+            CONSIGNEE NAME : <t t-esc="doc.partner_id.name"/>
                             <br/>
-            Consignee Address : <t t-esc="doc.partner_id.street"/>
+            CONSIGNEE ADDRESS : <t t-esc="doc.partner_id.street"/>
                         <br/>
                     </td>
                 </tr>
@@ -148,7 +176,7 @@
                                             <t t-set="s_no" t-value="s_no+1"/>
                                         </td>
                                         <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                            <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 100%; max-width: 210mm; height: 30mm;" />
+                                            <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
                                             <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
                                         </td>
                                         <td style="padding: 8px; border: 1px solid black;">
@@ -164,13 +192,16 @@
                                             <t t-esc="line.packaging_detail_id.display_name"/>
                                         </td>
                                         <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                            <span t-esc="line.gross_weight"/>
+                                            <!-- <span t-esc="line.gross_weight"/> -->
+                                             <span t-esc="'{:.0f}'.format(line.gross_weight)" />
                                         </td>
                                         <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                            <span t-esc="line.price_unit"/>
+                                            <!-- <span t-esc="line.price_unit"/> -->
+                                            <span t-esc="'{:.2f}'.format(line.price_unit)" />
                                         </td>
                                         <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                            <span t-esc="line.price_total"/>
+                                            <!-- <span t-esc="line.price_total"/> -->
+                                            <span t-esc="'{:.2f}'.format(line.price_total)" />
                                         </td>
                                     </tr>
                                 </t>
@@ -182,13 +213,15 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" style="padding: 4px; border: 1px solid black;">
-                            <span t-field="doc.total_qty" />
+                            <!-- <span t-field="doc.total_qty" /> -->
+                            <span t-esc="'{:.0f}'.format(doc.total_qty)" />
  CARTONS </td>
                         <td colspan="5" style="padding: 4px; border: 1px solid black; text-align: right;">
                             <strong>TOTAL FOB VALUE IN USD $ :</strong>
                         </td>
                         <td style="padding: 4px; border: 1px solid black;">
-                            <span t-field="doc.total" />
+                            <!-- <span t-field="doc.total" /> -->
+                            <span t-esc="'{:.2f}'.format(doc.total)" />
                         </td>
                     </tr>
                 </tfoot>
@@ -210,23 +243,23 @@
                         <td style="text-align: right; padding-right: 50px;">
                             <strong>NET WEIGHT IN KGS</strong>
                             <br />
-                            <span t-field="doc.total_net_weight" />
+                            <!-- <span t-field="doc.total_net_weight" /> -->
+                            <span t-esc="'{:.0f}'.format(doc.total_net_weight)" />
                         </td>
 
                         <!-- GROSS WEIGHT -->
                         <td style="text-align: left; padding-left: 50px;">
                             <strong>GROSS WEIGHT IN KGS</strong>
                             <br />
-                            <span t-field="doc.total_gross_weight" />
+                            <!-- <span t-field="doc.total_gross_weight" /> -->
+                            <span t-esc="'{:.0f}'.format(doc.total_gross_weight)" />
                         </td>
                     </tr>
                 </table>
             </div>
 
 
-            <div class="custom-footer" style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px;">
-                <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; height: auto;"/>
-            </div>
+            
         </div>
     </t>
 </t>
