@@ -241,11 +241,11 @@
                                                         <span t-esc="s_no"/>
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
                                                         <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <!-- <span t-esc="line.product_uom_qty"/> -->
                                                         <!-- <span t-esc="int(line.product_uom_qty)"/> -->
                                                         <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
@@ -256,18 +256,18 @@
                                                     <td style="padding: 4px; border: 1px solid black;">
                                                         <t t-esc="line.hs_code_id.display_name"/>
                                                     </td>
-                                                    <td style="padding: 4px; border: 1px solid black;">
+                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
                                                         <t t-esc="line.packaging_detail_id.display_name"/>
                                                     </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
                                                         <t t-esc="line.product_id.weight"/>
                                                         <span t-esc="'{:.0f}'.format(line.product_id.net_weight)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <!-- <span t-esc="line.price_unit" /> -->
                                                         <span t-esc="'{:.2f}'.format(line.price_unit)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <!-- <span t-esc="line.price_total"/> -->
                                                          <span t-esc="'{:.2f}'.format(line.price_total)" />
                                                     </td>
@@ -294,6 +294,39 @@
                             </tfoot> -->
                         </table>
                         <br/>
+                        <table style="width: 100%;">
+  <tr>
+    <td style="width: 70%; padding-top: 50px;"></td> <!-- Empty column for spacing -->
+    <td style="padding-top: 50px;"><strong>TOAL FOB VALUE IN USD $ :</strong></td>
+    <td style="width: 10%; padding-top: 50px;"></td>
+    <td style="padding-top: 50px;"><span t-esc="'{:.2f}'.format(doc.total)" /></td>
+</tr>
+  <tr>
+    <td style="width: 70%;"></td> <!-- Empty column for spacing -->
+    <td><strong>Freight:</strong></td>
+    <td style="width: 10%; "></td>
+    <td ><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+</tr>
+  <tr>
+    <td style="width: 70%;"></td> <!-- Empty column for spacing -->
+    <td ><strong>Credit Note:</strong></td>
+    <td style="width: 10%;"></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style="width: 60%;"></td> <!-- Empty column for spacing -->
+    <td style="width: 20%;" >
+      <strong>
+      <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
+      <t t-else="">Net FOB Value:</t>
+      </strong>
+    
+    </td>
+    <td style="width: 10%;"></td>
+    <td style="width: 10%;"> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+  </tr>
+  
+</table>
                         <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/>
                         </p>
 

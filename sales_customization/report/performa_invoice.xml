@@ -332,11 +332,11 @@
 <!-- <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p> -->
 <table style="width: 100%;">
   <tr>
-    <td style="width: 70%;"></td> <!-- Empty column for spacing -->
-    <td ><strong>Frieght:</strong></td>
-    <td style="width: 10%;"></td>
-    <td><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
-  </tr>
+    <td style="width: 70%; padding-top: 50px;"></td> <!-- Empty column for spacing -->
+    <td style="padding-top: 50px;"><strong>Freight:</strong></td>
+    <td style="width: 10%; padding-top: 50px;"></td>
+    <td style="padding-top: 50px;"><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+</tr>
   <tr>
     <td style="width: 70%;"></td> <!-- Empty column for spacing -->
     <td ><strong>Credit Note:</strong></td>
