@@ -1,6 +1,7 @@
 from odoo import fields, models, api
 from num2words import num2words
 from datetime import datetime
+from datetime import datetime, timedelta
 
 # from odoo.addons.base.models.res_currency import amount_to_text
 
@@ -43,6 +44,10 @@ class SaleOrder(models.Model):
     port_of_discharge = fields.Char(string="Port Of Discharge")
     # fi_date = fields.Date(string="FI Date")
     fi_date = fields.Date(string='FI Date')
+    required_date = fields.Date(
+        string='Required Date',
+        default=lambda self: fields.Date.to_string(fields.Date.context_today(self) + timedelta(days=7))
+    )
     order_date = fields.Date(string='Order Date')
     bl_no = fields.Char(string="BL Number")
     bl_date = fields.Date(string='BL Date')

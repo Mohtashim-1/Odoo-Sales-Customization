@@ -95,5 +95,5 @@ class SaleOrderLine(models.Model):
             pounds = float(lbs)  # Whole pounds
             ounces = lbs * 16  # Remainder as ounces
             # Format pounds and ounces with 2 decimal places
-            line.lbs_oz = f"{pounds:.2f} lbs {ounces:.2f} oz"
+            line.lbs_oz = f"{pounds:.0f} lbs {ounces:.2f} oz"
     

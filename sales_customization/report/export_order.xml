@@ -32,10 +32,10 @@
                             <div>
                                 <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
                             </div>
-                            <div >
+                            <!-- <div >
                                 <h1 style="font-size: 24px; font-weight: bold;">Export Order</h1>
-                                <!-- <h3>Invoice No. <span t-esc="doc.name" /></h3> -->
-                            </div>
+                                 <h3>Invoice No. <span t-esc="doc.name" /></h3>
+                            </div> -->
                         </div>
 
                         
@@ -51,24 +51,92 @@
                              <br/><br/>
                              <br/><br/> -->
 
-                        <div >
-                            <p><strong>DATED:</strong> <t t-esc="doc.date_order"/>
-                            </p>
-                            <p><strong>ORDER NO:</strong> <t t-esc="doc.pi_no"/>
-                            </p>
-                            <p><strong>NAME OF BUYER:</strong> <t t-esc="doc.partner_id.name"/>
-                            </p>
-                            <p><strong>CONTAINER CBM:</strong> <t t-esc="doc.container_cbm"/>
-                            </p>
-                            <p><strong>DESTINATION:</strong> <t t-esc="doc.destination"/>
-                            </p>
-                            <p><strong>DELIVERY:</strong><t t-esc="doc.delivery"/>
-                            </p>
-                            <!-- <p><strong>CONTAINER:</strong> <t t-esc="doc.container_no"/>
-                            </p> -->
-                            <p><strong>ORDER DATE:</strong> <t t-esc="doc.order_date"/>
-                            </p>
-                        </div>
+                        <div style=" text-align: center;">
+                                <h1 style="font-size: 24px; font-weight: bold;">EXPORT ORDER</h1>
+                                <span t-esc="doc.pi_no"/>
+                            </div>
+                        <table class="table table-condensed" style="width:100%; margin-top:20px;">
+                            <!-- <tr>
+                                <td>
+                                    CARTONS OF VITAL TEA: 
+                                </td>
+                                <td t-esc="doc.total_qty"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                SHIPPED IN SOUND CONDITION
+                               </td>
+                            <td>VOYAGE NO.</td>
+                            <td t-esc="doc.voyage"/>
+                        </tr> -->
+                            <tr>
+                                <td>
+                                  <strong>DATED: </strong>
+
+                                </td>
+                                <td>
+                                <!-- <t t-esc="doc.date_order"/> -->
+                                <span t-esc="doc.date_order.strftime('%d-%m-%Y')"/>
+                                </td>
+                                <td>
+                                    <strong>ORDER NO:</strong>
+                                </td>
+                                <td >
+                                <t t-esc="doc.pi_no"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <strong> NAME OF BUYER: </strong>
+                                </td>
+                                <td>
+
+                                    <t t-esc="doc.partner_id.name"/>
+
+                                </td>
+                                <td>
+                                    <strong>CONTAINER CBM: </strong>
+                                </td>
+                                <td >
+                                <t t-esc="doc.container_cbm"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <strong> DESTINATION: </strong>
+                                </td>
+                                <td >
+
+                                    <t t-esc="doc.destination"/>
+
+                                </td>
+                                <td>
+                                    <strong>DELIVERY: </strong>
+                                </td>
+                                <td >
+
+                                    <t t-esc="doc.delivery"/>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <strong> ORDER DATE: </strong>
+                                </td>
+                                <td >
+
+                                <t t-esc="doc.order_date"/>
+
+                                </td>
+                                
+                            </tr>
+                            
+
+
+                        </table>
+
+                        
 
                         <!-- Products Table -->
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
@@ -146,7 +214,7 @@
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 80px; height: 80px;" />
+                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 40px; height: 40px;" />
                                                         <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black;">
@@ -177,7 +245,7 @@
                                 </t>
                                 <!-- Syed Owais Noor <-> ByteCode -->
                             </tbody>
-                            <tfoot>
+                            <!-- <tfoot>
                                 <tr>
                                     <td colspan="9" style="padding: 4px; border: 1px solid black;">
                                        <strong>TOTAL CARTONS</strong>    
@@ -187,11 +255,23 @@
 
 
                                 </tr>
-                            </tfoot>
+                            </tfoot> -->
                         </table>
+
+                        
 
                         <br/>
                         <br/>
+                        <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p>
+                        <table>
+                        <tr>
+    <td style="width: 60%;"></td> <!-- Empty column for spacing -->
+    <td style="width: 30%;" ><strong>TOTAL CARTONS :</strong></td>
+    <td style="width: 10%; "></td>
+    <td style="width: 10%; " ><span t-esc="'{:.2f}'.format(doc.total_qty)" /></td>
+</tr>
+   
+                        </table>
 
                         <!-- Additional Information Section -->
                         <div style="display: flex; justify-content: space-between; align-items: flex-start;">

@@ -10,8 +10,10 @@
             <!-- <field name="customer_vat" readonly="1"/>
             <field name="address"/> -->
             <field name="partner_code"  />
+            <field name="required_date"  />
             <field name="customer_container"  />
             <field name="container_type"  />
+            
             <!-- <field name="container_carrier"  /> -->
             <field name="pi_no"  />
             <field name="shipping_line" />
