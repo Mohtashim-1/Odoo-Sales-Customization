@@ -26,6 +26,8 @@
                 <field name="custom_price" optional="show"  />
                 <field name="no_of_ctn" optional="show"  />
                 <field name="lbs_oz" optional="show"  />
+                <field name="status" optional="show"  />
+                <field name="description" optional="show"  />
 
             </xpath>
         </field>

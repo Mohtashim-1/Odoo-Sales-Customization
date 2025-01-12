@@ -34,6 +34,11 @@
 
         <xpath expr="//field[@name='tag_ids']" position="after">
             <!-- <field name="delivery_date" /> -->
+            <field name="label_name" />
+            <field name="manufactory_date" />
+            <field name="expiry_date" />
+            <field name="best_before" />
+            <field name="print_instruction" />
             <field name="destination" />
             <field name="delivery" />
             <field name="fda" />
