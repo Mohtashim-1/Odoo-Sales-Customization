@@ -24,10 +24,12 @@
                 <field name="fcl_40" optional="show" />
                 <field name="shelf_life" optional="show" />
                 <field name="custom_price" optional="show"  />
+                <field name="custom_amount" optional="show"  />
                 <field name="no_of_ctn" optional="show"  />
                 <field name="lbs_oz" optional="show"  />
                 <field name="status" optional="show"  />
                 <field name="description" optional="show"  />
+                <field name="analysis" optional="show"  />
 
             </xpath>
         </field>

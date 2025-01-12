@@ -31,9 +31,7 @@
                             <div>
                                 <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;"/>
                             </div>
-                            <div style="margin-top: 10px;">
-                                <h1 style="font-size: 24px; font-weight: bold;">Custom Invoice</h1>
-                            </div>
+                            
                         </div>                        <!-- Invoice Details -->
                         
             <div class="footer">
@@ -41,7 +39,7 @@
          style="width: 100%; max-width: 240mm; height: auto;" />
 </div>
 
-                        <div style="margin-top: 20px;">
+                        <!-- <div style="margin-top: 20px;">
                             <p>
                                 <strong>INVOICE NO:</strong>
                                 <span t-esc="doc.pi_no"/>
@@ -84,8 +82,114 @@
                         </p>
 
 
-                    </div>                    <!-- Consignee Details -->
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; border: 1px solid black;">
+                    </div>                    -->
+
+                    <!-- Shipment Details Section -->
+                    <div style="margin-top: 10px; text-align: center;">
+                                <h1 style="font-size: 24px; font-weight: bold;">Custom Invoice</h1>
+                            </div>
+                        <table class="table table-condensed" style="width:100%; margin-top:20px;">
+                            <!-- <tr>
+                                <td>
+                                    CARTONS OF VITAL TEA: 
+                                </td>
+                                <td t-esc="doc.total_qty"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                SHIPPED IN SOUND CONDITION
+                               </td>
+                            <td>VOYAGE NO.</td>
+                            <td t-esc="doc.voyage"/>
+                        </tr> -->
+                            <tr>
+                                <td>
+                                  <strong> CONTAINERS OF VITAL TEA: </strong>
+                                </td>
+                                <td>
+                                <span t-esc="'{:.2f}'.format(doc.total_qty)" />
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td>
+                                  <strong> BL NO: </strong>
+                                </td>
+                                <td t-esc="doc.bl_no or ''"/>
+                                <td>
+                                    <strong>DATE: </strong>
+                                </td>
+                                <td t-esc="doc.bl_date or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <strong> CONTAINER NO: </strong>
+                                </td>
+                                <td t-esc="doc.container_no or ''"/>
+                                <td>
+                                    <strong>DATE: </strong>
+                                </td>
+                                <td t-esc="doc.bl_date or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <strong> FROM: </strong>
+                                </td>
+                                <td t-esc="doc.destination or ''"/>
+                                <td>
+                                   <strong> TO: </strong>
+                                </td>
+                                <td t-esc="doc.delivery or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <strong> PAYMENT TERMS: </strong>
+                                </td>
+                                <td t-esc="doc.destination or ''"/>
+                                <td>
+                                 <strong>   FDA: </strong>
+                                </td>
+                                <td t-esc="doc.fda or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>FI # </strong>
+                                </td>
+                                <td t-esc="doc.fi_number or ''"/>
+                                <td>
+                                 <strong>   DATED:  </strong>
+                                </td>
+                                
+                                <td><span t-esc="doc.fi_date.strftime('%d-%m-%Y')"/></td>
+                            </tr>
+
+
+                        </table>
+                        <!-- Consignee Information -->
+                        <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="padding: 10px;">
+                                    <span><strong>CONSIGNEE'S NAME:</strong></span>
+                                    <span t-esc="doc.partner_shipping_id.display_name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">
+                                    <span><strong>CONSIGNEE'S ADDRESS:</strong></span>
+                                    <span t-esc="doc.partner_shipping_id.street"/>
+                                    <span t-esc="doc.partner_shipping_id.city"/>
+                                    <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                <strong>SHIPPED IN SOUND CONDITION PER S.S</strong>
+                                </td>
+                                <td t-esc="doc.shipping_line or ''"/>
+                            </tr>
+                        </table>
+                     <!-- Consignee Details -->
+                    <!-- <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; border: 1px solid black;">
                         <tr>
                             <td style="border: 1px solid black; padding: 5px;">
             CONSIGNEE NAME : <t t-esc="doc.partner_id.name"/>
@@ -94,20 +198,20 @@
                         <br/>
                     </td>
                 </tr>
-            </table>
+            </table> -->
             <!-- Products Table -->
             <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
                 <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
                     <tr>
-                        <th style="padding: 8px; border: 1px solid black;">S.NO.</th>
-                        <th style="padding: 8px; border: 1px solid black;">IMAGE</th>
-                        <th style="padding: 8px; border: 1px solid black;">PRODUCT</th>
-                        <th style="padding: 8px; border: 1px solid black;">HS CODE</th>
-                        <th style="padding: 8px; border: 1px solid black;">ANALYSIS</th>
-                        <th style="padding: 8px; border: 1px solid black;">PACKAGING</th>
-                        <th style="padding: 8px; border: 1px solid black;">WEIGHT</th>
-                        <th style="padding: 8px; border: 1px solid black;">UNIT PRICE / CTN</th>
-                        <th style="padding: 8px; border: 1px solid black;">AMOUNT</th>
+                        <th style="padding: 8px; border: 1px solid black;">S.No.</th>
+                        <th style="padding: 8px; border: 1px solid black;">Image</th>
+                        <th style="padding: 8px; border: 1px solid black;">Product</th>
+                        <th style="padding: 8px; border: 1px solid black;">HS Code</th>
+                        <th style="padding: 8px; border: 1px solid black;">Analysis</th>
+                        <th style="padding: 8px; border: 1px solid black;">Packaging</th>
+                        <th style="padding: 8px; border: 1px solid black;">Weight</th>
+                        <th style="padding: 8px; border: 1px solid black;">Unit Price / CTN</th>
+                        <th style="padding: 8px; border: 1px solid black;">Amount</th>
                     </tr>
                 </thead>
                 <tbody style="font-size: 14px;">
@@ -182,26 +286,27 @@
                                         <td style="padding: 8px; border: 1px solid black;">
                                             <span t-esc="line.name"/>
                                         </td>
-                                        <td style="padding: 8px; border: 1px solid black;">
+                                        <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                             <span t-esc="line.hs_code_id.name"/>
                                         </td>
                                         <td style="padding: 4px; border: 1px solid black;">
                                             <t t-esc="line.analysis"/>
                                         </td>
-                                        <td style="padding: 4px; border: 1px solid black;">
+                                        <td style="padding: 4px; border: 1px solid black; text-align: center;">
                                             <t t-esc="line.packaging_detail_id.display_name"/>
                                         </td>
-                                        <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                        <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                             <!-- <span t-esc="line.gross_weight"/> -->
-                                             <span t-esc="'{:.0f}'.format(line.gross_weight)" />
+                                            $  <span t-esc="'{:.0f}'.format(line.gross_weight)" />
                                         </td>
-                                        <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                            <!-- <span t-esc="line.price_unit"/> -->
-                                            <span t-esc="'{:.2f}'.format(line.price_unit)" />
+                                        <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                            <!-- <span t-esc="line.custom_price"/> -->
+                                           $ <span t-esc="'{:.2f}'.format(line.custom_price)" />
+                                            <!-- <span t-esc="'{:.2f}'.format(line.price_unit)" /> -->
                                         </td>
-                                        <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                        <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                             <!-- <span t-esc="line.price_total"/> -->
-                                            <span t-esc="'{:.2f}'.format(line.price_total)" />
+                                           $  <span t-esc="'{:.2f}'.format(line.custom_amount)" />
                                         </td>
                                     </tr>
                                 </t>
@@ -210,22 +315,37 @@
                     </t>
                     <!-- Syed Owais Noor <-> ByteCode -->
                 </tbody>
-                <tfoot>
+                <!-- <tfoot>
                     <tr>
                         <td colspan="3" style="padding: 4px; border: 1px solid black;">
-                            <!-- <span t-field="doc.total_qty" /> -->
+                           
                             <span t-esc="'{:.0f}'.format(doc.total_qty)" />
  CARTONS </td>
                         <td colspan="5" style="padding: 4px; border: 1px solid black; text-align: right;">
                             <strong>TOTAL FOB VALUE IN USD $ :</strong>
                         </td>
                         <td style="padding: 4px; border: 1px solid black;">
-                            <!-- <span t-field="doc.total" /> -->
+                           
                             <span t-esc="'{:.2f}'.format(doc.total)" />
                         </td>
                     </tr>
-                </tfoot>
-            </table>            <!-- Additional Sections -->
+                </tfoot> -->
+            </table>  
+
+             <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p>         
+            <table style="width: 100%;">
+  <tr>
+    <td style="width: 50%;"></td> <!-- Empty column for spacing -->
+    <td style="width: 30%;" ><strong>TOAL FOB VALUE IN USD $ :</strong></td>
+    <td style="width: 10%; "></td>
+    <td style="width: 10%;" ><span t-esc="'{:.2f}'.format(doc.total)" /></td>
+</tr>
+
+  
+</table>
+            
+            
+            <!-- Additional Sections -->
             <div style="margin-top: 30px;">
                 <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P”.</p>
             </div>

@@ -57,29 +57,24 @@
                         <div style="margin-top: 10px; text-align: center;">
                                 <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
                             </div>
-                        <p>
-                            <strong>INVOICE NO: </strong>
-                            <span t-esc="doc.pi_no"/>
-                        </p>
-                        <p>
-                           <strong> DATED: </strong>
-                            <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/>
-                        </p>
+                        
                         <!-- Shipment Details Section -->
                         <table class="table table-condensed" style="width:100%; margin-top:20px;">
-                            <!-- <tr>
-                                <td>
-                                    CARTONS OF VITAL TEA: 
-                                </td>
-                                <td t-esc="doc.total_qty"/>
-                            </tr>
+                            
                             <tr>
                                 <td>
-                                SHIPPED IN SOUND CONDITION
-                               </td>
-                            <td>VOYAGE NO.</td>
-                            <td t-esc="doc.voyage"/>
-                        </tr> -->
+                                  <strong> Invoice No: </strong>
+                                </td>
+                                <td>
+                                <span t-esc="doc.pi_no"/>
+                                </td>
+                                <td>
+                                   <strong> Date: </strong>
+                                </td>
+                                <td>
+                                <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                   <strong> CONTAINERS OF VITAL TEA: </strong>
@@ -88,9 +83,9 @@
                                 <span t-esc="'{:.2f}'.format(doc.total_qty)" />
                                 </td>
                                 <td>
-                                    <strong>SHIPPED IN SOUND CONDITION PER S.S</strong>
+                                   <strong> PAYMENT TERMS: </strong>
                                 </td>
-                                <td t-esc="doc.shipping_line or ''"/>
+                                <td t-esc="doc.payment_term_id.name or ''"/>
                             </tr>
                             <tr>
                                 <td>
@@ -100,7 +95,9 @@
                                 <td>
                                     <strong>DATE: </strong>
                                 </td>
-                                <td t-esc="doc.bl_date or ''"/>
+                                <td>
+                                <span t-esc="doc.bl_date.strftime('%d-%m-%Y')"/>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -108,9 +105,10 @@
                                 </td>
                                 <td t-esc="doc.container_no or ''"/>
                                 <td>
-                                    <strong>DATE: </strong>
+                                 <strong>   FDA: </strong>
                                 </td>
-                                <td t-esc="doc.bl_date or ''"/>
+                                <td t-esc="doc.fda or ''"/>
+                                
                             </tr>
                             <tr>
                                 <td>
@@ -124,16 +122,6 @@
                             </tr>
                             <tr>
                                 <td>
-                                   <strong> PAYMENT TERMS: </strong>
-                                </td>
-                                <td t-esc="doc.destination or ''"/>
-                                <td>
-                                 <strong>   FDA: </strong>
-                                </td>
-                                <td t-esc="doc.fda or ''"/>
-                            </tr>
-                            <tr>
-                                <td>
                                     <strong>FI # </strong>
                                 </td>
                                 <td t-esc="doc.fi_number or ''"/>
@@ -142,6 +130,12 @@
                                 </td>
                                 
                                 <td><span t-esc="doc.fi_date.strftime('%d-%m-%Y')"/></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>SHIPPED IN SOUND <br/> CONDITION PER S.S</strong>
+                                </td>
+                                <td t-esc="doc.shipping_line or ''"/>
                             </tr>
 
 
@@ -167,7 +161,7 @@
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                             <thead>
                                 <tr style="background-color: #f2f2f2;">
-                                    <th style="padding: 4px; border: 1px solid black;">S #</th>
+                                    <th style="padding: 4px; border: 1px solid black; width:10%">S #</th>
                                     <th style="padding: 4px; border: 1px solid black;">IMAGE</th>
                                     <th style="padding: 4px; border: 1px solid black;">QTY</th>
                                     <th style="padding: 4px; border: 1px solid black;">DESCRIPTION</th>
@@ -265,11 +259,11 @@
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <!-- <span t-esc="line.price_unit" /> -->
-                                                        <span t-esc="'{:.2f}'.format(line.price_unit)" />
+                                                       $ <span t-esc="'{:.2f}'.format(line.price_unit)" />
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <!-- <span t-esc="line.price_total"/> -->
-                                                         <span t-esc="'{:.2f}'.format(line.price_total)" />
+                                                        $ <span t-esc="'{:.2f}'.format(line.price_total)" />
                                                     </td>
                                                 </tr>
                                             </t>
@@ -294,41 +288,54 @@
                             </tfoot> -->
                         </table>
                         <br/>
-                        <table style="width: 100%;">
-  <tr>
-    <td style="width: 70%; padding-top: 50px;"></td> <!-- Empty column for spacing -->
-    <td style="padding-top: 50px;"><strong>TOAL FOB VALUE IN USD $ :</strong></td>
-    <td style="width: 10%; padding-top: 50px;"></td>
-    <td style="padding-top: 50px;"><span t-esc="'{:.2f}'.format(doc.total)" /></td>
-</tr>
-  <tr>
-    <td style="width: 70%;"></td> <!-- Empty column for spacing -->
-    <td><strong>Freight:</strong></td>
-    <td style="width: 10%; "></td>
-    <td ><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
-</tr>
-  <tr>
-    <td style="width: 70%;"></td> <!-- Empty column for spacing -->
-    <td ><strong>Credit Note:</strong></td>
-    <td style="width: 10%;"></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td style="width: 60%;"></td> <!-- Empty column for spacing -->
-    <td style="width: 20%;" >
-      <strong>
-      <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
-      <t t-else="">Net FOB Value:</t>
-      </strong>
-    
-    </td>
-    <td style="width: 10%;"></td>
-    <td style="width: 10%;"> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
-  </tr>
+
+
+
+
+<div style="page-break-inside: avoid;">
   
-</table>
-                        <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/>
-                        </p>
+
+  <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p>
+  
+  <table style="width: 100%;">
+    <tr>
+      <td style="width: 70%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
+      <td style="padding-top: 10px;"><strong>Freight:</strong></td>
+      <td style="width: 10%; padding-top: 10px;"></td>
+      <td style="padding-top: 10px;"><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+    </tr>
+    <tr>
+      <td style="width: 70%;"></td> <!-- Empty column for spacing -->
+      <td><strong>Credit Note:</strong></td>
+      <td style="width: 10%;"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="width: 60%;"></td> <!-- Empty column for spacing -->
+      <td style="width: 20%;">
+        <strong>
+          <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
+          <t t-else="">Net FOB Value:</t>
+        </strong>
+      </td>
+      <td style="width: 10%;"></td>
+      <td style="width: 10%;"> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+    </tr>
+  </table>
+
+  <table style="width:100%;"> 
+    <tr>
+      <td style="width:100px;"><strong>Net FOB Value:</strong></td> 
+      <td style="width:400px;"><span t-esc="'{:.2f}'.format(doc.total)" /></td>
+    </tr>
+    <tr>
+      <td style="width:100px;"><strong>USD:</strong></td>
+      <td style="width:400px;"><span t-esc="doc.total_in_words or ''" /></td>
+    </tr>
+  </table>
+
+</div>
+                      
 
                         <br/>
                         <br/>

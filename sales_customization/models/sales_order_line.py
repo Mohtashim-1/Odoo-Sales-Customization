@@ -40,7 +40,13 @@ class SaleOrderLine(models.Model):
     analysis = fields.Char(string="Analysis")
     markings = fields.Char(string="Marks and Analysis")
     custom_price = fields.Float(string="Custom Price",compute="_compute_custom_price", store=True)
+    custom_amount = fields.Float(string="Custom Amount",compute="_compute_custom_amount", store=True)
     lbs_oz = fields.Char(string='LBS OZ', compute="_compute_lbs_oz", store=True)
+
+    @api.depends('custom_price','product_uom_qty')
+    def _compute_custom_amount(self):
+        for line in self:
+            line.custom_amount = line.product_uom_qty * line.custom_price
 
     @api.depends('net_weight1', 'product_uom_qty')
     def _calculated_net_weight(self):

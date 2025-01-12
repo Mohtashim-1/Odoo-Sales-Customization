@@ -53,7 +53,6 @@
 
                         <div style=" text-align: center;">
                                 <h1 style="font-size: 24px; font-weight: bold;">EXPORT ORDER</h1>
-                                <span t-esc="doc.pi_no"/>
                             </div>
                         <table class="table table-condensed" style="width:100%; margin-top:20px;">
                             <!-- <tr>
@@ -71,15 +70,14 @@
                         </tr> -->
                             <tr>
                                 <td>
-                                  <strong>DATED: </strong>
+                                  <strong>Dated: </strong>
 
                                 </td>
                                 <td>
-                                <!-- <t t-esc="doc.date_order"/> -->
                                 <span t-esc="doc.date_order.strftime('%d-%m-%Y')"/>
                                 </td>
                                 <td>
-                                    <strong>ORDER NO:</strong>
+                                    <strong>Order No:</strong>
                                 </td>
                                 <td >
                                 <t t-esc="doc.pi_no"/>
@@ -87,7 +85,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <strong> NAME OF BUYER: </strong>
+                                  <strong> Name of Buyer: </strong>
                                 </td>
                                 <td>
 
@@ -95,7 +93,7 @@
 
                                 </td>
                                 <td>
-                                    <strong>CONTAINER CBM: </strong>
+                                    <strong>Container CBM: </strong>
                                 </td>
                                 <td >
                                 <t t-esc="doc.container_cbm"/>
@@ -103,7 +101,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <strong> DESTINATION: </strong>
+                                  <strong> Destination: </strong>
                                 </td>
                                 <td >
 
@@ -111,7 +109,7 @@
 
                                 </td>
                                 <td>
-                                    <strong>DELIVERY: </strong>
+                                    <strong>Delivery: </strong>
                                 </td>
                                 <td >
 
@@ -122,7 +120,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                   <strong> ORDER DATE: </strong>
+                                   <strong> Order Date: </strong>
                                 </td>
                                 <td >
 
@@ -142,15 +140,15 @@
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
                             <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
                                 <tr>
-                                    <th style="padding: 8px; border: 1px solid black;">S.NO.</th>
+                                    <th style="padding: 8px; border: 1px solid black;">S.No.</th>
                                     <th style="padding: 8px; border: 1px solid black;">Image</th>
-                                    <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
+                                    <th style="padding: 8px; border: 1px solid black;">Destination</th>
                                     <th style="padding: 8px; border: 1px solid black;">CTNS</th>
                                     <th style="padding: 8px; border: 1px solid black;">PKTS</th>
                                     <th style="padding: 8px; border: 1px solid black;">LBS OZ</th>
-                                    <th style="padding: 8px; border: 1px solid black;">PACKING</th>
-                                    <th style="padding: 8px; border: 1px solid black;">STATUS</th>
-                                    <th style="padding: 8px; border: 1px solid black;">DESCRIPTION</th>
+                                    <th style="padding: 8px; border: 1px solid black;">Packaging</th>
+                                    <th style="padding: 8px; border: 1px solid black;">Status</th>
+                                    <th style="padding: 8px; border: 1px solid black;">Description</th>
                                 </tr>
                             </thead>
                             <tbody style="font-size: 14px;">
@@ -267,7 +265,7 @@
                         <table>
                         <tr>
     <td style="width: 60%;"></td> <!-- Empty column for spacing -->
-    <td style="width: 30%;" ><strong>TOTAL CARTONS :</strong></td>
+    <td style="width: 30%;" ><strong>Total Cartons :</strong></td>
     <td style="width: 10%; "></td>
     <td style="width: 10%; " ><span t-esc="'{:.2f}'.format(doc.total_qty)" /></td>
 </tr>
@@ -286,11 +284,12 @@
                             </div>
                             <br/>
                             <div>
-                                MANUFACTORY / EXPIRY / BEST BEFORE PERIOD:
-                                <span t-esc="doc.manufactory_date.strftime('%d-%b-%Y')"/>
-                                <span t-esc="doc.expiry_date.strftime('%d-%b-%Y')"/>
-                                <span t-esc="doc.best_before.strftime('%d-%b-%Y')"/>
-                            </div>
+    MANUFACTORY / EXPIRY / BEST BEFORE PERIOD:
+    <span t-if="doc.manufactory_date" t-esc="doc.manufactory_date.strftime('%d-%b-%Y')"/>
+    <span t-if="doc.expiry_date" t-esc="doc.expiry_date.strftime('%d-%b-%Y')"/>
+    <span t-if="doc.best_before" t-esc="doc.best_before.strftime('%d-%b-%Y')"/>
+</div>
+
                         </div>
                         <br/>
 
@@ -309,8 +308,7 @@
                             <span t-esc="doc.partner_shipping_id.city"/>
                             <span t-esc="doc.partner_shipping_id.country_id.name"/>
                             CONTACT <br/>
-                            <strong> BEST BEFORE: </strong> <br/>
-                            LOT CODE: , PRODUCER CODE
+                            <strong> BEST BEFORE: </strong> 
 
                     </div>
 

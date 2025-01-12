@@ -141,16 +141,16 @@
             </td>
             </tr>
             <tr>
-            <td style="width: 20%">
+            <td style="width: 20%; visibility: hidden;">
             <strong>CBM Left for 40 FCL Container</strong>
             </td>
-            <td style="width: 20%">
+            <td style="width: 20%; visibility: hidden;">
             <span t-field="doc.delivery" />
             </td>
             </tr>
             <tr>
-            <td style="width: 20%;"><strong>CARTONS OF VITAL TEA</strong></td>
-            <td style="width: 20%;"><span t-esc="'{:.0f}'.format(doc.total_qty)" /></td>
+            <td style="width: 20%;visibility: hidden;"><strong>CARTONS OF VITAL TEA</strong></td>
+            <td style="width: 20%; visibility: hidden;"><span t-esc="'{:.0f}'.format(doc.total_qty)" /></td>
             </tr>
             <tr>
             <td style="width: 20%; visibility: hidden;">.</td>
@@ -276,11 +276,11 @@
                         <t t-if="sub_line.product_id.categ_id.name == line.product_id.categ_id.name and sub_line.product_id.id not in product_lst">
                           <t t-set="product_lst" t-value="product_lst + [sub_line.product_id.id]" />
                           <tr>
-                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left;">
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; ">
                               <span t-esc="s_no" />
                               <t t-set="s_no" t-value="s_no + 1" />
                             </td>
-                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right;">
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;">
                               <img t-if="sub_line.image" t-att-src="image_data_uri(sub_line.image)" alt="Product Image" style="width: 60px; max-width: 40px; height: 40px;" />
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left;"  >
@@ -292,17 +292,17 @@
                               <t t-esc="sub_line.packaging_detail_id.display_name" />
 
                             </td>
-                            <td style="padding: 4px; border-bottom: 1px solid lightgrey;">
+                            <td style="padding: 4px; border-bottom: 1px solid lightgrey; text-align: center;">
                               <span t-esc="'{:.0f}'.format(sub_line.product_uom_qty)" />
                             </td>
-                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right;">
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;">
                               <!-- <span t-esc="sub_line.price_unit" /> -->
-                              <span t-esc="'{:.2f}'.format(sub_line.price_unit)" />
+                              $ <span t-esc="'{:.2f}'.format(sub_line.price_unit)" />
                             </td>
-                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right;">
-                              <!-- <span t-esc="sub_line.price_subtotal" /> -->
-                              <span t-esc="'{:.2f}'.format(sub_line.price_subtotal)" />
-                            </td>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; width: 20%;">
+    $ <span t-esc="'{:.2f}'.format(sub_line.price_subtotal)" />
+</td>
+
                           </tr>
                         </t>
                       </t>
@@ -329,34 +329,122 @@
               </table>
             </t>
 
-<!-- <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p> -->
-<table style="width: 100%;">
-  <tr>
-    <td style="width: 70%; padding-top: 50px;"></td> <!-- Empty column for spacing -->
-    <td style="padding-top: 50px;"><strong>Freight:</strong></td>
-    <td style="width: 10%; padding-top: 50px;"></td>
-    <td style="padding-top: 50px;"><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
-</tr>
-  <tr>
-    <td style="width: 70%;"></td> <!-- Empty column for spacing -->
-    <td ><strong>Credit Note:</strong></td>
-    <td style="width: 10%;"></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td style="width: 60%;"></td> <!-- Empty column for spacing -->
-    <td style="width: 20%;" >
-      <strong>
-      <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
-      <t t-else="">Net FOB Value:</t>
-      </strong>
-    
-    </td>
-    <td style="width: 10%;"></td>
-    <td style="width: 10%;"> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
-  </tr>
+
+<div style="page-break-inside: avoid;">
   
+
+  <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p>
+  
+  <table style="width: 100%;">
+    <tr>
+      <td style="width: 70%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
+      <td style="padding-top: 10px;"><strong>Freight:</strong></td>
+      <td style="width: 10%; padding-top: 10px;"></td>
+      <td style="padding-top: 10px;"><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+    </tr>
+    <tr>
+      <td style="width: 70%;"></td> <!-- Empty column for spacing -->
+      <td><strong>Credit Note:</strong></td>
+      <td style="width: 10%;"></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="width: 60%;"></td> <!-- Empty column for spacing -->
+      <td style="width: 20%;">
+        <strong>
+          <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
+          <t t-else="">Net FOB Value:</t>
+        </strong>
+      </td>
+      <td style="width: 10%;"></td>
+      <td style="width: 10%;"> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+    </tr>
+  </table>
+
+  <table style="width:100%;"> 
+    <tr>
+      <td style="width:100px;"><strong>Net FOB Value:</strong></td> 
+      <td style="width:400px;"><span t-esc="'{:.2f}'.format(doc.total)" /></td>
+    </tr>
+    <tr>
+      <td style="width:100px;"><strong>USD:</strong></td>
+      <td style="width:400px;"><span t-esc="doc.total_in_words or ''" /></td>
+    </tr>
+  </table>
+
+ <!-- Bank Details Section -->
+              <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+                <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
+                </p>
+                <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
+                </p>
+                <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
+                </p>
+                <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
+              </div>
+
+
+              <!-- Seller Bank Details Section -->
+              <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+                <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
+                <!-- <p>
+        <strong>Seller Bank Details:</strong>
+      </p> -->
+                <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
+                <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
+                <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
+                <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
+                <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
+                <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
+              </div>
+</div>
+
+
+
+
+
+
+<!-- <table style="width: 100%; border-collapse: collapse;">
+  <tr>
+    <td style="width: 50%; vertical-align: top;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 5px;">Net FOB Value:</td>
+          <td style="padding: 5px;"><span t-esc="'{:.2f}'.format(doc.total)" /></td>
+        </tr>
+        <tr>
+          <td style="padding: 5px;">USD $:</td>
+          <td style="padding: 5px;"><span t-esc="doc.total_in_words or ''" /></td>
+        </tr>
+      </table>
+    </td>
+    
+    <td style="width: 50%; vertical-align: top;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 5px; text-align: right;"><strong>Freight:</strong></td>
+          <td style="padding: 5px; text-align: right;"><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+        </tr>
+        <tr>
+          <td style="padding: 5px; text-align: right;"><strong>Credit Note:</strong></td>
+          <td style="padding: 5px; text-align: right;">N/A</td> 
+        </tr>
+        <tr>
+          <td style="padding: 5px; text-align: right;">
+            <strong>
+              <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
+              <t t-else="">Net FOB Value:</t>
+            </strong>
+          </td>
+          <td style="padding: 5px; text-align: right;">
+            <span t-esc="'{:.2f}'.format(doc.total)" />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 </table>
+ -->
 
 
 <!-- 
@@ -382,31 +470,7 @@
 
                
 
-              <!-- Bank Details Section -->
-              <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-                <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
-                </p>
-                <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
-                </p>
-                <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
-                </p>
-                <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
-              </div>
-
-
-              <!-- Seller Bank Details Section -->
-              <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-                <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
-                <!-- <p>
-        <strong>Seller Bank Details:</strong>
-      </p> -->
-                <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
-                <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
-                <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
-                <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
-                <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
-                <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
-              </div>
+             
 
             <br/>
             <br/>
