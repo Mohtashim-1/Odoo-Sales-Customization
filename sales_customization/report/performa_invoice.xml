@@ -47,7 +47,7 @@
 </div>
 
 
-            <h1 style="font-size: 24px; font-weight: bold;">PROFORMA INVOICE</h1>
+            <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice</h1>
             
             <table style="width: 100%">
             <tr>
@@ -99,31 +99,31 @@
             <td style="width: 50%;">
             <table>
             <tr>
-            <td colspan="2" style="background-color: orange;"><strong>SHIPPING DETAILS:</strong></td>
+            <td colspan="2" style="background-color: orange;"><strong>Shipping Details:</strong></td>
 
             </tr>
             <tr>
-            <td style="width: 20%"><strong>DATE:</strong></td>
+            <td style="width: 20%"><strong>Date:</strong></td>
             <td style="width: 20%"> <span t-esc="doc.date_order"/></td>
             </tr>
             <tr>
-            <td style="width: 20%"><strong>VALID TILL DATE:</strong></td>
+            <td style="width: 20%"><strong>Valid Till Date:</strong></td>
             <td style="width: 20%"><span t-field="doc.validity_date" /></td>
             </tr>
             <tr>
-            <td style="width: 20%"><strong>TOTAL QUANTITY</strong></td>
+            <td style="width: 20%"><strong>Total Quantity</strong></td>
             <td style="width: 20%"><span t-esc="'{:.0f}'.format(doc.total_qty)" /></td>
             </tr>
             <tr>
-            <td style="width: 20%"><strong>TOTAL NET WEIGHT:</strong></td>
+            <td style="width: 20%"><strong>Total Net Weight:</strong></td>
             <td style="width: 20%"><span t-esc="'{:.0f}'.format(doc.total_net_weight)" /></td>
             </tr>
             <tr>
-            <td style="width: 20%"><strong>TOTAL GROSS WEIGHT:</strong></td>
+            <td style="width: 20%"><strong>Total Gross Weight:</strong></td>
             <td style="width: 20%"><span t-esc="'{:.0f}'.format(doc.total_gross_weight)" /></td>
             </tr>
             <tr>
-            <td style="width: 20%"><strong>TOTAL CBM:</strong></td>
+            <td style="width: 20%"><strong>Total CBM:</strong></td>
             <td style="width: 20%">
             
             <span t-esc="'{:.0f}'.format(doc.total_cbm)" />
@@ -131,7 +131,7 @@
             </tr>
             <tr>
             <td style="width: 20%">
-            <strong>CBM LEFT FOR 40FCL CONTAINER</strong>
+            <strong>CBM Left for 40 FCL Container</strong>
             </td>
             <td style="width: 20%">
             <span t-field="doc.delivery" />
@@ -201,12 +201,12 @@
             <!-- Products Table -->
             <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
                 <!-- <h3 style="font-size: 16px; font-weight: bold;">PAYMENT TERMS:</h3> -->
-                <h3 style="font-size: 16px; font-weight: bold;">PAYMENT TERMS:</h3>
+                <h3 style="font-size: 16px; font-weight: bold;">Payment Terms:</h3>
                 <!-- <p>
         <strong>TERMS AND CONDITION:</strong>
       </p> -->
                 <p style="margin: 0; padding: 0;">
-      TERMS AND CONDITION:  <span t-field="doc.payment_term_id"/>
+      Terms and Condition:  <span t-field="doc.payment_term_id"/>
                 </p>
 
               </div>
@@ -218,14 +218,14 @@
                 <thead>
                   <tr style="background-color: #C0C0C0;">
                     <th style="padding: 4px; border-bottom: 1px solid black;" >S #</th>
-                    <th  style="padding: 4px; border-bottom: 1px solid black;">IMAGE</th>
+                    <th  style="padding: 4px; border-bottom: 1px solid black;">Image</th>
 
-                    <th style="padding: 4px; border-bottom: 1px solid black;">DESCRIPTION</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Description</th>
 
-                    <th style="padding: 4px; border-bottom: 1px solid black;">PACKAGING</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Packaging</th>
                     <th style="padding: 4px; border-bottom: 1px solid black;">CTN(s)</th>
-                    <th style="padding: 4px; border-bottom: 1px solid black;">UNIT PRICE / CARTON(s)</th>
-                    <th style="padding: 4px; border-bottom: 1px solid black;">AMOUNT</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Unit Price / Carton(s)</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -262,7 +262,7 @@
                               <t t-set="s_no" t-value="s_no + 1" />
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right;">
-                              <img t-if="sub_line.image" t-att-src="image_data_uri(sub_line.image)" alt="Product Image" style="width: 60px; max-width: 50px; height: 50px;" />
+                              <img t-if="sub_line.image" t-att-src="image_data_uri(sub_line.image)" alt="Product Image" style="width: 60px; max-width: 40px; height: 40px;" />
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left;"  >
                               <span t-esc="sub_line.product_id.name" />
@@ -314,13 +314,13 @@
 <table style="width: 100%;">
   <tr>
     <td style="width: 70%;"></td> <!-- Empty column for spacing -->
-    <td ><strong>FRIEGHT:</strong></td>
+    <td ><strong>Frieght:</strong></td>
     <td style="width: 10%;"></td>
     <td><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
   </tr>
   <tr>
     <td style="width: 70%;"></td> <!-- Empty column for spacing -->
-    <td ><strong>CREDIT NOTE:</strong></td>
+    <td ><strong>Credit Note:</strong></td>
     <td style="width: 10%;"></td>
     <td></td>
   </tr>
@@ -328,8 +328,8 @@
     <td style="width: 60%;"></td> <!-- Empty column for spacing -->
     <td style="width: 20%;" >
       <strong>
-      <t t-if="doc.total and doc.total > 0">NET CNF VALUE:</t>
-      <t t-else="">NET FOB VALUE:</t>
+      <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
+      <t t-else="">Net FOB Value:</t>
       </strong>
     
     </td>
@@ -365,7 +365,7 @@
 
               <!-- Bank Details Section -->
               <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-                <p style="margin: 0; padding: 0;">DESTINATION: <span t-field="doc.destination"/>
+                <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
                 </p>
                 <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
                 </p>
