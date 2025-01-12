@@ -11,9 +11,11 @@
             <field name="address"/> -->
             <field name="partner_code"  />
             <field name="customer_container"  />
+            <field name="container_type"  />
             <!-- <field name="container_carrier"  /> -->
             <field name="pi_no"  />
             <field name="shipping_line" />
+            <field name="shipment" />
             <field name="order_date" />
            
 

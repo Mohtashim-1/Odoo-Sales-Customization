@@ -42,9 +42,9 @@
                             <div>
                                 <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;"/>
                             </div>
-                            <div style="margin-top: 10px;">
+                            <!-- <div style="margin-top: 10px;">
                                 <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Custom Footer -->
                         <!-- Custom Footer -->
@@ -54,6 +54,9 @@
 </div>
 
                         <!-- Header Section -->
+                        <div style="margin-top: 10px; text-align: center;">
+                                <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
+                            </div>
                         <p>
                             <strong>INVOICE NO: </strong>
                             <span t-esc="doc.pi_no"/>
@@ -81,11 +84,23 @@
                                 <td>
                                   <strong> CONTAINERS OF VITAL TEA: </strong>
                                 </td>
-                                <td t-esc="doc.total_qty or ''"/>
                                 <td>
-                                    <strong>SHIPPED IN SOUND CONDITION </strong>
+                                <span t-esc="'{:.2f}'.format(doc.total_qty)" />
+                                </td>
+                                <td>
+                                    <strong>SHIPPED IN SOUND CONDITION PER S.S</strong>
                                 </td>
                                 <td t-esc="doc.shipping_line or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <strong> BL NO: </strong>
+                                </td>
+                                <td t-esc="doc.bl_no or ''"/>
+                                <td>
+                                    <strong>DATE: </strong>
+                                </td>
+                                <td t-esc="doc.bl_date or ''"/>
                             </tr>
                             <tr>
                                 <td>
@@ -125,7 +140,8 @@
                                 <td>
                                  <strong>   DATED:  </strong>
                                 </td>
-                                <td t-esc="doc.fi_date or ''"/>
+                                
+                                <td><span t-esc="doc.fi_date.strftime('%d-%m-%Y')"/></td>
                             </tr>
 
 
@@ -245,10 +261,11 @@
                                                     </td>
                                                     <td style="padding: 4px; border: 1px solid black; text-align: right;">
                                                         <t t-esc="line.product_id.weight"/>
-                                                        <span t-esc="'{:.0f}'.format(line.product_id.weight)" />
+                                                        <span t-esc="'{:.0f}'.format(line.product_id.net_weight)" />
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
-                                                        <span t-esc="line.custom_price" />
+                                                        <!-- <span t-esc="line.price_unit" /> -->
+                                                        <span t-esc="'{:.2f}'.format(line.price_unit)" />
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;">
                                                         <!-- <span t-esc="line.price_total"/> -->
@@ -261,7 +278,7 @@
                                 </t>
                                 <!-- Syed Owais Noor <-> ByteCode -->
                             </tbody>
-                            <tfoot>
+                            <!-- <tfoot>
                                 <tr>
                                     <td colspan="2" style="padding: 4px; border: 1px solid black;">
                                         <span t-field="doc.total_qty"/>
@@ -274,7 +291,7 @@
                                         <span t-field="doc.total"/>
                                     </td>
                                 </tr>
-                            </tfoot>
+                            </tfoot> -->
                         </table>
                         <br/>
                         <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/>

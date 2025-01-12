@@ -93,6 +93,14 @@
             <span t-field="doc.fda" />
             </td>
             </tr>
+            <tr>
+            <td style="width: 20%; visibility: hidden;">
+            <strong>FDA:</strong>
+            </td>
+            <td style="width: 20%; visibility: hidden;">
+            <span t-field="doc.fda" />
+            </td>
+            </tr>
             </table>
             </td>
 
@@ -104,11 +112,14 @@
             </tr>
             <tr>
             <td style="width: 20%"><strong>Date:</strong></td>
-            <td style="width: 20%"> <span t-esc="doc.date_order"/></td>
+            <td style="width: 20%"> <span t-esc="doc.date_order.strftime('%d-%m-%Y')"/>
+</td>
             </tr>
             <tr>
             <td style="width: 20%"><strong>Valid Till Date:</strong></td>
-            <td style="width: 20%"><span t-field="doc.validity_date" /></td>
+            <td style="width: 20%">
+            <span t-esc="doc.validity_date.strftime('%d-%m-%Y')"/>
+            </td>
             </tr>
             <tr>
             <td style="width: 20%"><strong>Total Quantity</strong></td>
@@ -136,6 +147,10 @@
             <td style="width: 20%">
             <span t-field="doc.delivery" />
             </td>
+            </tr>
+            <tr>
+            <td style="width: 20%;"><strong>CARTONS OF VITAL TEA</strong></td>
+            <td style="width: 20%;"><span t-esc="'{:.0f}'.format(doc.total_qty)" /></td>
             </tr>
             <tr>
             <td style="width: 20%; visibility: hidden;">.</td>
@@ -201,12 +216,16 @@
             <!-- Products Table -->
             <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
                 <!-- <h3 style="font-size: 16px; font-weight: bold;">PAYMENT TERMS:</h3> -->
-                <h3 style="font-size: 16px; font-weight: bold;">Payment Terms:</h3>
+                <h3 style="font-size: 16px; font-weight: bold;">Terms and Condition:</h3>
                 <!-- <p>
         <strong>TERMS AND CONDITION:</strong>
       </p> -->
                 <p style="margin: 0; padding: 0;">
-      Terms and Condition:  <span t-field="doc.payment_term_id"/>
+      Payment Terms: <span t-field="doc.payment_term_id"/>
+                </p>
+
+                <p style="margin: 0; padding: 0;">
+      15-20 Days after confirmation of order. Documents include: Commercial Invoice, Packing List, B/L, Phytosanitary  <span t-field="doc.payment_term_id"/>
                 </p>
 
               </div>

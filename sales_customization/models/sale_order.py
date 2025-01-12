@@ -31,8 +31,8 @@ class SaleOrder(models.Model):
     container_no = fields.Char(string='Container Number')
     # container_carrier = fields.Char(string='Container Carrier')
     container_cbm = fields.Char(string="Container CBM")
-    destination = fields.Char(string="Destination")
-    delivery = fields.Char(string="Delivery")
+    destination = fields.Char(string="POL")
+    delivery = fields.Char(string="POD")
     fda = fields.Char(string="FDA")
 
     language_instructions = fields.Char(string="Language Instructions")
@@ -50,8 +50,14 @@ class SaleOrder(models.Model):
     delivery_date = fields.Date(string='Delivery Date')
     vessel_voyage = fields.Char(string="Vessel and Voyage")
     vessel = fields.Char(string="Vessel")
+    shipment = fields.Char(string="Shipment")
     voyage = fields.Char(string="Voyage")
     terms = fields.Text(string="Terms & Condition")
+    container_type = fields.Selection([
+        ('20fcl', '20FCL'),
+        ('40fcl', '40FCL'),
+       
+    ], string='Container Type', required=True, default='20fcl')
 
     freight = fields.Float(string="Freight")
     discount = fields.Float(string="Discount")
