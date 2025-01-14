@@ -58,15 +58,17 @@
                         </div>
 
                         <!-- Shipment Details Section -->
+                        <!-- Shipment Details Section -->
                         <table class="table table-condensed" style="width:100%; margin-top:20px;">
 
                             <tr>
                                 
-                                    <td colspan="2" style="background-color: #fdb913; width:50%"><strong>Consignee:</strong></td>
+                                    <td colspan="2" style="background-color: #fdb913; width:45%;"><strong>Consignee:</strong></td>
+                                    <td style="width:10%"></td>
                                 
                                  
                                 
-                                 <td colspan="2" style="background-color: #fdb913;width:50%"><strong>Shipment:</strong></td>
+                                 <td colspan="2" style="background-color: #fdb913;width:45%"><strong>Shipment:</strong></td>
                             </tr>
 
 
@@ -75,9 +77,11 @@
                                 <td>
                                     <strong> Invoice No: </strong>
                                 </td>
+                                
                                 <td>
                                     <span t-esc="doc.pi_no"/>
                                 </td>
+                                <td style="width:10%"></td>
                                 <td>
                                     <strong> Date: </strong>
                                 </td>
@@ -92,6 +96,7 @@
                                 <td>
                                     <span t-esc="'{:.2f}'.format(doc.total_qty)" />
                                 </td>
+                                <td style="width:10%"></td>
                                 <td>
                                     <strong> Payment Terms: </strong>
                                 </td>
@@ -102,6 +107,7 @@
                                     <strong> BL No: </strong>
                                 </td>
                                 <td t-esc="doc.bl_no or ''"/>
+                                <td style="width:10%"></td>
                                 <td>
                                     <strong>Date: </strong>
                                 </td>
@@ -114,6 +120,7 @@
                                     <strong> Container No: </strong>
                                 </td>
                                 <td t-esc="doc.container_no or ''"/>
+                                <td style="width:10%"></td>
                                 <td>
                                     <strong>   FDA: </strong>
                                 </td>
@@ -125,6 +132,7 @@
                                     <strong> From: </strong>
                                 </td>
                                 <td t-esc="doc.destination or ''"/>
+                                <td style="width:10%"></td>
                                 <td>
                                     <strong> To: </strong>
                                 </td>
@@ -135,6 +143,7 @@
                                     <strong>FI # </strong>
                                 </td>
                                 <td t-esc="doc.fi_number or ''"/>
+                                <td style="width:10%"></td>
                                 <td>
                                     <strong>   Dated:  </strong>
                                 </td>
