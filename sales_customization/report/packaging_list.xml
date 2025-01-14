@@ -58,14 +58,14 @@
                         </div>
 
                         <!-- Products Table -->
-                        <p>Invoice No.<span t-esc="doc.pi_no" /></p>
+                        <p><strong>Invoice No:</strong><span t-esc="doc.pi_no" /></p>
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 0; border: 1px solid black;">
                             <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
                                 <tr>
                                     <th style="padding: 8px; border: 1px solid black;">S.No.</th>
                                     <th style="padding: 8px; border: 1px solid black;">Image</th>
                                     <th style="padding: 8px; border: 1px solid black;">Description</th>
-                                    <th style="padding: 8px; border: 1px solid black; text-align: center;">Packaging</th>
+                                    <th style="padding: 8px; border: 1px solid black; text-align: center;">Packing</th>
                                     <th style="padding: 8px; border: 1px solid black; text-align: center;">No. Of Ctn</th>
                                     <th style="padding: 8px; border: 1px solid black; text-align: center;">Qty</th>
                                 </tr>
@@ -122,14 +122,14 @@
                                     <td style="text-align: right; padding-right: 50px;">
                                         <strong>NET WEIGHT IN KGS</strong>
                                         <br />
-                                        <span t-field="doc.total_net_weight" t-options='{"precision": 2}' />
+                                        <span t-field="doc.total_net_weight" t-options='{"precision": 2}' /> Kg
                                     </td>
 
                                     <!-- GROSS WEIGHT -->
                                     <td style="text-align: left; padding-left: 50px;">
                                         <strong>GROSS WEIGHT IN KGS</strong>
                                         <br />
-                                        <span t-field="doc.total_gross_weight" t-options='{"precision": 2}' />
+                                        <span t-field="doc.total_gross_weight" t-options='{"precision": 2}' /> Kg
                                     </td>
                                 </tr>
                             </table>
