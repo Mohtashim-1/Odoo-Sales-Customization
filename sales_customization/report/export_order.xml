@@ -306,12 +306,21 @@
                             <br/>
                             <span t-esc="doc.partner_shipping_id.street"/>
                             <span t-esc="doc.partner_shipping_id.city"/>
-                            <span t-esc="doc.partner_shipping_id.country_id.name"/>
-                            CONTACT <br/>
-                            <strong> BEST BEFORE: </strong> 
+                            <span t-esc="doc.partner_shipping_id.country_id.name"/> 
+                            <br/>
+                            <strong>Contact:</strong> <span t-esc="doc.partner_id.phone"/>
+                            <br/>
+                            <strong> Best Before: </strong>      
+                            <span t-if="doc.best_before" t-esc="doc.best_before.strftime('%d-%b-%Y')"/>
+                            <br/>
+                            <strong> Lot Code:  </strong> <span t-esc="doc.pi_no"/>
 
                     </div>
 
+                    <br/>
+                    <br/>
+                    <br/>
+                    
                     <br/>
                     <br/>
                     <br/>
@@ -320,7 +329,7 @@
     <tr>
         <td style="width: 40%; text-align: left;">PREPARED BY: _______________</td>
         <td style="width: 20%;"></td>
-        <td style="width: 40%; text-align: right;">DATED BY: __________________</td>
+        <td style="width: 40%; text-align: right;">DATED: __________________</td>
     </tr>
 </table>
 

@@ -261,7 +261,7 @@
                                                         <!-- <span t-esc="line.price_unit" /> -->
                                                        $ <span t-esc="'{:.2f}'.format(line.price_unit)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
                                                         <!-- <span t-esc="line.price_total"/> -->
                                                         $ <span t-esc="'{:.2f}'.format(line.price_total)" />
                                                     </td>

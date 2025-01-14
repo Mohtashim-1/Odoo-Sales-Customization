@@ -6,3 +6,4 @@ class ResCompany(models.Model):
 
     image_field_1 = fields.Image("Company Logo 1")
     image_field_2 = fields.Image("Company Logo 2")
+    image_field_3 = fields.Image("Sign")

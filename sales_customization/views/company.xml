@@ -10,6 +10,7 @@
                 <group>
                     <field name="image_field_1"/>
                     <field name="image_field_2"/>
+                    <field name="image_field_3"/>
                 </group>
             </xpath>
         </field>

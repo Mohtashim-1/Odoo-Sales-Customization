@@ -47,16 +47,17 @@
 </div>
 
 
-            <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice</h1>
+            <h1 style="font-size: 24px; font-weight: bold;text-align: center;">Proforma Invoice</h1>
             
             <table style="width: 100%">
             <tr>
             <td style="width: 50%">
             <table>
             <tr>
-            <td colspan="2" style="background-color: orange;"><strong>Consignee:</strong></td>
+            <td colspan="2" style="background-color: #fdb913;"><strong>Consignee:</strong></td>
 
             </tr>
+            <br/>
             <tr>
             <td style="width: 20%; "><strong>Invoice No:</strong></td>
             <td style="width: 20%; "> <span t-esc="doc.pi_no"/></td>
@@ -78,11 +79,11 @@
             <td style="width: 20%"><span t-esc="doc.partner_shipping_id.city"/></td>
             </tr>
             <tr>
-            <td style="width: 20%"><strong>P O L:</strong></td>
+            <td style="width: 20%"><strong>POL:</strong></td>
             <td style="width: 20%"><span t-field="doc.destination" /></td>
             </tr>
             <tr>
-            <td style="width: 20%"><strong>P O D:</strong></td>
+            <td style="width: 20%"><strong>POD:</strong></td>
             <td style="width: 20%"><span t-field="doc.delivery" /></td>
             </tr>
             <tr>
@@ -107,9 +108,10 @@
             <td style="width: 50%;">
             <table>
             <tr>
-            <td colspan="2" style="background-color: orange;"><strong>Shipping Details:</strong></td>
+            <td colspan="2" style="background-color: #fdb913;"><strong>Shipping Details:</strong></td>
 
             </tr>
+            <br/>
             <tr>
             <td style="width: 20%"><strong>Date:</strong></td>
             <td style="width: 20%"> <span t-esc="doc.date_order.strftime('%d-%m-%Y')"/>
@@ -127,11 +129,11 @@
             </tr>
             <tr>
             <td style="width: 20%"><strong>Total Net Weight:</strong></td>
-            <td style="width: 20%"><span t-esc="'{:.0f}'.format(doc.total_net_weight)" /></td>
+            <td style="width: 20%"><span t-esc="'{:.0f}'.format(doc.total_net_weight)" /> Kg</td>
             </tr>
             <tr>
             <td style="width: 20%"><strong>Total Gross Weight:</strong></td>
-            <td style="width: 20%"><span t-esc="'{:.0f}'.format(doc.total_gross_weight)" /></td>
+            <td style="width: 20%"><span t-esc="'{:.0f}'.format(doc.total_gross_weight)" /> Kg</td>
             </tr>
             <tr>
             <td style="width: 20%"><strong>Total CBM:</strong></td>
@@ -214,7 +216,7 @@
 
 
             <!-- Products Table -->
-            <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+            <div style=" font-size: 12px;">
                 <!-- <h3 style="font-size: 16px; font-weight: bold;">PAYMENT TERMS:</h3> -->
                 <h3 style="font-size: 16px; font-weight: bold;">Terms and Condition:</h3>
                 <!-- <p>
@@ -243,8 +245,8 @@
 
                     <th style="padding: 4px; border-bottom: 1px solid black;">Packaging</th>
                     <th style="padding: 4px; border-bottom: 1px solid black;">CTN(s)</th>
-                    <th style="padding: 4px; border-bottom: 1px solid black;">Unit Price / Carton(s)</th>
-                    <th style="padding: 4px; border-bottom: 1px solid black;">Amount</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Unit Price / CTN(s)</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black; text-align: right;">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -295,11 +297,11 @@
                             <td style="padding: 4px; border-bottom: 1px solid lightgrey; text-align: center;">
                               <span t-esc="'{:.0f}'.format(sub_line.product_uom_qty)" />
                             </td>
-                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;">
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; width: 15%;">
                               <!-- <span t-esc="sub_line.price_unit" /> -->
                               $ <span t-esc="'{:.2f}'.format(sub_line.price_unit)" />
                             </td>
-                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; width: 20%;">
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right; width: 15%;">
     $ <span t-esc="'{:.2f}'.format(sub_line.price_subtotal)" />
 </td>
 
@@ -333,42 +335,49 @@
 <div style="page-break-inside: avoid;">
   
 
-  <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p>
+  <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
   
   <table style="width: 100%;">
     <tr>
-      <td style="width: 70%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
-      <td style="padding-top: 10px;"><strong>Freight:</strong></td>
+      <td style="width: 50%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
+      <td style="width: 15%;padding-top: 10px;"><strong>Net FOB Value in USD:</strong></td>
       <td style="width: 10%; padding-top: 10px;"></td>
-      <td style="padding-top: 10px;"><span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+      <td style="width: 25%;padding-top: 10px;">$ <span t-esc="'{:.2f}'.format(doc.amount_total)" /></td>
     </tr>
     <tr>
-      <td style="width: 70%;"></td> <!-- Empty column for spacing -->
-      <td><strong>Credit Note:</strong></td>
+      <td style="width: 50%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
+      <td style="width: 15%;"><strong>Freight:</strong></td>
+      <td style="width: 10%; "></td>
+      <td style="width: 25%;">$ <span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+    </tr>
+    <tr>
+      <td style="width: 50%;"></td> <!-- Empty column for spacing -->
+      <td style="width: 15%;"><strong>Credit Note:</strong></td>
       <td style="width: 10%;"></td>
+      <td style="width: 25%; "></td>
       <td></td>
     </tr>
     <tr>
-      <td style="width: 60%;"></td> <!-- Empty column for spacing -->
-      <td style="width: 20%;">
+      <td style="width: 50%;"></td> <!-- Empty column for spacing -->
+      <td style="width: 25%;">
         <strong>
-          <t t-if="doc.total and doc.total > 0">Net CNF Value:</t>
-          <t t-else="">Net FOB Value:</t>
+          <t t-if="doc.total and doc.total > 0">Net CNF Value in USD:</t>
+          <t t-else="">Net FOB Value in USD:</t>
         </strong>
       </td>
       <td style="width: 10%;"></td>
-      <td style="width: 10%;"> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+      <td style="width: 15%;"> $ <t t-esc="'{:.2f}'.format(doc.total)" /></td>
     </tr>
   </table>
 
   <table style="width:100%;"> 
-    <tr>
+    <!-- <tr>
       <td style="width:100px;"><strong>Net FOB Value:</strong></td> 
       <td style="width:400px;"><span t-esc="'{:.2f}'.format(doc.total)" /></td>
-    </tr>
+    </tr> -->
     <tr>
-      <td style="width:100px;"><strong>USD:</strong></td>
-      <td style="width:400px;"><span t-esc="doc.total_in_words or ''" /></td>
+      <!-- <td style="width:100px;"><strong>USD:</strong></td> -->
+      <td style="width:400px;">USD: <span t-esc="doc.total_in_words or ''" /></td>
     </tr>
   </table>
 
@@ -397,6 +406,49 @@
                 <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
                 <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
               </div>
+
+
+
+<br/><br/><br/>
+<br/><br/><br/>
+               
+
+<table style="width: 100%; table-layout: fixed;">
+    <tr>
+        <!-- Left Column -->
+        <td style="width: 40%; text-align: left;">
+            <img 
+                t-if="doc.company_id.image_field_3" 
+                t-att-src="image_data_uri(doc.company_id.image_field_3)" 
+                alt="Signature" 
+                style="width: 100%; height: 100px; object-fit: contain;" 
+            />
+            <p style="border-top: 1px solid black; text-align: right; width: 100%; height: 30px; margin: 0;"></p>
+        </td>
+
+        <!-- Center Column -->
+        <td style="width: 20%;"></td>
+
+        <!-- Right Column -->
+        <td style="width: 40%; text-align: right;">
+            <div style="height: 100px;"></div> <!-- Placeholder for height consistency -->
+            <p style="border-top: 1px solid black; text-align: right; width: 100%; height: 30px; margin: 0;"></p>
+        </td>
+    </tr>
+    <tr>
+        <!-- Footer -->
+        <td style="width: 40%; text-align: center;">
+            <strong>Vital Tea:</strong>
+        </td>
+        <td style="width: 20%;"></td>
+        <td style="width: 40%; text-align: center;">
+            <strong>Customer:</strong>
+            <br/>
+            <span t-field="doc.partner_id.name" />
+        </td>
+    </tr>
+</table>
+
 </div>
 
 

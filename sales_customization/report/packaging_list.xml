@@ -53,11 +53,12 @@
 
                         <!-- Title Section -->
                         <div style="text-align: center; margin: 0; padding: 0;">
-                            <h1 style="font-size: 24px; font-weight: bold; margin: 0;">PACKAGING LIST</h1>
-                            <span t-esc="doc.pi_no" />
+                            <h1 style="font-size: 24px; font-weight: bold; margin: 0;">PACKING LIST</h1>
+                            
                         </div>
 
                         <!-- Products Table -->
+                        <p>Invoice No.<span t-esc="doc.pi_no" /></p>
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 0; border: 1px solid black;">
                             <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
                                 <tr>
