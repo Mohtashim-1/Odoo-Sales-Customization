@@ -88,75 +88,78 @@
                     <div style="margin-top: 10px; text-align: center;">
                                 <h1 style="font-size: 24px; font-weight: bold;">Custom Invoice</h1>
                             </div>
+                        <!-- Shipment Details Section -->
                         <table class="table table-condensed" style="width:100%; margin-top:20px;">
-                            <!-- <tr>
-                                <td>
-                                    CARTONS OF VITAL TEA: 
-                                </td>
-                                <td t-esc="doc.total_qty"/>
-                            </tr>
+
                             <tr>
-                                <td>
-                                SHIPPED IN SOUND CONDITION
-                               </td>
-                            <td>VOYAGE NO.</td>
-                            <td t-esc="doc.voyage"/>
-                        </tr> -->
-                            <tr>
-                                <td>
-                                  <strong> CONTAINERS OF VITAL TEA: </strong>
-                                </td>
-                                <td>
-                                <span t-esc="'{:.2f}'.format(doc.total_qty)" />
-                                </td>
                                 
+                                    <td colspan="2" style="background-color: #fdb913;"><strong>Consignee:</strong></td>
+                                
+                                 
+                                
+                                 <td colspan="2" style="background-color: #fdb913;"><strong>Shipment:</strong></td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <strong> Invoice No: </strong>
+                                </td>
+                                <td>
+                                    <span t-esc="doc.pi_no"/>
+                                </td>
+                                <td>
+                                    <strong> Date: </strong>
+                                </td>
+                                <td>
+                                    <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                  <strong> BL NO: </strong>
+                                    <strong> CONTAINERS OF VITAL TEA: </strong>
+                                </td>
+                                <td>
+                                    <span t-esc="'{:.2f}'.format(doc.total_qty)" />
+                                </td>
+                                <td>
+                                    <strong> PAYMENT TERMS: </strong>
+                                </td>
+                                <td t-esc="doc.payment_term_id.name or ''"/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong> BL NO: </strong>
                                 </td>
                                 <td t-esc="doc.bl_no or ''"/>
                                 <td>
                                     <strong>DATE: </strong>
                                 </td>
-                                <!-- <td t-esc="doc.bl_date or ''"/> -->
                                 <td>
-                                <span t-esc="doc.bl_date.strftime('%d-%m-%Y')"/>
+                                    <span t-esc="doc.bl_date.strftime('%d-%m-%Y')"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                  <strong> CONTAINER NO: </strong>
+                                    <strong> CONTAINER NO: </strong>
                                 </td>
                                 <td t-esc="doc.container_no or ''"/>
                                 <td>
-                                    <strong>DATE: </strong>
-                                </td>
-                                <!-- <td t-esc="doc.bl_date or ''"/> -->
-                                <td>
-                                <span t-esc="doc.bl_date.strftime('%d-%m-%Y')"/>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td>
-                                   <strong> FROM: </strong>
-                                </td>
-                                <td t-esc="doc.destination or ''"/>
-                                <td>
-                                   <strong> TO: </strong>
-                                </td>
-                                <td t-esc="doc.delivery or ''"/>
-                            </tr>
-                            <tr>
-                                <td>
-                                   <strong> PAYMENT TERMS: </strong>
-                                </td>
-                                <td t-esc="doc.destination or ''"/>
-                                <td>
-                                 <strong>   FDA: </strong>
+                                    <strong>   FDA: </strong>
                                 </td>
                                 <td t-esc="doc.fda or ''"/>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong> FROM: </strong>
+                                </td>
+                                <td t-esc="doc.destination or ''"/>
+                                <td>
+                                    <strong> TO: </strong>
+                                </td>
+                                <td t-esc="doc.delivery or ''"/>
                             </tr>
                             <tr>
                                 <td>
@@ -164,10 +167,19 @@
                                 </td>
                                 <td t-esc="doc.fi_number or ''"/>
                                 <td>
-                                 <strong>   DATED:  </strong>
+                                    <strong>   DATED:  </strong>
                                 </td>
-                                
-                                <td><span t-esc="doc.fi_date.strftime('%d-%m-%Y')"/></td>
+
+                                <td>
+                                    <span t-esc="doc.fi_date.strftime('%d-%m-%Y')"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>SHIPPED IN SOUND <br/>
+ CONDITION PER S.S</strong>
+                                </td>
+                                <td t-esc="doc.shipping_line or ''"/>
                             </tr>
 
 
@@ -176,19 +188,22 @@
                         <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
                             <tr>
                                 <td style="padding: 10px;">
-                                    <span><strong>CONSIGNEE'S NAME:</strong></span>
+                                    <span>
+                                        <strong>CONSIGNEE'S NAME:</strong>
+                                    </span>
                                     <span t-esc="doc.partner_shipping_id.display_name"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px;">
-                                    <span><strong>CONSIGNEE'S ADDRESS:</strong></span>
+                                    <span>
+                                        <strong>CONSIGNEE'S ADDRESS:</strong>
+                                    </span>
                                     <span t-esc="doc.partner_shipping_id.street"/>
                                     <span t-esc="doc.partner_shipping_id.city"/>
                                     <span t-esc="doc.partner_shipping_id.country_id.name"/>
                                 </td>
                             </tr>
-                            
                         </table>
                      <!-- Consignee Details -->
                     <!-- <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; border: 1px solid black;">
@@ -309,12 +324,12 @@
                                             
                                                <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
                                         </td>
-                                        <td style="padding: 8px; border: 1px solid black; text-align: center; width: 10%">
+                                        <td style="padding: 8px; border: 1px solid black; text-align: center; width: 15%">
                                             <!-- <span t-esc="line.custom_price"/> -->
                                            $ <span t-esc="'{:.2f}'.format(line.custom_price)" />
                                             <!-- <span t-esc="'{:.2f}'.format(line.price_unit)" /> -->
                                         </td>
-                                        <td style="padding: 8px; border: 1px solid black; text-align: right; width: 15%">
+                                        <td style="padding: 8px; border: 1px solid black; text-align: right; width: 13%">
                                             <!-- <span t-esc="line.price_total"/> -->
                                            $  <span t-esc="'{:.2f}'.format(line.custom_amount)" />
                                         </td>

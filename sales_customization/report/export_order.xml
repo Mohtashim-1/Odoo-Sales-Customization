@@ -276,15 +276,15 @@
                         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                             
                             <div>
-                                <strong>INSTRUCTIONS:</strong><br/>
-                                FOREIGN LANGUAGE INSTRUCTIONS
+                                <strong>Instruction:</strong><br/>
+                                Foreign Language Instructions
                                 <br />
-                                ON PACKETS / LABELS FOR PRODUCTS' NAME:
+                                 On Packets / Labels For Product's Name:
                                 <span t-esc="doc.label_name"/>
                             </div>
                             <br/>
                             <div>
-    MANUFACTORY / EXPIRY / BEST BEFORE PERIOD:
+     Manufactory / Expiry / Best Before :
     <span t-if="doc.manufactory_date" t-esc="doc.manufactory_date.strftime('%d-%b-%Y')"/>
     <span t-if="doc.expiry_date" t-esc="doc.expiry_date.strftime('%d-%b-%Y')"/>
     <span t-if="doc.best_before" t-esc="doc.best_before.strftime('%d-%b-%Y')"/>
@@ -294,11 +294,11 @@
                         <br/>
 
 
-                        <strong>LANGUAGE OF NUTRITION FACTS AND INGREDIENT LIST:</strong>
+                        <strong>Language of Nutrition Facts And Ingredient List:</strong>
                         <br/>
                         <div>
                             <strong>
-                                <span>PRINT INSTRUCTIONS:</span>
+                                <span> Print Instructions:</span>
                                 <span t-esc="doc.print_instruction"/>
                             </strong>
                             <br/>
