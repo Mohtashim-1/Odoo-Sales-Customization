@@ -93,11 +93,11 @@
 
                             <tr>
                                 
-                                    <td colspan="2" style="background-color: #fdb913;"><strong>Consignee:</strong></td>
+                                    <td colspan="2" style="background-color: #fdb913; width:50%"><strong>Consignee:</strong></td>
                                 
                                  
                                 
-                                 <td colspan="2" style="background-color: #fdb913;"><strong>Shipment:</strong></td>
+                                 <td colspan="2" style="background-color: #fdb913;width:50%"><strong>Shipment:</strong></td>
                             </tr>
 
 
@@ -118,23 +118,23 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> CONTAINERS OF VITAL TEA: </strong>
+                                    <strong> Containers of Vital Tea: </strong>
                                 </td>
                                 <td>
                                     <span t-esc="'{:.2f}'.format(doc.total_qty)" />
                                 </td>
                                 <td>
-                                    <strong> PAYMENT TERMS: </strong>
+                                    <strong> Payment Terms: </strong>
                                 </td>
                                 <td t-esc="doc.payment_term_id.name or ''"/>
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> BL NO: </strong>
+                                    <strong> BL No: </strong>
                                 </td>
                                 <td t-esc="doc.bl_no or ''"/>
                                 <td>
-                                    <strong>DATE: </strong>
+                                    <strong>Date: </strong>
                                 </td>
                                 <td>
                                     <span t-esc="doc.bl_date.strftime('%d-%m-%Y')"/>
@@ -142,7 +142,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> CONTAINER NO: </strong>
+                                    <strong> Container No: </strong>
                                 </td>
                                 <td t-esc="doc.container_no or ''"/>
                                 <td>
@@ -153,11 +153,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> FROM: </strong>
+                                    <strong> From: </strong>
                                 </td>
                                 <td t-esc="doc.destination or ''"/>
                                 <td>
-                                    <strong> TO: </strong>
+                                    <strong> To: </strong>
                                 </td>
                                 <td t-esc="doc.delivery or ''"/>
                             </tr>
@@ -167,7 +167,7 @@
                                 </td>
                                 <td t-esc="doc.fi_number or ''"/>
                                 <td>
-                                    <strong>   DATED:  </strong>
+                                    <strong>   Dated:  </strong>
                                 </td>
 
                                 <td>
@@ -176,8 +176,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>SHIPPED IN SOUND <br/>
- CONDITION PER S.S</strong>
+                                    <strong>Shipped in Sound <br/>
+ Condition Per S.S</strong>
                                 </td>
                                 <td t-esc="doc.shipping_line or ''"/>
                             </tr>
@@ -189,7 +189,7 @@
                             <tr>
                                 <td style="padding: 10px;">
                                     <span>
-                                        <strong>CONSIGNEE'S NAME:</strong>
+                                        <strong>Consignee's Name:</strong>
                                     </span>
                                     <span t-esc="doc.partner_shipping_id.display_name"/>
                                 </td>
@@ -197,7 +197,7 @@
                             <tr>
                                 <td style="padding: 10px;">
                                     <span>
-                                        <strong>CONSIGNEE'S ADDRESS:</strong>
+                                        <strong>Consignee's Address:</strong>
                                     </span>
                                     <span t-esc="doc.partner_shipping_id.street"/>
                                     <span t-esc="doc.partner_shipping_id.city"/>

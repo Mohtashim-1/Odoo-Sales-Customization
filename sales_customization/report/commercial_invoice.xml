@@ -62,11 +62,11 @@
 
                             <tr>
                                 
-                                    <td colspan="2" style="background-color: #fdb913;"><strong>Consignee:</strong></td>
+                                    <td colspan="2" style="background-color: #fdb913; width:50%"><strong>Consignee:</strong></td>
                                 
                                  
                                 
-                                 <td colspan="2" style="background-color: #fdb913;"><strong>Shipment:</strong></td>
+                                 <td colspan="2" style="background-color: #fdb913;width:50%"><strong>Shipment:</strong></td>
                             </tr>
 
 
@@ -87,23 +87,23 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> CONTAINERS OF VITAL TEA: </strong>
+                                    <strong> Containers of Vital Tea: </strong>
                                 </td>
                                 <td>
                                     <span t-esc="'{:.2f}'.format(doc.total_qty)" />
                                 </td>
                                 <td>
-                                    <strong> PAYMENT TERMS: </strong>
+                                    <strong> Payment Terms: </strong>
                                 </td>
                                 <td t-esc="doc.payment_term_id.name or ''"/>
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> BL NO: </strong>
+                                    <strong> BL No: </strong>
                                 </td>
                                 <td t-esc="doc.bl_no or ''"/>
                                 <td>
-                                    <strong>DATE: </strong>
+                                    <strong>Date: </strong>
                                 </td>
                                 <td>
                                     <span t-esc="doc.bl_date.strftime('%d-%m-%Y')"/>
@@ -111,7 +111,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> CONTAINER NO: </strong>
+                                    <strong> Container No: </strong>
                                 </td>
                                 <td t-esc="doc.container_no or ''"/>
                                 <td>
@@ -122,11 +122,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong> FROM: </strong>
+                                    <strong> From: </strong>
                                 </td>
                                 <td t-esc="doc.destination or ''"/>
                                 <td>
-                                    <strong> TO: </strong>
+                                    <strong> To: </strong>
                                 </td>
                                 <td t-esc="doc.delivery or ''"/>
                             </tr>
@@ -136,7 +136,7 @@
                                 </td>
                                 <td t-esc="doc.fi_number or ''"/>
                                 <td>
-                                    <strong>   DATED:  </strong>
+                                    <strong>   Dated:  </strong>
                                 </td>
 
                                 <td>
@@ -145,8 +145,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>SHIPPED IN SOUND <br/>
- CONDITION PER S.S</strong>
+                                    <strong>Shipped in Sound <br/>
+ Condition Per S.S</strong>
                                 </td>
                                 <td t-esc="doc.shipping_line or ''"/>
                             </tr>
@@ -158,7 +158,7 @@
                             <tr>
                                 <td style="padding: 10px;">
                                     <span>
-                                        <strong>CONSIGNEE'S NAME:</strong>
+                                        <strong>Consignee's Name:</strong>
                                     </span>
                                     <span t-esc="doc.partner_shipping_id.display_name"/>
                                 </td>
@@ -166,7 +166,7 @@
                             <tr>
                                 <td style="padding: 10px;">
                                     <span>
-                                        <strong>CONSIGNEE'S ADDRESS:</strong>
+                                        <strong>Consignee's Address:</strong>
                                     </span>
                                     <span t-esc="doc.partner_shipping_id.street"/>
                                     <span t-esc="doc.partner_shipping_id.city"/>
@@ -178,16 +178,16 @@
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                             <thead>
                                 <tr style="background-color: #f2f2f2;">
-                                    <th style="padding: 4px; border: 1px solid black; width:10%">S #</th>
-                                    <th style="padding: 4px; border: 1px solid black;">IMAGE</th>
-                                    <th style="padding: 4px; border: 1px solid black;">QTY</th>
-                                    <th style="padding: 4px; border: 1px solid black;">DESCRIPTION</th>
-                                    <th style="padding: 4px; border: 1px solid black;">HS CODE</th>
-                                    <th style="padding: 4px; border: 1px solid black;">PACKAGING</th>
-                                    <th style="padding: 4px; border: 1px solid black;">WEIGHT KG(s)</th>
-                                    <th style="padding: 4px; border: 1px solid black;">UNIT PRICE / <br/>
+                                    <th style="padding: 4px; border: 1px solid black;">S#</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Image</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Qty</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Description</th>
+                                    <th style="padding: 4px; border: 1px solid black;">HS Code</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Packing</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Weight KG(s)</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Unit Price / <br/>
  CTN(s)</th>
-                                    <th style="padding: 4px; border: 1px solid black;">AMOUNT</th>
+                                    <th style="padding: 4px; border: 1px solid black;">Amount</th>
                                 </tr>
                             </thead>
                             <tbody style="font-size: 12px;">
@@ -274,13 +274,13 @@
                                                         <t t-esc="line.product_id.weight"/>
                                                         <span t-esc="'{:.0f}'.format(line.product_id.net_weight)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;width:12%">
                                                         <!-- <span t-esc="line.price_unit" /> -->
-                                                       $                                                        <span t-esc="'{:.2f}'.format(line.price_unit)" />
+                                                       $<span t-esc="'{:.2f}'.format(line.price_unit)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;width:10%">
                                                         <!-- <span t-esc="line.price_total"/> -->
-                                                        $                                                        <span t-esc="'{:.2f}'.format(line.price_total)" />
+                                                        $<span t-esc="'{:.2f}'.format(line.price_total)" />
                                                     </td>
                                                 </tr>
                                             </t>
@@ -408,7 +408,7 @@
                 t-if="doc.company_id.image_field_3" 
                 t-att-src="image_data_uri(doc.company_id.image_field_3)" 
                 alt="Signature" 
-                style="width: 100%; height: 100px; object-fit: contain;" 
+                style="width: 75%; height: 100px; object-fit: contain;" 
             />
             <p style="border-top: 1px solid black; text-align: right; width: 100%; height: 30px; margin: 0;"></p>
         </td>
@@ -425,12 +425,12 @@
     <tr>
         <!-- Footer -->
         <td style="width: 40%; text-align: center;">
-            <strong>Vital Tea:</strong>
+            <strong>Eastern Products (Pvt.) Ltd.</strong>
         </td>
         <td style="width: 20%;"></td>
         <td style="width: 40%; text-align: center;">
-            <strong>Customer:</strong>
-            <br/>
+            <!-- <strong>Customer:</strong> -->
+            <!-- <br/> -->
             <span t-field="doc.partner_id.name" />
         </td>
     </tr>
