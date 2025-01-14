@@ -110,7 +110,12 @@
                                                 </t></span>
                                     </td>
 									<td style="padding: 5px; border: 1px solid black;">
-                                        <strong>GROSS WEIGHT</strong> <span t-esc="doc.port_of_discharge" />
+                                        <strong>GROSS WEIGHT : </strong> 
+                                        <span t-esc="'{:.0f}'.format(doc.total_gross_weight)" />
+                                    </td>
+                                    <td style="padding: 5px; border: 1px solid black;">
+                                        <strong>NET WEIGHT : </strong> 
+                                        <span t-esc="'{:.0f}'.format(doc.total_net_weight)" />
                                     </td>
                                 </tr>
                             </table>
@@ -153,7 +158,8 @@
                                                     <span t-esc="line.product_id.display_name"/>
                                                 </td>
                                                 <td style="border: 1px solid black; padding: 5px; text-align: center;">
-                                                    <span t-esc="line.product_uom_qty"/>
+                                                    <!-- <span t-esc="line.product_uom_qty"/> -->
+                                                    <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
                                                 </td>
                                                 
                                             </tr>
@@ -161,6 +167,16 @@
                                     </t>
                                 </tbody>
                             </table>
+                            <p style="border-top: 1px solid black; text-align: right; width: 400px; margin-left: auto;"></p>
+                        <table style="border: none;">
+    <tr style="border: none;">
+        <td style="width: 60%; border: none;"></td> <!-- Empty column for spacing -->
+        <td style="width: 30%; border: none;"><strong>Total Cartons :</strong></td>
+        <td style="width: 10%; border: none;"></td>
+        <td style="width: 10%; border: none;"><span t-esc="'{:.2f}'.format(doc.total_qty)" /></td>
+    </tr>
+</table>
+
                         </div>
                     </main>
                 </t>
