@@ -8,6 +8,7 @@ class PackagingDetails(models.Model):
 
     net_weight = fields.Float(string="Net Weight", tracking=True)
     no_of_pieces = fields.Float(string="No Of Pieces", tracking=True)
+    uom = fields.Char(string="UOM")
     weight = fields.Float(string="Carton", tracking=True)
     packaging_detail = fields.Char(string="Packaging Details", compute="_compute_packaging_detail", store=True, tracking=True)
 
@@ -21,7 +22,7 @@ class PackagingDetails(models.Model):
     #         else:
     #             record.packaging_detail = "0.00"
 
-    @api.depends('net_weight', 'no_of_pieces', 'weight')
+    @api.depends('net_weight', 'no_of_pieces', 'weight','uom')
     def _compute_packaging_detail(self):
         for record in self:
             if record.net_weight and record.no_of_pieces and record.weight:
@@ -31,6 +32,6 @@ class PackagingDetails(models.Model):
                 weight = int(record.weight) if record.weight.is_integer() else record.weight
                 
                 # Set the packaging_detail field
-                record.packaging_detail = f"{net_weight} Gm X {no_of_pieces} Pouch X {weight} Ctn"
+                record.packaging_detail = f"{net_weight} Gm X {no_of_pieces} {record.uom or 'Units'} X {weight} Ctn"
             else:
                 record.packaging_detail = "0 GM X 0 POUCH X 0 CTN"

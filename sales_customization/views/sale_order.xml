@@ -42,21 +42,21 @@
             <field name="destination" />
             <field name="delivery" />
             <field name="fda" />
-            <field name="terms" />
-            <field name="language_instructions" />
-            <field name="lot_code" />
-            <field name="producer_code" />
+            <!-- <field name="terms" /> -->
+            <!-- <field name="language_instructions" /> -->
+            <!-- <field name="lot_code" /> -->
+            <!-- <field name="producer_code" /> -->
             <field name="fi_number" />
             <field name="fi_date" />
-            <field name="container_no" />
+            <!-- <field name="container_no" /> -->
             <field name="container_cbm" />
             <field name="bl_no" />
             <field name="bl_date" />
             <field name="vessel_voyage" />
-            <field name="loading_port" />
-            <field name="port_of_discharge" />
-            <field name="vessel" />
-            <field name="voyage" />   
+            <!-- <field name="loading_port" /> -->
+            <!-- <field name="port_of_discharge" /> -->
+            <!-- <field name="vessel" /> -->
+            <!-- <field name="voyage" />    -->
         </xpath>
 
         <xpath expr="//field[@name='tax_totals']" position="before">

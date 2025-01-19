@@ -1,18 +1,39 @@
 from odoo import models, fields, api
 
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    ref = fields.Char(compute='_compute_ref', store=True)
+    image_field_1 = fields.Image("Company Logo 1")
+    port = fields.Char("Port")
+    # code = fields.Char("code")
 
-    @api.depends('name')
-    def _compute_ref(self):
+    @api.onchange('name')
+    def _onchange_name_set_ref(self):
+        """
+        Automatically set the `ref` field to the first letter of the `name` field.
+        """
         for record in self:
             if record.name:
-                record.ref = ''.join(word[0].upper() for word in record.name.split())
-            else:
-                record.ref = '12'
+                # Get the first letter of each word in the name
+                record.ref = ''.join(word[0] for word in record.name.split())
 
+    @api.model
+    def create(self, vals):
+        """
+        Set the `ref` field based on the `name` field during creation.
+        """
+        if 'name' in vals and vals['name']:
+            vals['ref'] = ''.join(word[0] for word in vals['name'].split())
+        return super(ResPartner, self).create(vals)
 
-    # code = fields.Char(strings="Code")
+    def write(self, vals):
+        """
+        Update the `ref` field based on the `name` field when the partner is updated.
+        """
+        if 'name' in vals and vals['name']:
+            vals['ref'] = ''.join(word[0] for word in vals['name'].split())
+        return super(ResPartner, self).write(vals)
 
+    
+    

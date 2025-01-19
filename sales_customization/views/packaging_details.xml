@@ -7,6 +7,7 @@
             <tree string="Packaging Detail">
                 <field name="net_weight" />
                 <field name="no_of_pieces" />
+                <field name="uom" />
                 <field name="weight" />
                 <field name="packaging_detail" />
             </tree>
@@ -22,6 +23,7 @@
                     <group>
                         <field name="net_weight" optional="show" tracking="1" />
                         <field name="no_of_pieces" optional="show" tracking="1" />
+                        <field name="uom" optional="show" tracking="1" />
                         <field name="weight" optional="show" tracking="1" />
                         <field name="packaging_detail" optional="show" tracking="1" />
                     </group>

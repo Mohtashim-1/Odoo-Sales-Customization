@@ -48,13 +48,14 @@
 
 
             <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice/ Sales Contract</h1>
-            
+
+
             <table style="width: 100%">
             <tr>
             <td style="width: 50%">
             <table>
             <tr>
-            <td colspan="2" style="background-color: #fdb913;"><strong>Consignee:</strong></td>
+            <td colspan="2" t-att-style="'background-color: %s; color: %s;' % (doc.company_id.name == 'Eastern Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Eastern Products (Pvt.) Ltd.' and 'white' or 'black')"><strong>Consignee:</strong></td>
 
             </tr>
             <br/>
@@ -108,7 +109,11 @@
             <td style="width: 50%;">
             <table>
             <tr>
-            <td colspan="2" style="background-color: #fdb913;"><strong>Shipping Details:</strong></td>
+            <!-- <td colspan="2" style="background-color: #fdb913;"><strong>Shipping Details:</strong></td> -->
+    <td colspan="2" t-att-style="'background-color: %s; color: %s;' % (doc.company_id.name == 'Eastern Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Eastern Products (Pvt.) Ltd.' and 'white' or 'black')">
+    <strong>Shipping Details:</strong>
+</td>
+
 
             </tr>
             <br/>
@@ -155,8 +160,8 @@
             <td style="width: 20%; visibility: hidden;"><span t-esc="'{:.0f}'.format(doc.total_qty)" /></td>
             </tr>
             <tr>
-            <td style="width: 20%; visibility: hidden;">.</td>
-            <td style="width: 20%; visibility: hidden;">.</td>
+            <td style="width: 20%; ">.</td>
+            <td style="width: 20%; ">.</td>
             </tr>
            
             

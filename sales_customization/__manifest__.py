@@ -10,6 +10,7 @@
     # 'views/sale_order.xml',
     
     'views/product_template_view.xml',
+    'views/partner.xml',
     'views/sale_order.xml',
     'views/bank_detail.xml',
     'views/packaging_details.xml',
