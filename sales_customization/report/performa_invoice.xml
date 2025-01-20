@@ -418,6 +418,8 @@
 <br/><br/><br/>
                
 
+
+
 <table style="width: 100%; table-layout: fixed;">
     <tr>
         <!-- Left Column -->
@@ -428,8 +430,7 @@
                 alt="Signature" 
                 style="width: 75%; height: 100px; object-fit: contain;" 
             />
-            <br/>
-            <p style="border-top: 1px solid black; text-align: right; width: 100%; height: 30px; margin-top: 10px;"></p>
+            <p style="border-top: 1px solid black; text-align: right; width: 100%;  "></p>
         </td>
 
         <!-- Center Column -->
@@ -438,19 +439,19 @@
         <!-- Right Column -->
         <td style="width: 40%; text-align: right;">
             <div style="height: 100px;"></div> <!-- Placeholder for height consistency -->
-            <p style="border-top: 1px solid black; text-align: right; width: 100%; height: 30px; margin: 0;"></p>
+            <p style="border-top: 1px solid black; text-align: right; width: 100%;"></p>
         </td>
     </tr>
     <tr>
         <!-- Footer -->
         <td style="width: 40%; text-align: center;">
-            <strong>Eastern Product (PVT.) LTD.</strong>
+            <strong style="display: block; ">Eastern Product (PVT.) LTD.</strong>
         </td>
         <td style="width: 20%;"></td>
         <td style="width: 40%; text-align: center;">
-            <!-- <strong>Customer:</strong> -->
-            <!-- <br/> -->
-            <span t-field="doc.partner_id.name" />
+            <strong style="display: block;">
+                <span t-field="doc.partner_id.name" />
+            </strong>
         </td>
     </tr>
 </table>
