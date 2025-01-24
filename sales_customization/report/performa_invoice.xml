@@ -30,7 +30,7 @@
           <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
             <!-- Header Section -->
             <div class="header" style="margin-bottom: 30px;">
-    <t t-if="doc.company_id.name == 'Eastern Products (Pvt.) Ltd.'">
+    <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
         <div style="display: flex; justify-content: flex-end; align-items: center;">
             <div style="text-align: right;">
                 <img t-if="doc.company_id.image_field_1" 
@@ -40,7 +40,7 @@
             </div>
         </div>
     </t>
-    <t t-if="doc.company_id.name != 'Eastern Products (Pvt.) Ltd.'">
+    <t t-elif="doc.company_id.name == 'Eastern Products (Pvt.) Ltd.'">
         <div style="text-align: center;">
             <img t-if="doc.company_id.image_field_1" 
                  t-att-src="image_data_uri(doc.company_id.image_field_1)" 
@@ -49,6 +49,7 @@
         </div>
     </t>
 </div>
+
 
 
             <!-- <div class="header" style="text-align: center; margin-bottom: 30px;">
