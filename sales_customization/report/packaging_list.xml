@@ -41,7 +41,7 @@
                         <!-- Header Section -->
                         <div class="header" style="text-align: center; margin: 0; padding: 0;">
                             <div>
-                                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
+                                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm; padding-bottom:30px" />
                             </div>
                         </div>
 
