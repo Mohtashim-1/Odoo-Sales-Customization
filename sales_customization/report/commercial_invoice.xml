@@ -170,7 +170,7 @@
                                     </div>
                                 </div>
                                 <!-- Consignee Information -->
-                                <div class="mt-4">
+                                <div class="mt-4 border">
                                     <div class="row">
                                         <div class="col-12 p-3">
                                             <strong>Consignee's Name:</strong>
