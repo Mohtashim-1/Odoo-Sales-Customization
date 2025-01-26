@@ -3,8 +3,9 @@
     <data>
         <template id="commercial_invoice_report" name="Commercial Invoice Report" t-name="sales_customization.commercial_invoice_report">
             <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
-                    <style>
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <style>
                     .footer {
                         position: fixed;
                         bottom: 0;
@@ -36,173 +37,176 @@
                         height: auto;
                     }
                     </style>
-                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
-                        <!-- Header Section -->
-                        <div class="header" style="text-align: center; margin-bottom: 30px;">
+                        <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                            <!-- Header Section -->
+                            <!-- <div class="header" style="text-align: center; margin-bottom: 30px;">
                             <div>
                                 <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm; padding-bottom:30px"/>
-                            </div>
+                            </div> -->
                             <!-- <div style="margin-top: 10px;">
                                 <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
                             </div> -->
-                        </div>
-                        <!-- Custom Footer -->
-                        <!-- Custom Footer -->
-                        <div class="footer">
+                            <!-- </div> -->
+                            <!-- Custom Footer -->
+                            <!-- Custom Footer -->
+                            <!-- <div class="footer">
                             <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 240mm; height: auto;" />
-                        </div>
-
-                        <!-- Header Section -->
-                        <div style="margin-top: 10px; text-align: center;">
-                            <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
-                        </div>
-
-                        <!-- Shipment Details Section -->
-                        <!-- Shipment Details Section -->
-                        <table class="table table-condensed" style="width:100%; margin-top:20px;">
-
-                            <tr>
-                                
-                                    <td colspan="2" style="background-color: #fdb913; width:45%;"><strong>Consignee:</strong></td>
-                                    <td style="width:10%"></td>
-                                
-                                 
-                                
-                                 <td colspan="2" style="background-color: #fdb913;width:45%"><strong>Shipment:</strong></td>
-                            </tr>
-
-
-
-                            <tr>
-                                <td>
-                                    <strong> Invoice No: </strong>
-                                </td>
-                                
-                                <td>
-                                    <span t-esc="doc.pi_no"/>
-                                </td>
-                                <td style="width:10%"></td>
-                                <td>
-                                    <strong> Date: </strong>
-                                </td>
-                                <td>
-                                    <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong> Containers of Vital Tea: </strong>
-                                </td>
-                                <td>
-                                    <span t-esc="'{:.2f}'.format(doc.total_qty)" />
-                                </td>
-                                <td style="width:10%"></td>
-                                <td>
-                                    <strong> Payment Terms: </strong>
-                                </td>
-                                <td t-esc="doc.payment_term_id.name or ''"/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong> BL No: </strong>
-                                </td>
-                                <td t-esc="doc.bl_no or ''"/>
-                                <td style="width:10%"></td>
-                                <td>
-                                    <strong>Date: </strong>
-                                </td>
-                                <td>
-                                    <!-- <span t-esc="doc.bl_date.strftime('%d-%m-%Y')"/> -->
-                                    <span t-esc="doc.bl_date and doc.bl_date.strftime('%d-%m-%Y') or ''"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong> Container No: </strong>
-                                </td>
-                                <td t-esc="doc.container_no or ''"/>
-                                <td style="width:10%"></td>
-                                <td>
-                                    <strong>   FDA: </strong>
-                                </td>
-                                <td t-esc="doc.fda or ''"/>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong> From: </strong>
-                                </td>
-                                <td t-esc="doc.destination or ''"/>
-                                <td style="width:10%"></td>
-                                <td>
-                                    <strong> To: </strong>
-                                </td>
-                                <td t-esc="doc.delivery or ''"/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>FI # </strong>
-                                </td>
-                                <td t-esc="doc.fi_number or ''"/>
-                                <td style="width:10%"></td>
-                                <td>
-                                    <strong>   Dated:  </strong>
-                                </td>
-
-                                <td>
-                                    <!-- <span t-esc="doc.fi_date.strftime('%d-%m-%Y')"/> -->
-                                    <span t-esc="doc.fi_date and doc.fi_date.strftime('%d-%m-%Y') or ''"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>Shipped in Sound <br/>
- Condition Per S.S</strong>
-                                </td>
-                                <td t-esc="doc.shipping_line or ''"/>
-                            </tr>
-
-
-                        </table>
-                        <!-- Consignee Information -->
-                        <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding: 10px;">
-                                    <span>
-                                        <strong>Consignee's Name:</strong>
-                                    </span>
-                                    <span t-esc="doc.partner_shipping_id.display_name"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px;">
-                                    <span>
-                                        <strong>Consignee's Address:</strong>
-                                    </span>
-                                    <span t-esc="doc.partner_shipping_id.street"/>
-                                    <span t-esc="doc.partner_shipping_id.city"/>
-                                    <span t-esc="doc.partner_shipping_id.country_id.name"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <!-- Product Details Table -->
-                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                            <thead>
-                                <tr style="background-color: #f2f2f2;">
-                                    <th style="padding: 4px; border: 1px solid black;">S#</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Image</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Qty</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Description</th>
-                                    <th style="padding: 4px; border: 1px solid black;">HS Code</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Packing</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Weight KG(s)</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Unit Price / <br/>
- CTN(s)</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody style="font-size: 12px;">
-                                <!-- <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
+                        </div> -->
+                            <!-- Header Section -->
+                            <div style="margin-top: 10px; text-align: center;">
+                                <h1 style="font-size: 24px; font-weight: bold;">COMMERCIAL INVOICE</h1>
+                            </div>
+                            <!-- Shipment Details Section -->
+                            <!-- Shipment Details Section -->
+                            <div class="container mt-4">
+                                <div class="row">
+                                    <div class="col-6 bg-warning text-white">
+                                        <strong>Consignee:</strong>
+                                    </div>
+                                    <div class="col-6 bg-warning text-white">
+                                        <strong>Shipment:</strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Invoice No:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.pi_no"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Date:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.date_order.strftime('%d-%b-%Y')"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Containers of Vital Tea:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="'{:.2f}'.format(doc.total_qty)" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Payment Terms:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.payment_term_id.name or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>BL No:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.bl_no or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Date:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.bl_date and doc.bl_date.strftime('%d-%m-%Y') or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Container No:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.container_no or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>FDA:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.fda or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>From:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.destination or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>To:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.delivery or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>FI #:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.fi_number or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Dated:</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <span t-esc="doc.fi_date and doc.fi_date.strftime('%d-%m-%Y') or ''"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong>Shipped in Sound Condition Per S.S:</strong>
+                                        <span t-esc="doc.shipping_line or ''"/>
+                                    </div>
+                                </div>
+                                <!-- Consignee Information -->
+                                <div class="mt-4">
+                                    <div class="row">
+                                        <div class="col-12 p-3">
+                                            <strong>Consignee's Name:</strong>
+                                            <span t-esc="doc.partner_shipping_id.display_name"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 p-3">
+                                            <strong>Consignee's Address:</strong>
+                                            <span t-esc="doc.partner_shipping_id.street"/>
+                                            <span t-esc="doc.partner_shipping_id.city"/>
+                                            <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Details Table -->
+                            <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                                <thead>
+                                    <tr style="background-color: #f2f2f2;">
+                                        <th style="padding: 4px; border: 1px solid black;">S#</th>
+                                        <th style="padding: 4px; border: 1px solid black;">Image</th>
+                                        <th style="padding: 4px; border: 1px solid black;">Qty</th>
+                                        <th style="padding: 4px; border: 1px solid black;">Description</th>
+                                        <th style="padding: 4px; border: 1px solid black;">HS Code</th>
+                                        <th style="padding: 4px; border: 1px solid black;">Packing</th>
+                                        <th style="padding: 4px; border: 1px solid black;">Weight KG(s)</th>
+                                        <th style="padding: 4px; border: 1px solid black;">Unit Price /
+                                            <br/>
+ CTN(s)
+                                        </th>
+                                        <th style="padding: 4px; border: 1px solid black;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 12px;">
+                                    <!-- <t t-foreach="enumerate(doc.order_line, start=1)" t-as="line">
                                     <tr>
                                         <td style="padding: 4px; border: 1px solid black;">
                                             <t t-esc="line[0]"/>
@@ -227,80 +231,77 @@
                                         </td>
                                     </tr>
                                 </t> -->
-
-                                <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
-                                <t t-set="sub_category_lst" t-value="[]"/>
-                                <t t-set="product_lst" t-value="[]"/>
-                                <t t-set="s_no" t-value="1"/>
-
-                                <t t-foreach="doc.order_line" t-as="line">
-                                    <t t-if="line.product_id.categ_id.name not in sub_category_lst">
-                                        <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
-
-                                        <tr>
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;">
-                                                <strong>
-                                                    <span t-esc="line.product_id.categ_id.name" />
-                                                </strong>
-                                                <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
-                                            </td>
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                        </tr>
-
-                                        <t t-foreach="doc.order_line" t-as="line">
-                                            <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
-                                                <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
-
-                                                <tr>
-                                                    <td style="padding: 8px; border: 1px solid black;">
-                                                        <span t-esc="s_no"/>
-                                                        <t t-set="s_no" t-value="s_no+1"/>
-                                                    </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
-                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
-                                                        <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
-                                                    </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
-                                                        <!-- <span t-esc="line.product_uom_qty"/> -->
-                                                        <!-- <span t-esc="int(line.product_uom_qty)"/> -->
-                                                        <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
-                                                    </td>
-                                                    <td style="padding: 8px; border: 1px solid black;">
-                                                        <span t-esc="line.product_id.display_name"/>
-                                                    </td>
-                                                    <td style="padding: 4px; border: 1px solid black;">
-                                                        <t t-esc="line.hs_code_id.display_name"/>
-                                                    </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
-                                                        <t t-esc="line.packaging_detail_id.display_name"/>
-                                                    </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
-                                                        <t t-esc="line.product_id.weight"/>
-                                                        <span t-esc="'{:.0f}'.format(line.product_id.net_weight)" />
-                                                    </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;width:12%">
-                                                        <!-- <span t-esc="line.price_unit" /> -->
-                                                       $ <span t-esc="'{:.2f}'.format(line.price_unit)" />
-                                                    </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;width:10%">
-                                                        <!-- <span t-esc="line.price_total"/> -->
-                                                        $ <span t-esc="'{:.2f}'.format(line.price_total)" />
-                                                    </td>
-                                                </tr>
+                                    <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
+                                    <t t-set="sub_category_lst" t-value="[]"/>
+                                    <t t-set="product_lst" t-value="[]"/>
+                                    <t t-set="s_no" t-value="1"/>
+                                    <t t-foreach="doc.order_line" t-as="line">
+                                        <t t-if="line.product_id.categ_id.name not in sub_category_lst">
+                                            <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
+                                            <tr>
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                                <td style="padding: 8px; border: 1px solid black;">
+                                                    <strong>
+                                                        <span t-esc="line.product_id.categ_id.name" />
+                                                    </strong>
+                                                    <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
+                                                </td>
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                                <td style="padding: 8px; border: 1px solid black;" />
+                                            </tr>
+                                            <t t-foreach="doc.order_line" t-as="line">
+                                                <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
+                                                    <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
+                                                    <tr>
+                                                        <td style="padding: 8px; border: 1px solid black;">
+                                                            <span t-esc="s_no"/>
+                                                            <t t-set="s_no" t-value="s_no+1"/>
+                                                        </td>
+                                                        <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                                            <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
+                                                            <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
+                                                        </td>
+                                                        <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                                            <!-- <span t-esc="line.product_uom_qty"/> -->
+                                                            <!-- <span t-esc="int(line.product_uom_qty)"/> -->
+                                                            <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
+                                                        </td>
+                                                        <td style="padding: 8px; border: 1px solid black;">
+                                                            <span t-esc="line.product_id.display_name"/>
+                                                        </td>
+                                                        <td style="padding: 4px; border: 1px solid black;">
+                                                            <t t-esc="line.hs_code_id.display_name"/>
+                                                        </td>
+                                                        <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                                                            <t t-esc="line.packaging_detail_id.display_name"/>
+                                                        </td>
+                                                        <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                                                            <t t-esc="line.product_id.weight"/>
+                                                            <span t-esc="'{:.0f}'.format(line.product_id.net_weight)" />
+                                                        </td>
+                                                        <td style="padding: 8px; border: 1px solid black; text-align: center;width:12%">
+                                                            <!-- <span t-esc="line.price_unit" /> -->
+                                                       $
+                                                            <span t-esc="'{:.2f}'.format(line.price_unit)" />
+                                                        </td>
+                                                        <td style="padding: 8px; border: 1px solid black; text-align: right;width:10%">
+                                                            <!-- <span t-esc="line.price_total"/> -->
+                                                        $
+                                                            <span t-esc="'{:.2f}'.format(line.price_total)" />
+                                                        </td>
+                                                    </tr>
+                                                </t>
                                             </t>
                                         </t>
                                     </t>
-                                </t>
-                                <!-- Syed Owais Noor <-> ByteCode -->
-                            </tbody>
-                            <!-- <tfoot>
+                                    <!-- Syed Owais Noor <-> ByteCode -->
+                                </tbody>
+                                <!-- <tfoot>
                                 <tr>
                                     <td colspan="2" style="padding: 4px; border: 1px solid black;">
                                         <span t-field="doc.total_qty"/>
@@ -314,153 +315,138 @@
                                     </td>
                                 </tr>
                             </tfoot> -->
-                        </table>
-                        <br/>
-
-                        <div style="margin-top: 20px;">
-
-                        <div style="page-break-inside: avoid;">
-                        
-  <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
-  
-  <table style="width: 100%;">
-    <tr>
-      <td style="width: 50%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
-      <td style="width: 15%;padding-top: 10px;"><strong>Net FOB Value in USD:</strong></td>
-      <td style="width: 10%; padding-top: 10px;"></td>
-      <td style="width: 25%;padding-top: 10px;">$ <span t-esc="'{:.2f}'.format(doc.amount_total)" /></td>
-    </tr>
-    <tr>
-      <td style="width: 50%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
-      <td style="width: 15%;"><strong>Freight:</strong></td>
-      <td style="width: 10%; "></td>
-      <td style="width: 25%;">$ <span t-esc="'{:.2f}'.format(doc.freight)" /></td>
-    </tr>
-    <tr>
-      <td style="width: 50%;"></td> <!-- Empty column for spacing -->
-      <td style="width: 15%;"><strong>Credit Note:</strong></td>
-      <td style="width: 10%;"></td>
-      <td style="width: 25%; "></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="width: 50%;"></td> <!-- Empty column for spacing -->
-      <td style="width: 25%;">
-        <strong>
-          <t t-if="doc.total and doc.total > 0">Net CNF Value in USD:</t>
-          <t t-else="">Net FOB Value in USD:</t>
-        </strong>
-      </td>
-      <td style="width: 10%;"></td>
-      <td style="width: 15%;"> $ <t t-esc="'{:.2f}'.format(doc.total)" /></td>
-    </tr>
-  </table>
-
-  <table style="width:100%;"> 
-    <!-- <tr>
-      <td style="width:100px;"><strong>Net FOB Value:</strong></td> 
-      <td style="width:400px;"><span t-esc="'{:.2f}'.format(doc.total)" /></td>
-    </tr> -->
-    <tr>
-      <!-- <td style="width:100px;"><strong>USD:</strong></td> -->
-      <td style="width:400px;">USD: <span t-esc="doc.total_in_words or ''" /></td>
-    </tr>
-  </table>
-                        
-                        </div>
-                            
-
-
-<div style="page-break-inside: avoid;">
-  
-
-
-    <div style="margin-top:20px;">
-                            <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P” </p>
-                            <p>                       
-                                Container Cleanliness Statement
-                            </p>
-                            <p>The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil and is free from KHAPRA BEATLE insect.</p>
-                        </div>
-
-  <table style="width: 100%; text-align: center;">
-                                <tr>
-                                    
-                                    <td style="text-align: right; padding-right: 50px;">
-                                        <strong>NET WEIGHT IN KGS</strong>
-                                        <br />
-                                        <span t-field="doc.total_net_weight" /> Kg
-                                    </td>
-
-                                    
-                                    <td style="text-align: left; padding-left: 50px;">
-                                        <strong>GROSS WEIGHT IN KGS</strong>
-                                        <br />
-                                        <span t-field="doc.total_gross_weight" /> Kg
-                                    </td>
-                                </tr>
                             </table>
+                            <br/>
+                            <div style="margin-top: 20px;">
+                                <div style="page-break-inside: avoid;">
+                                    <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
+                                    <div class="container mt-4">
+                                        <div class="row">
+                                            <div class="col-6 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-3 pt-3">
+                                                <strong>Net FOB Value in USD:</strong>
+                                            </div>
+                                            <div class="col-1 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-2 pt-3">
+                                            $
+                                                <span t-esc="'{:.2f}'.format(doc.amount_total)" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-3 pt-3">
+                                                <strong>Freight:</strong>
+                                            </div>
+                                            <div class="col-1 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-2 pt-3">
+                                            $
+                                                <span t-esc="'{:.2f}'.format(doc.freight)" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-3 pt-3">
+                                                <strong>Credit Note:</strong>
+                                            </div>
+                                            <div class="col-1 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-2 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-3 pt-3">
+                                                <strong>
+                                                    <t t-if="doc.total and doc.total > 0">Net CNF Value in USD:</t>
+                                                    <t t-else="">Net FOB Value in USD:</t>
+                                                </strong>
+                                            </div>
+                                            <div class="col-1 pt-3"></div>
+                                            <!-- Empty column for spacing -->
+                                            <div class="col-2 pt-3">
+                                            $
+                                                <t t-esc="'{:.2f}'.format(doc.total)" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 pt-3">
+                                            USD:
+                                                <span t-esc="doc.total_in_words or ''" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="page-break-inside: avoid;">
+                                    <div style="margin-top:20px;">
+                                        <p>The Exporter (EASTERN PRODUCTS PVT LIMITED) (Number of Registered Exporter PKREXPK04790103) , declares that, except where otherwise clearly indicated are of Pakistan preferential origin in accordance with the rules of origin of the Developing Countries Trading of the UK and that the origin criterion met is P” </p>
+                                        <p>                       
+                                            Container Cleanliness Statement
+                                        </p>
+                                        <p>The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil and is free from KHAPRA BEATLE insect.</p>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="row text-center">
+                                            <!-- Left Column for Net Weight -->
+                                            <div class="col-6 text-right pr-5">
+                                                <strong>NET WEIGHT IN KGS</strong>
+                                                <br />
+                                                <span t-field="doc.total_net_weight" /> Kg
+                                            </div>
 
-
-
-
-
-
-
-
-</div>
-
-
-
-<table style="width: 100%; table-layout: fixed;">
-    <tr>
-        <!-- Left Column -->
-        <td style="width: 40%; text-align: left;">
-            <img 
-                t-if="doc.company_id.image_field_3" 
-                t-att-src="image_data_uri(doc.company_id.image_field_3)" 
-                alt="Signature" 
-                style="width: 75%; height: 100px; object-fit: contain;" 
-            />
-            <br/>
-            <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
-        </td>
-
-        <!-- Center Column -->
-        <td style="width: 20%;"></td>
-
-        <!-- Right Column -->
-        <td style="width: 40%; text-align: right;">
-            <div style="height: 100px;"></div> 
-            <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
-        </td>
-    </tr>
-    <tr>
-        <!-- Footer -->
-        <td style="width: 40%; text-align: center;">
-            <strong>Eastern Product (PVT.) LTD.</strong>
-        </td>
-        <td style="width: 20%;"></td>
-        <td style="width: 40%; text-align: center;">
-            <strong><span t-field="doc.partner_id.name" /></strong>
-        </td>
-    </tr>
-</table>
-
-
-
-
-
-
-
-
+                                            <!-- Right Column for Gross Weight -->
+                                            <div class="col-6 text-left pl-5">
+                                                <strong>GROSS WEIGHT IN KGS</strong>
+                                                <br />
+                                                <span t-field="doc.total_gross_weight" /> Kg
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container mt-4">
+                                    <div class="row">
+                                        <!-- Left Column -->
+                                        <div class="col-4 text-left">
+                                            <img 
+                                            t-if="doc.company_id.image_field_3" 
+                                            t-att-src="image_data_uri(doc.company_id.image_field_3)" 
+                                            alt="Signature" 
+                                            style="width: 75%; height: 100px; object-fit: contain;" 
+                                        />
+                                            <br/>
+                                            <p style="border-top: 1px solid black; text-align: right;"></p>
+                                        </div>
+                                        <!-- Center Column (Empty for spacing) -->
+                                        <div class="col-4"></div>
+                                        <!-- Right Column -->
+                                        <div class="col-4 text-right">
+                                            <div style="height: 100px;"></div>
+                                            <p style="border-top: 1px solid black; text-align: right;"></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- Footer Left -->
+                                        <div class="col-4 text-center">
+                                            <strong>Eastern Product (PVT.) LTD.</strong>
+                                        </div>
+                                        <!-- Center Column (Empty for spacing) -->
+                                        <div class="col-4"></div>
+                                        <!-- Footer Right -->
+                                        <div class="col-4 text-center">
+                                            <strong>
+                                                <span t-field="doc.partner_id.name" />
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-
-
-
-
-                    </div>
+                    </t>
                 </t>
             </t>
         </template>
