@@ -200,19 +200,21 @@
                                 </div>
 
                                 <!-- Consignee Information -->
-                                <div class="row mt-4">
-                                    <div class="col-12 border p-3">
-                                        <strong>Consignee's Name:</strong>
-                                        <span t-esc="doc.partner_shipping_id.display_name"/>
+                                <div class="mt-4 border">
+                                    <div class="row">
+                                        <div class="col-12 p-3">
+                                            <strong>Consignee's Name:</strong>
+                                            <span t-esc="doc.partner_shipping_id.display_name"/>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-12 border p-3">
-                                        <strong>Consignee's Address:</strong>
-                                        <span t-esc="doc.partner_shipping_id.street"/>
-                                        <span t-esc="doc.partner_shipping_id.city"/>
-                                        <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                                    <div class="row">
+                                        <div class="col-12 p-3">
+                                            <strong>Consignee's Address:</strong>
+                                            <span t-esc="doc.partner_shipping_id.street"/>
+                                            <span t-esc="doc.partner_shipping_id.city"/>
+                                            <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
