@@ -1,211 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <template id="report_performa_invoice">
-            <t t-call="web.html_container">
-                <t t-call="web.external_layout">
-                    <t t-foreach="docs" t-as="doc">
-                        <style>
-                            .footer img {
-                                width: 50%;
-                                max-width: 210mm;
-                                height: auto;
-                            }
-                            table {
-                                border: 1px solid black;
-                                width: 100%;
-                                border-collapse: collapse;
-                            }
-                            th, td {
-                                padding: 8px;
-                                text-align: left;
-                                border: 1px solid black;
-                            }
-                            .header img {
-                                width: 100%;
-                                height: auto;
-                            }
+  <data>
+    <template id="report_performa_invoice">
+      <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+          <style>
+                    
+                    <!-- .footer img {
+                        width: 50%;
+                        max-width: 210mm;
+                        height: auto;
+                    } -->
+                    table {
+                        border: 1px solid black;
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: left;
+                        border: 1px solid black;
+                    }
+                    .header img {
+                        width: 100%;
+                        height: auto;
+                    }
 
-                        </style>
-                        <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
-                            <!-- Header Section -->
-                            <!-- <div class="header" style="text-align: center; margin-bottom: 30px;">
-                                <div>
-                                    <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm; padding-bottom:30px" />
-                                </div>
-                                <div > -->
-                                    <!-- <h1 style="font-size: 24px; font-weight: bold;">PROFORMA INVOICE</h1> -->
-                                    <!-- <h3>Invoice No. <span t-esc="doc.name" /></h3> -->
-                                <!-- </div>
-                            </div>
-                            <div class="footer">
-                                <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 240mm; height: auto;" />
-                            </div> -->
-                            <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice/ Sales Contract</h1>
-                            <div class="row" style="width: 50%">
-                                <!-- Left Column: Consignee Information -->
-                                <div class="col-12 col-md-6">
-                                    <div class="mb-3">
-                                        <div class="bg-success text-white p-2" style="background-color: %s; color: %s;">
-                                            <strong>Consignee:</strong>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Invoice No:</strong></div>
-                                        <div class="col-8"><span t-esc="doc.pi_no"/></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Consigned To:</strong></div>
-                                        <div class="col-8"><span t-field="doc.partner_shipping_id.display_name" /></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Consigned Address:</strong></div>
-                                        <div class="col-8"><span t-esc="doc.partner_shipping_id.street"/></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Country:</strong></div>
-                                        <div class="col-8"><span t-esc="doc.partner_shipping_id.country_id.name"/></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>City:</strong></div>
-                                        <div class="col-8"><span t-esc="doc.partner_shipping_id.city"/></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>POL:</strong></div>
-                                        <div class="col-8"><span t-field="doc.destination" /></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>POD:</strong></div>
-                                        <div class="col-8"><span t-field="doc.delivery" /></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>FDA:</strong></div>
-                                        <div class="col-8"><span t-field="doc.fda" /></div>
-                                    </div>
-                                </div>
-                        
-                                <!-- Right Column: Shipping Details -->
-                                <div class="col-12 col-md-6">
-                                    <div class="mb-3">
-                                        <div class="bg-warning text-dark p-2" style="background-color: %s; color: %s;">
-                                            <strong>Shipping Details:</strong>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Date:</strong></div>
-                                        <div class="col-8"><span t-esc="doc.date_order.strftime('%d-%m-%Y')"/></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Valid Till Date:</strong></div>
-                                        <div class="col-8"><span t-esc="doc.validity_date.strftime('%d-%m-%Y')"/></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Total Quantity:</strong></div>
-                                        <div class="col-8"><span t-esc="'{:.0f}'.format(doc.total_qty)" /></div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Total Net Weight:</strong></div>
-                                        <div class="col-8"><span t-esc="'{:.0f}'.format(doc.total_net_weight)" /> Kg</div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Total Gross Weight:</strong></div>
-                                        <div class="col-8"><span t-esc="'{:.0f}'.format(doc.total_gross_weight)" /> Kg</div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-4"><strong>Total CBM:</strong></div>
-                                        <div class="col-8"><span t-esc="'{:.0f}'.format(doc.total_cbm)" /></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Products Table -->
-                            <div style=" font-size: 12px;">
-                                <!-- <h3 style="font-size: 16px; font-weight: bold;">PAYMENT TERMS:</h3> -->
-                                <h3 style="font-size: 16px; font-weight: bold;">Terms and Condition:</h3>
-                                <!-- <p>
+          </style>
+          <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+            <!-- Header Section -->
+            <div class="header" style="text-align: center; margin-bottom: 30px;">
+              <div>
+                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
+              </div>
+              <div >
+                <!-- <h1 style="font-size: 24px; font-weight: bold;">PROFORMA INVOICE</h1> -->
+                <!-- <h3>Invoice No. <span t-esc="doc.name" /></h3> -->
+              </div>
+            </div>
+
+
+
+            <div class="footer">
+    <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" 
+         style="width: 100%; max-width: 240mm; height: auto; margin-bottom: 20px !important;" />
+</div>
+
+
+            <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice/ Sales Contract</h1>
+
+
+           <table style="width: 100%; border-spacing: 0;">
+    <tr>
+        <td style="width: 50%; vertical-align: top;">
+            <table style="width: 100%; border-spacing: 0;">
+                <tr>
+                    <td colspan="2" t-att-style="'background-color: %s; color: %s;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
+                        <strong>Consignee:</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 40%;"><strong>Invoice No:</strong></td>
+                    <td style="width: 60%;"> <span t-esc="doc.pi_no"/></td>
+                </tr>
+                <tr>
+                    <td style="width: 40%;"><strong>Consigned To:</strong></td>
+                    <td style="width: 60%;"><span t-field="doc.partner_shipping_id.display_name" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Consigned Address:</strong></td>
+                    <td><span t-esc="doc.partner_shipping_id.street"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Country:</strong></td>
+                    <td><span t-esc="doc.partner_shipping_id.country_id.name"/></td>
+                </tr>
+                <tr>
+                    <td><strong>City:</strong></td>
+                    <td><span t-esc="doc.partner_shipping_id.city"/></td>
+                </tr>
+                <tr>
+                    <td><strong>POL:</strong></td>
+                    <td><span t-field="doc.destination" /></td>
+                </tr>
+                <tr>
+                    <td><strong>POD:</strong></td>
+                    <td><span t-field="doc.delivery" /></td>
+                </tr>
+                <tr>
+                    <td><strong>FDA:</strong></td>
+                    <td><span t-field="doc.fda" /></td>
+                </tr>
+            </table>
+        </td>
+
+        <td style="width: 50%; vertical-align: top;">
+            <table style="width: 100%; border-spacing: 0;">
+                <tr>
+                    <td colspan="2" t-att-style="'background-color: %s; color: %s;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
+                        <strong>Shipping Details:</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Date:</strong></td>
+                    <td><span t-esc="doc.date_order.strftime('%d-%m-%Y')"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Valid Till Date:</strong></td>
+                    <td><span t-esc="doc.validity_date.strftime('%d-%m-%Y')"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Total Quantity</strong></td>
+                    <td><span t-esc="'{:.0f}'.format(doc.total_qty)" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Total Net Weight:</strong></td>
+                    <td><span t-esc="'{:.0f}'.format(doc.total_net_weight)" /> Kg</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Gross Weight:</strong></td>
+                    <td><span t-esc="'{:.0f}'.format(doc.total_gross_weight)" /> Kg</td>
+                </tr>
+                <tr>
+                    <td><strong>Total CBM:</strong></td>
+                    <td><span t-esc="'{:.0f}'.format(doc.total_cbm)" /></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+
+            <!-- Products Table -->
+            <div style=" font-size: 12px;">
+                <!-- <h3 style="font-size: 16px; font-weight: bold;">PAYMENT TERMS:</h3> -->
+                <h3 style="font-size: 16px; font-weight: bold;">Terms and Condition:</h3>
+                <!-- <p>
         <strong>TERMS AND CONDITION:</strong>
       </p> -->
-                                <p style="margin: 0; padding: 0;">
-      Payment Terms:
-                                    <span t-field="doc.payment_term_id"/>
-                                </p>
-                                <p style="margin: 0; padding: 0;">
-      15-20 Days after confirmation of order. Documents include: Commercial Invoice, Packing List, B/L, Phytosanitary
-                                    <span t-field="doc.payment_term_id"/>
-                                </p>
-                            </div>
-                            <t t-if="doc.order_line">
-                                <!-- <h3 style="font-size: 16px; font-weight: bold;">PRODUCTS</h3> -->
-                                <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                                    <thead>
-                                        <tr style="background-color: #C0C0C0;">
-                                            <th style="padding: 4px; border-bottom: 1px solid black;" >S #</th>
-                                            <th  style="padding: 4px; border-bottom: 1px solid black;">Image</th>
-                                            <th style="padding: 4px; border-bottom: 1px solid black;">Description</th>
-                                            <th style="padding: 4px; border-bottom: 1px solid black;">Packing</th>
-                                            <th style="padding: 4px; border-bottom: 1px solid black;">CTN(s)</th>
-                                            <th style="padding: 4px; border-bottom: 1px solid black;">Unit Price / CTN(s)</th>
-                                            <th style="padding: 4px; border-bottom: 1px solid black; text-align: right;">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <t t-set="sub_category_lst" t-value="[]" />
-                                        <t t-set="product_lst" t-value="[]" />
-                                        <t t-set="s_no" t-value="1" />
-                                        <!-- Grouped by Subcategories -->
-                                        <t t-foreach="doc.order_line" t-as="line">
-                                            <t t-if="line.product_id.categ_id.name not in sub_category_lst">
-                                                <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]" />
-                                                <tr>
-                                                    <td  />
-                                                    <td  />
-                                                    <td style="padding-top: 5px; border-bottom: 1px solid lightgrey;">
-                                                        <strong>
-                                                            <span t-esc="line.product_id.categ_id.name" />
-                                                        </strong>
-                                                    </td>
-                                                    <td  />
-                                                    <td  />
-                                                    <td  />
-                                                    <td  />
-                                                </tr>
-                                                <!-- Product Rows -->
-                                                <t t-foreach="doc.order_line" t-as="sub_line">
-                                                    <t t-if="sub_line.product_id.categ_id.name == line.product_id.categ_id.name and sub_line.product_id.id not in product_lst">
-                                                        <t t-set="product_lst" t-value="product_lst + [sub_line.product_id.id]" />
-                                                        <tr>
-                                                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
-                                                                <span t-esc="s_no" />
-                                                                <t t-set="s_no" t-value="s_no + 1" />
-                                                            </td>
-                                                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;vertical-align: top;">
-                                                                <img t-if="sub_line.image" t-att-src="image_data_uri(sub_line.image)" alt="Product Image" style="width: 60px; max-width: 40px; height: 40px;" />
-                                                            </td>
-                                                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left;vertical-align: top;"  >
-                                                                <span t-esc="sub_line.product_id.name" />
-                                                                <!-- <span t-esc="sub_line.product_uom_qty" /> -->
-                                                            </td>
-                                                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right;vertical-align: top;">
-                                                                <t t-esc="sub_line.packaging_detail_id.display_name" />
-                                                            </td>
-                                                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;vertical-align: top;">
-                                                                <span t-esc="'{:.0f}'.format(sub_line.product_uom_qty)" />
-                                                            </td>
-                                                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; width: 10%;vertical-align: top;">
-                                                                <!-- <span t-esc="sub_line.price_unit" /> -->
-                              $
-                                                                <span t-esc="'{:.2f}'.format(sub_line.price_unit)" />
-                                                            </td>
-                                                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right; width: 13%;vertical-align: top;">
-    $
-                                                                <span t-esc="'{:.2f}'.format(sub_line.price_subtotal)" />
-                                                            </td>
-                                                        </tr>
-                                                    </t>
-                                                </t>
-                                            </t>
-                                        </t>
-                                    </tbody>
-                                    <!-- <tfoot>
+                <p style="margin: 0; padding: 0;">
+      Payment Terms: <span t-field="doc.payment_term_id"/>
+                </p>
+
+                <p style="margin: 0; padding: 0;">
+      15-20 Days after confirmation of order. Documents include: Commercial Invoice, Packing List, B/L, Phytosanitary  <span t-field="doc.payment_term_id"/>
+                </p>
+
+              </div>
+
+            <t t-if="doc.order_line">
+              <!-- <h3 style="font-size: 16px; font-weight: bold;">PRODUCTS</h3> -->
+
+              <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <thead>
+                  <tr style="background-color: #C0C0C0;">
+                    <th style="padding: 4px; border-bottom: 1px solid black;" >S #</th>
+                    <th  style="padding: 4px; border-bottom: 1px solid black;">Image</th>
+
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Description</th>
+
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Packing</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;">CTN(s)</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;">Unit Price / CTN(s)</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black; text-align: right;">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <t t-set="sub_category_lst" t-value="[]" />
+                  <t t-set="product_lst" t-value="[]" />
+                  <t t-set="s_no" t-value="1" />
+
+                  <!-- Grouped by Subcategories -->
+                  <t t-foreach="doc.order_line" t-as="line">
+                    <t t-if="line.product_id.categ_id.name not in sub_category_lst">
+                      <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]" />
+                      <tr>
+                        <td  />
+                        <td  />
+                        <td style="padding-top: 5px; border-bottom: 1px solid lightgrey;">
+                          <strong>
+                            <span t-esc="line.product_id.categ_id.name" />
+                          </strong>
+                        </td>
+                        <td  />
+
+                        <td  />
+                        <td  />
+                        <td  />
+                      </tr>
+
+                      <!-- Product Rows -->
+                      <t t-foreach="doc.order_line" t-as="sub_line">
+                        <t t-if="sub_line.product_id.categ_id.name == line.product_id.categ_id.name and sub_line.product_id.id not in product_lst">
+                          <t t-set="product_lst" t-value="product_lst + [sub_line.product_id.id]" />
+                          <tr>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
+                              <span t-esc="s_no" />
+                              <t t-set="s_no" t-value="s_no + 1" />
+                            </td>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;vertical-align: top;">
+                              <img t-if="sub_line.image" t-att-src="image_data_uri(sub_line.image)" alt="Product Image" style="width: 60px; max-width: 40px; height: 40px;" />
+                            </td>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left;vertical-align: top;"  >
+                              <span t-esc="sub_line.product_id.name" />
+
+                              <!-- <span t-esc="sub_line.product_uom_qty" /> -->
+                            </td>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right;vertical-align: top;">
+                              <t t-esc="sub_line.packaging_detail_id.display_name" />
+
+                            </td>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;vertical-align: top;">
+                              <span t-esc="'{:.0f}'.format(sub_line.product_uom_qty)" />
+                            </td>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; width: 10%;vertical-align: top;">
+                              <!-- <span t-esc="sub_line.price_unit" /> -->
+                              $ <span t-esc="'{:.2f}'.format(sub_line.price_unit)" />
+                            </td>
+                            <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right; width: 13%;vertical-align: top;">
+    $ <span t-esc="'{:.2f}'.format(sub_line.price_subtotal)" />
+</td>
+
+                          </tr>
+                        </t>
+                      </t>
+                    </t>
+                  </t>
+                </tbody>
+                <!-- <tfoot>
                   <tr>
                     <td colspan="2" style="padding: 4px; border: 1px solid black;">
                    
@@ -222,125 +245,125 @@
                     </td>
                   </tr>
                 </tfoot> -->
-                                </table>
-                            </t>
-                            <div style="page-break-inside: avoid;">
-                                <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
-                                <div class="col-12" style="width: 40%">
-                                    <div class="row">
-                                        <div class="cell cell-half">In Words (USD):
-                                            <strong>
-                                                <span t-esc="doc.total_in_words or ''" />
-                                            </strong>
-                                        </div>
-                                        <div class="cell cell-quarter">
-                                            <strong>Net FOB Value in USD:</strong>
-                                        </div>
-                                        <div class="cell cell-one-fifth" style="white-space: nowrap;">$
-                                            <span t-esc="'{:.2f}'.format(doc.amount_total)"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="cell cell-half"></div>
-                                        <div class="cell cell-quarter">
-                                            <strong>Freight:</strong>
-                                        </div>
-                                        <div class="cell cell-quarter" style="white-space: nowrap;">$
-                                            <span t-esc="'{:.2f}'.format(doc.freight)" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="cell cell-half"></div>
-                                        <div class="cell cell-quarter">
-                                            <strong>Credit Note:</strong>
-                                        </div>
-                                        <div class="cell cell-quarter"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="cell cell-half"></div>
-                                        <div class="cell cell-quarter">
-                                            <strong>
-                                                <t t-if="doc.total and doc.total > 0">Net CNF Value in USD:</t>
-                                                <t t-else="">Net FOB Value in USD:</t>
-                                            </strong>
-                                        </div>
-                                        <div class="cell cell-quarter" style="white-space: nowrap;">$
-                                            <t t-esc="'{:.2f}'.format(doc.total)" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="page-break-inside: avoid;">
-                                <!-- Bank Details Section -->
-                                <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-                                    <p style="margin: 0; padding: 0;">Destination:
-                                        <span t-field="doc.destination"/>
-                                    </p>
-                                    <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
+              </table>
+            </t>
+
+<div style="page-break-inside: avoid;">
+ <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
+  
+  <table style="width: 100%;">
+    <tr>
+      <td style="width: 50%; padding-top: 25px; text-align: left;">In Words (USD): <strong><span t-esc="doc.total_in_words or ''" /></strong></td>
+      <td style="width: 30%; padding-top: 10px; ">
+        <strong>Net FOB Value in USD:</strong> 
+      </td>
+      <td style="width: 20%; padding-top: 10px;text-align: left; white-space: nowrap;">$ <span t-esc="'{:.2f}'.format(doc.amount_total)"></span></td>
+    </tr>
+    <tr>
+  <td style="width: 50%; padding-top: 10px; text-align: left;"></td>
+  <td style="width: 25%; padding-top: 10px; text-align: left;">
+    <strong>Freight:</strong> 
+  </td>
+  <td style="width: 25%; padding-top: 10px; text-align: left; white-space: nowrap;">$ <span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+</tr>
+
+    <tr>
+      <td style="width: 50%; padding-top: 10px; text-align: left;"></td>
+      <td style="width: 25%; padding-top: 10px; text-align: left;">
+        <strong>Credit Note:</strong>
+      </td>
+      <td style="width: 25%; padding-top: 10px;text-align: left; white-space: nowrap;"></td>
+    </tr>
+    <tr>
+      <td style="width: 50%; padding-top: 10px; text-align: left;"></td>
+      <td style="width: 25%; padding-top: 10px; text-align: left;">
+        <strong>
+          <t t-if="doc.total and doc.total > 0">Net CNF Value in USD:</t>
+          <t t-else="">Net FOB Value in USD:</t>
+        </strong> 
+      </td>
+      <td style="width:25%;padding-top:10px; text-align:left; white-space: nowrap;">$ <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+    </tr>
+  </table>
+
+
+</div>
+<div style="page-break-inside: avoid;">
+ 
+ <!-- Bank Details Section -->
+              <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+                <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
                 </p>
-                                    <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL
-                                        <span t-field="doc.validity"/>
-                                    </p>
-                                    <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
-                                </div>
-                                <!-- Seller Bank Details Section -->
-                                <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-                                    <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
-                                    <!-- <p>
+                <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
+                </p>
+                <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
+                </p>
+                <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
+              </div>
+
+
+              <!-- Seller Bank Details Section -->
+              <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+                <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
+                <!-- <p>
         <strong>Seller Bank Details:</strong>
       </p> -->
-                                    <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
-                                    <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
-                                    <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
-                                    <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
-                                    <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
-                                    <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
-                                </div>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <div class="container">
-                                    <div class="row">
-                                        <!-- Left Column -->
-                                        <div class="cell" style="width: 40%; text-align: left;">
-                                            <img 
-                                                t-if="doc.company_id.image_field_3" 
-                                                t-att-src="image_data_uri(doc.company_id.image_field_3)" 
-                                                alt="Signature" 
-                                                class="image-container"
-                                            />
-                                            <br/>
-                                            <p class="border-top"></p>
-                                        </div>
-                                        <!-- Center Column -->
-                                        <div class="cell" style="width: 20%;"></div>
-                                        <!-- Right Column -->
-                                        <div class="cell" style="width: 40%; text-align: right;">
-                                            <div style="height: 100px;"></div>
-                                            <p class="border-top"></p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <!-- Footer -->
-                                        <div class="cell cell-center" style="width: 40%;">
-                                            <strong>Eastern Product (PVT.) LTD.</strong>
-                                        </div>
-                                        <div class="cell" style="width: 20%;"></div>
-                                        <div class="cell cell-center" style="width: 40%;">
-                                            <strong>
-                                                <span t-field="doc.partner_id.name" />
-                                            </strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </t>
-            </t>
-        </template>
-    </data>
+                <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
+                <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
+                <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
+                <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
+                <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
+                <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
+              </div>
+
+
+
+<br/><br/><br/>
+<br/><br/><br/>
+               
+
+<table style="width: 100%; table-layout: fixed;">
+    <tr>
+        <!-- Left Column -->
+        <td style="width: 40%; text-align: left;">
+            <img 
+                t-if="doc.company_id.image_field_3" 
+                t-att-src="image_data_uri(doc.company_id.image_field_3)" 
+                alt="Signature" 
+                style="width: 75%; height: 100px; object-fit: contain;" 
+            />
+            <br/>
+            <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
+        </td>
+
+        <!-- Center Column -->
+        <td style="width: 20%;"></td>
+
+        <!-- Right Column -->
+        <td style="width: 40%; text-align: right;">
+            <div style="height: 100px;"></div> 
+            <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
+        </td>
+    </tr>
+    <tr>
+        <!-- Footer -->
+        <td style="width: 40%; text-align: center;">
+            <strong>Eastern Product (PVT.) LTD.</strong>
+        </td>
+        <td style="width: 20%;"></td>
+        <td style="width: 40%; text-align: center;">
+            <strong><span t-field="doc.partner_id.name" /></strong>
+        </td>
+    </tr>
+</table>
+
+</div>
+
+
+
+        </div>
+      </t>
+    </t>
+  </template>
+</data>
 </odoo>
