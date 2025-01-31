@@ -55,13 +55,13 @@
         <td style="width: 50%; vertical-align: top;">
             <table style="width: 100%; border-spacing: 0;">
                 <tr>
-                    <td colspan="2" t-att-style="'background-color: %s; color: %s;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
+                    <td colspan="2" t-att-style="'background-color: %s; color: %s;vertical-align: middle;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
                         <strong>Consignee:</strong>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 40%;"><strong>Invoice No:</strong></td>
-                    <td style="width: 60%;"> <span t-esc="doc.pi_no"/></td>
+                    <td style="width: 40%;padding-top: 10px;"><strong>Invoice No:</strong></td>
+                    <td style="width: 60%;padding-top: 10px;"> <span t-esc="doc.pi_no"/></td>
                 </tr>
                 <tr>
                     <td style="width: 40%;"><strong>Consigned To:</strong></td>
@@ -89,7 +89,11 @@
                 </tr>
                 <tr>
                     <td><strong>FDA:</strong></td>
-                    <td><span t-field="doc.fda" /></td>
+                    <!-- <td><span t-field="doc.fda" /></td> -->
+                    <td>
+                        <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">17999125792</t>
+                        <t t-else="True">10453750218</t>
+                    </td>
                 </tr>
             </table>
         </td>
@@ -97,13 +101,13 @@
         <td style="width: 50%; vertical-align: top;">
             <table style="width: 100%; border-spacing: 0;">
                 <tr>
-                    <td colspan="2" t-att-style="'background-color: %s; color: %s;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
+                    <td colspan="2" t-att-style="'background-color: %s; color: %s;vertical-align: middle;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
                         <strong>Shipping Details:</strong>
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>Date:</strong></td>
-                    <td><span t-esc="doc.date_order.strftime('%d-%m-%Y')"/></td>
+                    <td style="padding-top: 10px;"><strong>Date:</strong></td>
+                    <td style="padding-top: 10px;"><span t-esc="doc.date_order.strftime('%d-%m-%Y')"/></td>
                 </tr>
                 <tr>
                     <td><strong>Valid Till Date:</strong></td>
@@ -123,7 +127,7 @@
                 </tr>
                 <tr>
                     <td><strong>Total CBM:</strong></td>
-                    <td><span t-esc="'{:.0f}'.format(doc.total_cbm)" /></td>
+                    <td><span t-esc="'{:.2f}'.format(doc.total_order_cbm)" /></td>
                 </tr>
             </table>
         </td>
@@ -176,18 +180,18 @@
                     <t t-if="line.product_id.categ_id.name not in sub_category_lst">
                       <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]" />
                       <tr>
-                        <td  />
-                        <td  />
-                        <td style="padding-top: 5px; border-bottom: 1px solid lightgrey;">
+                        <td style="background-color:#DCDCDC" />
+                        <td style="background-color:#DCDCDC" />
+                        <td style="padding: 5px; background-color: #DCDCDC; text-align: left; vertical-align: middle; width: 150px;">
                           <strong>
                             <span t-esc="line.product_id.categ_id.name" />
                           </strong>
                         </td>
-                        <td  />
+                        <td style="background-color:#DCDCDC" />
+                        <td style="background-color:#DCDCDC" />
+                        <td style="background-color:#DCDCDC" />
+                        <td style="background-color:#DCDCDC" />
 
-                        <td  />
-                        <td  />
-                        <td  />
                       </tr>
 
                       <!-- Product Rows -->
@@ -200,7 +204,12 @@
                               <t t-set="s_no" t-value="s_no + 1" />
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center;vertical-align: top;">
-                              <img t-if="sub_line.image" t-att-src="image_data_uri(sub_line.image)" alt="Product Image" style="width: 60px; max-width: 40px; height: 40px;" />
+                              <img 
+    t-if="sub_line.image" 
+    t-att-src="image_data_uri(sub_line.image)" 
+    alt="Product Image" 
+    style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;"
+/>
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left;vertical-align: top;"  >
                               <span t-esc="sub_line.product_id.name" />
@@ -330,7 +339,7 @@
                 t-if="doc.company_id.image_field_3" 
                 t-att-src="image_data_uri(doc.company_id.image_field_3)" 
                 alt="Signature" 
-                style="width: 75%; height: 100px; object-fit: contain;" 
+                style="width: 75%; height: auto; object-fit: contain;" 
             />
             <br/>
             <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>

@@ -63,12 +63,12 @@
 
                             <tr>
                                 
-                                    <td colspan="2" style="background-color: #fdb913; width:45%;"><strong>Consignee:</strong></td>
+                                    <td colspan="2" style="background-color: #fdb913; width:45%; vertical-align: middle;"><strong>Consignee:</strong></td>
                                     <td style="width:10%"></td>
                                 
                                  
                                 
-                                 <td colspan="2" style="background-color: #fdb913;width:45%"><strong>Shipment:</strong></td>
+                                 <td colspan="2" style="background-color: #fdb913;width:45% vertical-align: middle;"><strong>Shipment:</strong></td>
                             </tr>
 
 
@@ -125,7 +125,10 @@
                                 <td>
                                     <strong>   FDA: </strong>
                                 </td>
-                                <td t-esc="doc.fda or ''"/>
+                                <td>
+                        <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">17999125792</t>
+                        <t t-else="True">10453750218</t>
+                    </td>
 
                             </tr>
                             <tr>

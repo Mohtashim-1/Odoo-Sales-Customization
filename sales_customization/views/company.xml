@@ -11,6 +11,7 @@
                     <field name="image_field_1"/>
                     <field name="image_field_2"/>
                     <field name="image_field_3"/>
+                    <!-- <field name="fda" /> -->
                 </group>
             </xpath>
         </field>
