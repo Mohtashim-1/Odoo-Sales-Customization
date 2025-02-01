@@ -23,10 +23,13 @@ class Sale(models.Model):
         default='draft')
 
 
-    def search_read(self, domain, fields):
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
         raise exceptions.ValidationError('Hit')
 
-        return self.search(domain).read(fields)
+        """Override search to only show approved orders"""
+        args.append(('state', '=', 'approved'))  # Add filter for approved orders
+        return super(Sale, self).search(args, offset=offset, limit=limit, order=order, count=count)
 
     def _can_be_confirmed(self):
         self.ensure_one()
