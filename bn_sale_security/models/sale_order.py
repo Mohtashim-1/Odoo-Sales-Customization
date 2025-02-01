@@ -21,15 +21,7 @@ class Sale(models.Model):
         readonly=True, copy=False, index=True,
         tracking=3,
         default='draft')
-
-
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        # raise exceptions.ValidationError('Hit')
-
-        """Override search to only show approved orders"""
-        args.append(('state', '=', 'approved'))  # Add filter for approved orders
-        return super(Sale, self).search(args, offset=offset, limit=limit, order=order, count=count)
+    
 
     def _can_be_confirmed(self):
         self.ensure_one()
