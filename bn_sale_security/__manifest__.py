@@ -11,6 +11,7 @@
     ],
     'data': [
         'security/group.xml',
+        'security/record_rule.xml',
         'views/sale_order.xml'
     ],
     'auto_install': False,

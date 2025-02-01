@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+    
+        <record id="sale_manager_group_record_rule" model="ir.rule">
+            <field name="name">Sale/Show Review and Approved Only</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[('state', 'in', ['review', 'approved'])]</field>
+            <field name="groups" eval="[(4, ref('bn_sale_security.sales_manager_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <record id="sale_director_group_record_rule" model="ir.rule">
+            <field name="name">Sale/Show Approved and Confirmed Only</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[('state', 'in', ['approved', 'sale'])]</field>
+            <field name="groups" eval="[(4, ref('bn_sale_security.sales_director_group'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    
+    </data>
+    
+
+</odoo>
