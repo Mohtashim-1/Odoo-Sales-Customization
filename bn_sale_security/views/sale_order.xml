@@ -19,7 +19,8 @@
                         <button name="action_quotation_send" id="send_proforma" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" invisible="state == 'draft' or invoice_count &gt;= 1" context="{'proforma': True, 'validate_analytic': True}"/>
                         <button name="action_quotation_send" id="send_by_email" string="Send by Email" type="object" invisible="state not in ('sent', 'sale')" data-hotkey="g" context="{'validate_analytic': True}"/>
 
-                        <button string="Approved" name="action_approve" type="object" class="oe_highlight" groups="bn_sale_security.sales_manager_group, bn_sale_security.sales_director_group" invisible="state != 'draft'" />
+                        <button string="Review Quotation" name="action_review" type="object" class="oe_highlight" groups="bn_sale_security.sales_user_group" invisible="state != 'draft'" />
+                        <button string="Approve" name="action_approve" type="object" class="oe_highlight" groups="bn_sale_security.sales_manager_group" invisible="state != 'approved'" />
 
                         <button name="action_confirm" id="action_confirm" data-hotkey="q" string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state != 'sent'" groups="bn_sale_security.sales_director_group" />
                         <button name="action_confirm" data-hotkey="q" string="Confirm" type="object" context="{'validate_analytic': True}" invisible="state not in ['draft', 'approved']" groups="bn_sale_security.sales_director_group" />
