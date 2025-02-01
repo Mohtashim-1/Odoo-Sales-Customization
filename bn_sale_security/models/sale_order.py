@@ -22,5 +22,9 @@ class Sale(models.Model):
         default='draft')
 
 
+    def _can_be_confirmed(self):
+        self.ensure_one()
+        return self.state in {'draft', 'sent', 'approved'}
+
     def action_approve(self):
         self.state = 'approved' 
