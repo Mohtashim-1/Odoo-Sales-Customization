@@ -23,22 +23,13 @@ class Sale(models.Model):
         default='draft')
 
 
-    # @api.model
-    # def search(self, args, offset=0, limit=None, order=None, count=False):
-    #     raise exceptions.ValidationError('Hit')
-
-    #     """Override search to only show approved orders"""
-    #     args.append(('state', '=', 'approved'))  # Add filter for approved orders
-    #     return super(Sale, self).search(args, offset=offset, limit=limit, order=order, count=count)
-
     @api.model
-    def _update_sale_order_action(self):
-        raise exceptions.ValidationError('Hit')
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        # raise exceptions.ValidationError('Hit')
 
-        """Dynamically update the action to filter only approved sales"""
-        action = self.env.ref('sale.action_orders')
-        if action:
-            action.sudo().write({'domain': "[('state', '=', 'approved')]"})
+        """Override search to only show approved orders"""
+        args.append(('state', '=', 'approved'))  # Add filter for approved orders
+        return super(Sale, self).search(args, offset=offset, limit=limit, order=order, count=count)
 
     def _can_be_confirmed(self):
         self.ensure_one()
