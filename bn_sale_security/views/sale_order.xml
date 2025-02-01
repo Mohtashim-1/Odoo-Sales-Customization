@@ -21,7 +21,7 @@
 
                         <button string="Approved" name="action_approve" type="object" class="oe_highlight" groups="bn_sale_security.sales_manager_group, bn_sale_security.sales_director_group" invisible="state != 'draft'" />
 
-                        <button name="action_confirm" id="action_confirm" data-hotkey="q" string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state != 'sent'" groups="bn_sale_security.sales_director_group" />
+                        <button name="action_confirm" id="action_confirm" data-hotkey="q" string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state not in ['sent', 'approved']" groups="bn_sale_security.sales_director_group" />
                         <button name="action_confirm" data-hotkey="q" string="Confirm" type="object" context="{'validate_analytic': True}" invisible="state not in ['draft', 'approved']" groups="bn_sale_security.sales_director_group" />
 
                         <!-- allow to unlock locked orders even if setting is not enabled (e.g. orders synchronized from connectors) -->
