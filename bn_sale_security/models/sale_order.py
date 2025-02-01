@@ -23,15 +23,6 @@ class Sale(models.Model):
         default='draft')
 
 
-    def name_get(self):
-        raise exceptions.ValidationError('Hit')
-    
-        result = []
-        for record in self:
-            name = record.display_name
-            result.append((record.id, name))
-        return result
-
     def _can_be_confirmed(self):
         self.ensure_one()
         return self.state in {'draft', 'sent', 'approved'}
