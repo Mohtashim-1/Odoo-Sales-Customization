@@ -23,6 +23,11 @@ class Sale(models.Model):
         default='draft')
 
 
+    def search_read(self, domain, fields):
+        raise exceptions.ValidationError('Hit')
+
+        return self.search(domain).read(fields)
+
     def _can_be_confirmed(self):
         self.ensure_one()
         return self.state in {'draft', 'sent', 'approved'}
