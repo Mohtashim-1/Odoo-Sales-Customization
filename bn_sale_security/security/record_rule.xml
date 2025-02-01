@@ -29,7 +29,7 @@
             <field name="name">Sale/Show Draft, Sent and Review Only</field>
             <field name="model_id" ref="sale.model_sale_order"/>
             <field name="domain_force">[('state', 'in', ['draft', 'sent', 'review'])]</field>
-            <field name="groups" eval="[(4, ref('bn_sale_security.sales_director_group'))]"/>
+            <field name="groups" eval="[(4, ref('bn_sale_security.sales_user_group'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
