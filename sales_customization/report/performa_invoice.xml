@@ -52,7 +52,7 @@
              <table style="width: 100%; border-spacing: 0;">
     <tr>
         <!-- Left Column: Consignee Information -->
-        <td style="width: 45%; vertical-align: top; padding-right: 5%;"> <!-- Added 5% right padding -->
+        <td style="width: 48%; vertical-align: top; padding-right: 5%;"> <!-- Added 5% right padding -->
             <table style="width: 100%; border-spacing: 0;">
                 <tr>
                     <td colspan="2" t-att-style="'background-color: %s; color: %s; vertical-align: middle; width: 45px;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
