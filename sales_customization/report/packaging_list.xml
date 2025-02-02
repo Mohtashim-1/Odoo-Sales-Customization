@@ -83,9 +83,42 @@
                                                 <span t-esc="s_no"/>
                                                 <t t-set="s_no" t-value="s_no+1"/>
                                             </td>
-                                            <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                            <!-- <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                 <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 40px; height: 40px;" />
-                                            </td>
+                                            </td> -->
+                                            <!-- <td style="padding: 8px; border-bottom: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
+    <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
+        <img 
+            t-if="line.image" 
+            t-att-src="image_data_uri(line.image)" 
+            alt="Product Image" 
+            style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px;" 
+        />
+    </div>
+</td> -->
+
+<td style="padding: 8px; border-bottom: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
+    <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
+        <img 
+            t-if="line.product_id.image_1920" 
+            t-att-src="image_data_uri(line.product_id.image_1920)" 
+            alt="Product Image" 
+            style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px; display: block;" 
+        />
+        <img 
+            t-if="not line.product_id.image_1920" 
+            src="https://via.placeholder.com/40" 
+            alt="Product Image" 
+            style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px; display: block;" 
+        />
+    </div>
+</td>
+
+
+
+
+
+
                                             <td style="padding: 8px; border: 1px solid black;">
                                                 <span t-esc="line.name"/>
                                             </td>

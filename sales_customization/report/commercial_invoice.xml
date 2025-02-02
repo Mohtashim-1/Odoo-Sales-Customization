@@ -180,27 +180,7 @@
     </tr>
 </table>
 
-                        <!-- Consignee Information -->
-                        <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding: 10px;">
-                                    <span>
-                                        <strong>Consignee's Name:</strong>
-                                    </span>
-                                    <span t-esc="doc.partner_shipping_id.display_name"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px;">
-                                    <span>
-                                        <strong>Consignee's Address:</strong>
-                                    </span>
-                                    <span t-esc="doc.partner_shipping_id.street"/>
-                                    <span t-esc="doc.partner_shipping_id.city"/>
-                                    <span t-esc="doc.partner_shipping_id.country_id.name"/>
-                                </td>
-                            </tr>
-                        </table>
+                        
                         <!-- Product Details Table -->
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                             <thead>
@@ -279,10 +259,19 @@
                                                         <span t-esc="s_no"/>
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                                    <!-- <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
-                                                        <!-- <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" class="float-left" style="width: 100%; max-width: 210mm; height: 30mm;" /> -->
-                                                    </td>
+                                                    </td> -->
+                                                    <td style="padding: 8px; border-bottom: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
+    <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
+        <img 
+            t-if="line.image" 
+            t-att-src="image_data_uri(line.image)" 
+            alt="Product Image" 
+            style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px;" 
+        />
+    </div>
+</td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <!-- <span t-esc="line.product_uom_qty"/> -->
                                                         <!-- <span t-esc="int(line.product_uom_qty)"/> -->
@@ -427,6 +416,8 @@
 </div>
 
 
+
+            
 <table style="width: 100%; table-layout: fixed;">
     <tr>
         <!-- Left Column -->
@@ -435,7 +426,7 @@
                 t-if="doc.company_id.image_field_3" 
                 t-att-src="image_data_uri(doc.company_id.image_field_3)" 
                 alt="Signature" 
-                style="width: 75%; height: 100px; object-fit: contain;" 
+                style="width: 75%; height: auto; object-fit: contain;" 
             />
             <br/>
             <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
@@ -446,9 +437,10 @@
 
         <!-- Right Column -->
         <td style="width: 40%; text-align: right;">
-            <div style="height: 100px;"></div> 
-            <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
-        </td>
+    <div style="height: 100px; "></div> 
+    <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
+</td>
+
     </tr>
     <tr>
         <!-- Footer -->
