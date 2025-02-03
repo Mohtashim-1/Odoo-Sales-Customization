@@ -92,12 +92,12 @@
                        <table class="table table-condensed" style="width:100%; margin-top:20px; table-layout: fixed; border-collapse: collapse;">
 
     <tr>
-        <td colspan="2" style="width: 45%; text-align: center; vertical-align: middle;" 
+        <td colspan="2" style="width: 48%; text-align: center; vertical-align: middle;" 
             t-att-style="'background-color: {}; color: {};'.format(doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
             <strong>Consignee</strong>
         </td>
-        <td style="width: 10%;"></td>
-        <td colspan="2" style="width: 45%; text-align: center; vertical-align: middle;" 
+        <td style="width: 4%;"></td>
+        <td colspan="2" style="width: 48%; text-align: center; vertical-align: middle;" 
             t-att-style="'background-color: {}; color: {};'.format(doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
             <strong>Shipping Details</strong>
         </td>

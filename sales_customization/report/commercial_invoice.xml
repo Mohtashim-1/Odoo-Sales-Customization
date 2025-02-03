@@ -61,11 +61,11 @@
                         <!-- Shipment Details Section -->
                         <table class="table table-condensed" style="width:100%; margin-top:20px;">
    <tr>
-    <td colspan="2" style="width: 45%;" t-att-style="'background-color: {}; color: {}; vertical-align: middle;'.format(doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
+    <td colspan="2" style="width: 48%;" t-att-style="'background-color: {}; color: {}; vertical-align: middle;'.format(doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
         <strong>Consignee</strong>
     </td>
-    <td style="width:10%"></td>
-    <td colspan="2" style="width: 45%;" t-att-style="'background-color: {}; color: {}; vertical-align: middle;'.format(doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
+    <td style="width:1%"></td>
+    <td colspan="2" style="width: 48%;" t-att-style="'background-color: {}; color: {}; vertical-align: middle;'.format(doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
         <strong>Shipping Details</strong>
     </td>
 </tr>
@@ -417,7 +417,6 @@
 
 
 
-            
 <table style="width: 100%; table-layout: fixed;">
     <tr>
         <!-- Left Column -->
@@ -426,7 +425,7 @@
                 t-if="doc.company_id.image_field_3" 
                 t-att-src="image_data_uri(doc.company_id.image_field_3)" 
                 alt="Signature" 
-                style="width: 75%; height: auto; object-fit: contain;" 
+                style="width: 75%; height: 100px; object-fit: contain;" 
             />
             <br/>
             <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
@@ -437,7 +436,7 @@
 
         <!-- Right Column -->
         <td style="width: 40%; text-align: right;">
-    <div style="height: 100px; "></div> 
+    <div style="height: 100px;"></div> 
     <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
 </td>
 
@@ -453,6 +452,7 @@
         </td>
     </tr>
 </table>
+
 
 
 

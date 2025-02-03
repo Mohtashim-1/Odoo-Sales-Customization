@@ -95,7 +95,7 @@
         </td>
 
         <!-- Spacer Column (Adding 5% space between columns) -->
-        <td style="width: 5%;"></td>
+        <td style="width: 1%;"></td>
 
         <!-- Right Column: Shipping Details -->
         <td style="width: 50%; vertical-align: top;">
@@ -162,7 +162,7 @@
               <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <thead>
                   <tr style="background-color: #C0C0C0;">
-                    <th style="padding: 4px; border-bottom: 1px solid black;">S #</th>
+                    <th style="padding: 4px; border-bottom: 1px solid black;width:5px">S#</th>
                     <th style="padding: 4px; border-bottom: 1px solid black;">Image</th>
 
                     <th style="padding: 4px; border-bottom: 1px solid black;">Description</th>
@@ -265,53 +265,60 @@
                 </tfoot> -->
               </table>
             </t>
+<div style="page-break-inside: avoid;">
+  <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
 
-            <div style="page-break-inside: avoid;">
-              <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
+  <table style="width: 100%;">
+    <tr>
+      <td style="width: 50%; padding-top: 25px; text-align: left;">
+        <strong>In Words (USD):</strong>
+      </td>
+      <td style="width: 30%; padding-top: 25px; text-align: left;">
+        <strong>Net FOB Value in USD:</strong>
+      </td>
+      <td style="width: 20%; padding-top: 25px; text-align: left; white-space: nowrap;">
+        $ <span t-esc="'{:.2f}'.format(doc.amount_total)"></span>
+      </td>
+    </tr>
 
-              <table style="width: 100%;">
-                <tr>
-                  <td style="width: 50%; padding-top: 25px; text-align: left;">In Words (USD): <strong>
-                    <span t-esc="doc.total_in_words or ''" />
-                  </strong>
-                </td>
-                <td style="width: 30%; padding-top: 10px; ">
-                  <strong>Net FOB Value in USD:</strong>
-                </td>
-                <td style="width: 20%; padding-top: 10px;text-align: left; white-space: nowrap;">$                  <span t-esc="'{:.2f}'.format(doc.amount_total)"></span>
-                </td>
-              </tr>
-              <tr>
-                <td style="width: 50%; padding-top: 10px; text-align: left;"></td>
-                <td style="width: 25%; padding-top: 10px; text-align: left;">
-                  <strong>Freight:</strong>
-                </td>
-                <td style="width: 25%; padding-top: 10px; text-align: left; white-space: nowrap;">$                  <span t-esc="'{:.2f}'.format(doc.freight)" />
-                </td>
-              </tr>
+    <tr>
+      <td style="width: 50%; text-align: left;">
+        <strong><span t-esc="doc.total_in_words or ''"></span></strong>
+      </td>
+      <td style="width: 25%; padding-top: 10px; text-align: left;">
+        <strong>Freight:</strong>
+      </td>
+      <td style="width: 25%; padding-top: 10px; text-align: left; white-space: nowrap;">
+        $ <span t-esc="'{:.2f}'.format(doc.freight)" />
+      </td>
+    </tr>
 
-              <tr>
-                <td style="width: 50%; padding-top: 10px; text-align: left;"></td>
-                <td style="width: 25%; padding-top: 10px; text-align: left;">
-                  <strong>Credit Note:</strong>
-                </td>
-                <td style="width: 25%; padding-top: 10px;text-align: left; white-space: nowrap;"></td>
-              </tr>
-              <tr>
-                <td style="width: 50%; padding-top: 10px; text-align: left;"></td>
-                <td style="width: 25%; padding-top: 10px; text-align: left;">
-                  <strong>
-                    <t t-if="doc.total and doc.total > 0">Net CNF Value in USD:</t>
-                    <t t-else="">Net FOB Value in USD:</t>
-                  </strong>
-                </td>
-                <td style="width:25%;padding-top:10px; text-align:left; white-space: nowrap;">$                  <t t-esc="'{:.2f}'.format(doc.total)" />
-                </td>
-              </tr>
-            </table>
+    <tr>
+      <td style="width: 50%; text-align: left;"></td>
+      <td style="width: 25%; padding-top: 10px; text-align: left;">
+        <strong>Credit Note:</strong>
+      </td>
+      <td style="width: 25%; padding-top: 10px; text-align: left;"></td>
+    </tr>
+
+    <tr>
+      <td style="width: 50%; text-align: left;"></td>
+      <td style="width: 25%; padding-top: 10px; text-align: left;">
+        <strong>
+          <t t-if="doc.freight and doc.freight > 0">Net CNF Value in USD:</t>
+          <t t-else="">Net FOB Value in USD:</t>
+        </strong>
+      </td>
+      <td style="width: 25%; padding-top: 10px; text-align: left; white-space: nowrap;">
+        $ <t t-esc="'{:.2f}'.format(doc.total)" />
+      </td>
+    </tr>
+  </table>
+</div>
 
 
-          </div>
+
+
           <div style="page-break-inside: avoid;">
 
             <!-- Bank Details Section -->
@@ -351,6 +358,7 @@
 
 
             
+
 <table style="width: 100%; table-layout: fixed;">
     <tr>
         <!-- Left Column -->
@@ -359,7 +367,7 @@
                 t-if="doc.company_id.image_field_3" 
                 t-att-src="image_data_uri(doc.company_id.image_field_3)" 
                 alt="Signature" 
-                style="width: 75%; height: auto; object-fit: contain;" 
+                style="width: 75%; height: 100px; object-fit: contain;" 
             />
             <br/>
             <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
@@ -370,7 +378,7 @@
 
         <!-- Right Column -->
         <td style="width: 40%; text-align: right;">
-    <div style="height: 100px; "></div> 
+    <div style="height: 100px;"></div> 
     <p style="border-top: 1px solid black; text-align: right; width: 100%; "></p>
 </td>
 
@@ -386,6 +394,7 @@
         </td>
     </tr>
 </table>
+
 
 
           </div>
