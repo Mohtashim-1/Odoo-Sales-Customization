@@ -17,6 +17,10 @@ class SaleOrderLine(models.Model):
         related='product_id.product_tmpl_id.packaging_detail_id',
         store=True
     )
+    #  want to get no_of_pieces field from packaging detail and store it in no of pieces
+    packaging_id = fields.Many2one('packaging.detail', string="Packaging")
+    no_of_pieces = fields.Float(related='packaging_detail_id.no_of_pieces', string="No of Pieces", store=True)
+    # no_of_pieces = fields.Float(string="No of Pieces", related="packaging_detail_id.no_of_pieces",store=True) 
     length = fields.Float(string='Length', related='product_id.product_tmpl_id.length')
     width = fields.Float(string='Width', related='product_id.product_tmpl_id.width')
     height = fields.Float(string='Height', related='product_id.product_tmpl_id.height')
@@ -42,7 +46,17 @@ class SaleOrderLine(models.Model):
     custom_price = fields.Float(string="Custom Price",compute="_compute_custom_price", store=True)
     custom_amount = fields.Float(string="Custom Amount",compute="_compute_custom_amount", store=True)
     lbs_oz = fields.Char(string='LBS OZ', compute="_compute_lbs_oz", store=True)
+    pkts = fields.Float(string="PKTs", compute= "_calculate_p_w_q", store=True)
+    
 
+        
+    @api.depends('product_uom_qty', 'no_of_pieces')
+    def _calculate_p_w_q(self):
+        for line in self:   
+            # Ensure that no_of_pieces is not None before multiplication
+            line.pkts = (line.product_uom_qty or 0) * (line.no_of_pieces or 0)
+            
+            
     @api.depends('custom_price','product_uom_qty')
     def _compute_custom_amount(self):
         for line in self:

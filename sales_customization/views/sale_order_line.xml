@@ -13,6 +13,8 @@
                 <!-- <field name="image" /> -->
                 <field name="hs_code_id" optional="show"/>
                 <field name="packaging_detail_id" optional="show" />
+                <field name="pkts" optional="show" />
+                <field name="no_of_pieces" optional="show" />
                 <field name="length" optional="show" />
                 <field name="width" optional="show" />
                 <field name="height" optional="show"/>
