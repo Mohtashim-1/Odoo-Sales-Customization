@@ -159,7 +159,7 @@
             <t t-if="doc.order_line">
               <!-- <h3 style="font-size: 16px; font-weight: bold;">PRODUCTS</h3> -->
 
-              <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+              <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size:11pt">
                 <thead>
                   <tr style="background-color: #C0C0C0;">
                     <th style="padding: 4px; border-bottom: 1px solid black;width:5px">S#</th>
@@ -322,6 +322,7 @@
           <div style="page-break-inside: avoid;">
 
             <!-- Bank Details Section -->
+           
             <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
               <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
               </p>
@@ -334,18 +335,30 @@
 
 
             <!-- Seller Bank Details Section -->
-            <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-              <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
-              <!-- <p>
-        <strong>Seller Bank Details:</strong>
-      </p> -->
-              <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
-              <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
-              <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
-              <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
-              <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
-              <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
-            </div>
+            <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
+                <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+                    <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
+                    <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
+                    <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
+                    <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S VITAL PRODUCTS PVT. LTD</p>
+                    <p style="margin: 0; padding: 0;">ACCOUNT NO: 01110104778802</p>
+                    <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX </p>
+                    <p style="margin: 0; padding: 0;">IBAN#: PK02MEZN0001110104778802</p>
+                </div>
+                
+            </t>
+            <t t-else="">
+                <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+                    <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
+                    <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
+                    <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
+                    <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
+                    <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
+                    <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
+                    <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
+                </div>
+            </t>
+
 
 
 

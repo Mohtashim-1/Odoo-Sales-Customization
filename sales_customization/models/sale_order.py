@@ -184,10 +184,10 @@ class SaleOrder(models.Model):
         
 
 
-    @api.depends('freight')
+    @api.depends('freight','discount')
     def _compute_total(self):
         for record in self:
-            record.total = record.freight + record.amount_total
+            record.total = record.freight + record.amount_total - record.discount
             # print(f"total_1: {record.amount_total}")
 
     @api.depends('total','total_qty','discount','freight')

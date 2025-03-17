@@ -101,7 +101,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <strong> Description: </strong>
+                                  <strong> Destination: </strong>
                                 </td>
                                 <td >
 
@@ -142,7 +142,7 @@
                                 <tr>
                                     <th style="padding: 8px; border: 1px solid black;">S.No.</th>
                                     <th style="padding: 8px; border: 1px solid black;">Image</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Destination</th>
+                                    <th style="padding: 8px; border: 1px solid black;">Description</th>
                                     <th style="padding: 8px; border: 1px solid black;">Ctns</th>
                                     <th style="padding: 8px; border: 1px solid black;">Pkts</th>
                                     <th style="padding: 8px; border: 1px solid black;">Lbs Oz</th>
