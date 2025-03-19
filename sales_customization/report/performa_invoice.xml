@@ -140,19 +140,29 @@
 
 
             <!-- Products Table -->
-            <div style=" font-size: 12px;">
+            <div style=" font-size:11pt">
               <!-- <h3 style="font-size: 16px; font-weight: bold;">PAYMENT TERMS:</h3> -->
-              <h3 style="font-size: 16px; font-weight: bold;">Terms and Condition:</h3>
+              <h3 style="font-size:11pt font-weight: bold;">Terms and Condition:</h3>
               <!-- <p>
         <strong>TERMS AND CONDITION:</strong>
       </p> -->
               <p style="margin: 0; padding: 0;">
-      Payment Terms: <span t-field="doc.payment_term_id"/>
+      <strong>Payment Terms:</strong> <span t-field="doc.payment_term_id"/>
               </p>
 
               <p style="margin: 0; padding: 0;">
       15-20 Days after confirmation of order. Documents include: Commercial Invoice, Packing List, B/L, Phytosanitary  <span t-field="doc.payment_term_id"/>
               </p>
+
+              <div style="margin-top: 20px; font-size:11pt padding-top: 10px;">
+                <p style="margin: 0; padding: 0;"><strong>Destination: </strong><span t-field="doc.destination"/>
+                </p>
+                <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
+                </p>
+                <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
+                </p>
+                <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
+              </div>
 
             </div>
 
@@ -265,56 +275,62 @@
                 </tfoot> -->
               </table>
             </t>
-<div style="page-break-inside: avoid;">
-  <p style="border-top: 1px solid black; text-align: right; width: 50%; margin-left: auto;"></p>
+<br/><br/>
 
-  <table style="width: 100%;">
-    <tr>
-      <td style="width: 50%; padding-top: 25px; text-align: left;">
-        <strong>In Words (USD):</strong>
-      </td>
-      <td style="width: 30%; padding-top: 25px; text-align: left;">
-        <strong>Net FOB Value in USD:</strong>
-      </td>
-      <td style="width: 20%; padding-top: 25px; text-align: left; white-space: nowrap;">
-        $ <span t-esc="'{:.2f}'.format(doc.amount_total)"></span>
-      </td>
-    </tr>
+<table style="width: 100%; font-size: 11pt; border-collapse: collapse;">
+  <tr>
+    <!-- Left Section: Bank Details -->
+    <td style="width: 50%; vertical-align: top; padding-right: 20px;">
+      <h3 style="font-size: 11pt; font-weight: bold; margin-bottom: 5px;">Seller Bank Details:</h3>
+      <table style="width: 100%; border-collapse: collapse;">
+        <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
+          <tr><td><strong>BANK:</strong></td><td>Meezan Bank Limited</td></tr>
+          <tr><td><strong>BRANCH:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
+          <tr><td><strong>ACCOUNT TITLE:</strong></td><td>M/S VITAL PRODUCTS PVT. LTD</td></tr>
+          <tr><td><strong>ACCOUNT NO:</strong></td><td>01110104778802</td></tr>
+          <tr><td><strong>SWIFT CODE:</strong></td><td>MEZNPKKAXXX</td></tr>
+          <tr><td><strong>IBAN#:</strong></td><td>PK02MEZN0001110104778802</td></tr>
+        </t>
+        <t t-else="">
+          <tr><td><strong>BANK:</strong></td><td>Meezan Bank Limited</td></tr>
+          <tr><td><strong>BRANCH:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
+          <tr><td><strong>ACCOUNT TITLE:</strong></td><td>M/S Eastern Products Pvt. Ltd</td></tr>
+          <tr><td><strong>ACCOUNT NO:</strong></td><td>0104507174</td></tr>
+          <tr><td><strong>SWIFT CODE:</strong></td><td>MEZNPKKAXXX</td></tr>
+          <tr><td><strong>IBAN#:</strong></td><td>PK79MEZN0001110104507174</td></tr>
+        </t>
+      </table>
+    </td>
 
-    <tr>
-      <td style="width: 50%; text-align: left;">
-        <strong><span t-esc="doc.total_in_words or ''"></span></strong>
-      </td>
-      <td style="width: 25%; padding-top: 10px; text-align: left;">
-        <strong>Freight:</strong>
-      </td>
-      <td style="width: 25%; padding-top: 10px; text-align: left; white-space: nowrap;">
-        $ <span t-esc="'{:.2f}'.format(doc.freight)" />
-      </td>
-    </tr>
-
-    <tr>
-      <td style="width: 50%; text-align: left;"></td>
-      <td style="width: 25%; padding-top: 10px; text-align: left;">
-        <strong>Credit Note:</strong>
-      </td>
-      <td style="width: 25%; padding-top: 10px; text-align: left;"></td>
-    </tr>
-
-    <tr>
-      <td style="width: 50%; text-align: left;"></td>
-      <td style="width: 25%; padding-top: 10px; text-align: left;">
-        <strong>
-          <t t-if="doc.freight and doc.freight > 0">Net CNF Value in USD:</t>
-          <t t-else="">Net FOB Value in USD:</t>
-        </strong>
-      </td>
-      <td style="width: 25%; padding-top: 10px; text-align: left; white-space: nowrap;">
-        $ <t t-esc="'{:.2f}'.format(doc.total)" />
-      </td>
-    </tr>
-  </table>
-</div>
+    <!-- Right Section: Financial Details -->
+    <td style="width: 50%; vertical-align: top; text-align: right; padding-left: 20px; ">
+      <div style="width: 100%; margin-bottom: 10px;"></div>
+      <table style="width: 100%; text-align: right; border-collapse: collapse;">
+        <tr>
+          <td><strong>Net FOB Value in USD:</strong></td>
+          <td>$ <t t-esc="'{:.2f}'.format(doc.amount_total)"></t></td>
+        </tr>
+        <tr>
+          <td><strong>Freight:</strong></td>
+          <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
+        </tr>
+        <tr>
+          <td><strong>Credit Note:</strong></td>
+          <td><!-- <t t-esc="'{:.2f}'.format(doc.credit_note)" /> --></td>
+        </tr>
+        <tr>
+          <td>
+            <strong>
+              <t t-if="doc.freight and doc.freight > 0">Net CNF Value in USD:</t>
+              <t t-else="">Net FOB Value in USD:</t>
+            </strong>
+          </td>
+          <td>$ <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 
 
 
@@ -323,7 +339,7 @@
 
             <!-- Bank Details Section -->
            
-            <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
+            <!-- <div style="margin-top: 20px; font-size:11pt padding-top: 10px;">
               <p style="margin: 0; padding: 0;">Destination: <span t-field="doc.destination"/>
               </p>
               <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
@@ -331,43 +347,14 @@
               <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
               </p>
               <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
-            </div>
+            </div> -->
 
 
             <!-- Seller Bank Details Section -->
-            <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
-                <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-                    <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
-                    <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
-                    <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
-                    <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S VITAL PRODUCTS PVT. LTD</p>
-                    <p style="margin: 0; padding: 0;">ACCOUNT NO: 01110104778802</p>
-                    <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX </p>
-                    <p style="margin: 0; padding: 0;">IBAN#: PK02MEZN0001110104778802</p>
-                </div>
-                
-            </t>
-            <t t-else="">
-                <div style="margin-top: 20px; font-size: 12px; padding-top: 10px;">
-                    <h3 style="font-size: 16px; font-weight: bold;">Seller Bank Details:</h3>
-                    <p style="margin: 0; padding: 0;">BANK: Meezan Bank Limited</p>
-                    <p style="margin: 0; padding: 0;">BRANCH: Shahrah-e-Faisal Karachi</p>
-                    <p style="margin: 0; padding: 0;">ACCOUNT TITLE: M/S Eastern Products Pvt. Ltd</p>
-                    <p style="margin: 0; padding: 0;">ACCOUNT NO: 0104507174</p>
-                    <p style="margin: 0; padding: 0;">SWIFT CODE: MEZNPKKAXXX</p>
-                    <p style="margin: 0; padding: 0;">IBAN#: PK79MEZN0001110104507174</p>
-                </div>
-            </t>
+            
 
 
 
-
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
 
 
             
@@ -379,7 +366,7 @@
                 t-if="doc.company_id.image_field_3" 
                 t-att-src="image_data_uri(doc.company_id.image_field_3)" 
                 alt="Signature" 
-                style="width: 75%; height: auto; object-fit: contain;" 
+                style="width: 65%; height: auto; object-fit: contain;" 
             />
             <br/>
             <p style="border-top: 1px solid black; width: 100%; margin-top: 5px;"></p>

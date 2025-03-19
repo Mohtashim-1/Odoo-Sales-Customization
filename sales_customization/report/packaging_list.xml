@@ -11,7 +11,7 @@
                         left: 0;
                         width: 100%;
                         text-align: center;
-                        font-size: 12px;
+                        font-size:11pt
                         padding: 10px;
                         border-top: 1px solid #000;
                         z-index: 999;
@@ -61,7 +61,7 @@
 
                         
                         <!-- Product Details Table -->
-                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size:11pt">
                             <thead>
                                 <tr style="background-color: #f2f2f2;">
                                     <th style="padding: 4px; border: 1px solid black;">S#</th>
@@ -142,7 +142,7 @@
                                                         <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
                                                     </td> -->
                                                     <td style="padding: 8px; border: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
-    <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
+    <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9; font-size:11pt;">
         <img 
             t-if="line.image" 
             t-att-src="image_data_uri(line.image)" 
@@ -200,17 +200,17 @@
                         </table>
                         <br/>
 
-                        <div style="margin-top: 20px;">
+                        <div style="margin-top: 20px; font-size:11pt">
 
-                        <div style="page-break-inside: avoid;">
+                        <div style="page-break-inside: avoid; font-size:11pt">
 
                         <!-- Weight Information -->
-                        <div style="margin-top: 20px;">
+                        <div style="margin-top: 20px; font-size:11pt">
                             <table style="width: 100%; text-align: center;">
                                 <tr>
                                     <!-- NET WEIGHT -->
                                     <td style="text-align: right; padding-right: 50px;">
-                                        <strong>Net Weight in Kgs</strong>
+                                        <strong>Net Weight in Kg(s)</strong>
                                         <br />
                                         <span t-field="doc.total_net_weight" t-options='{"precision": 2}' />
  Kg
@@ -218,7 +218,7 @@
 
                                     <!-- GROSS WEIGHT -->
                                     <td style="text-align: left; padding-left: 50px;">
-                                        <strong>Gros Weight in Kgs</strong>
+                                        <strong>Gros Weight in Kg(s)</strong>
                                         <br />
                                         <span t-field="doc.total_gross_weight" t-options='{"precision": 2}' />
  Kg
@@ -228,9 +228,9 @@
                         </div>
 
                         <!-- Additional Information Section -->
-                        <div style="margin-top: 30px;">
-                            <h4 style="font-size: 16px; font-weight: bold;">Declaration:</h4>
-                            <ul style="font-size: 14px; line-height: 1.6;">
+                        <div style="margin-top: 30px; font-size:11pt">
+                            <h4 style="font-size:11pt font-weight: bold;">Declaration:</h4>
+                            <ul style="font-size:11pt; line-height: 1.6;">
                                 <li>
                                     <strong>The container(s) covered by this document has/have been cleaned and is/are free from material of animal and/or plant origin and soil &amp; is free from KHAPRA BEETLE insect.</strong>
                                 </li>
