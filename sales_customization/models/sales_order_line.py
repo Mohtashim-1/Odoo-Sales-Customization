@@ -2,6 +2,8 @@ from odoo import models, fields, api
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
+    _order = "categ_id_name asc, id asc"
+    categ_id_name = fields.Char(string='Category',related="product_id.categ_id.name", store=True, index=True)
 
     launch_date = fields.Date(string='Launch Date', related='product_id.product_tmpl_id.launch_date')
     product_code = fields.Char(string='Product Code', related='product_id.product_tmpl_id.product_code')

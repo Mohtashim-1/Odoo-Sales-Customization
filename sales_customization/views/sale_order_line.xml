@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Sorting Order Lines in Sales Order -->
+    <record id="view_sale_order_line_sorted" model="ir.ui.view">
+        <field name="name">sale.order.line.sorted</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                <attribute name="default_order">categ_id_name asc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Adding Extra Fields in Order Lines -->
     <record id="view_sale_order_line_inherit_serial_number" model="ir.ui.view">
         <field name="name">sale.order.line.inherit</field>
         <field name="model">sale.order</field>
@@ -7,10 +20,8 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
                 <field name="launch_date" optional="show" />
-                <!-- <field name="product_code" /> -->
+                <field name="categ_id_name" optional="show" />
                 <field name="image" widget="image" options="{'size': [40, 40]}" optional="show"/>
-
-                <!-- <field name="image" /> -->
                 <field name="hs_code_id" optional="show"/>
                 <field name="packaging_detail_id" optional="show" />
                 <field name="pkts" optional="show" />
@@ -32,7 +43,6 @@
                 <field name="status" optional="show"  />
                 <field name="description" optional="show"  />
                 <field name="analysis" optional="show"  />
-
             </xpath>
         </field>
     </record>

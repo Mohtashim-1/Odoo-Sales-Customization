@@ -115,18 +115,18 @@
                                         <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
 
                                         <tr>
-                                            <td style="padding: 8px; border-left: 1px solid black;"></td>
+                                            <td style="padding: 8px; border: 1px solid black;"></td>
 
-                                            <td style="padding: 8px; ;" />
-                                            <td style="padding: 8px; ">
+                                            <td style="padding: 8px;border: 1px solid black; ;" />
+                                            <td style="padding: 8px; border: 1px solid black;">
                                                 <strong>
                                                     <span t-esc="line.product_id.categ_id.name" />
                                                 </strong>
                                                 <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
                                             </td>
-                                            <td style="padding: 8px; " />
-                                            <td style="padding: 8px; " />
-                                            <td style="padding: 8px; border-right: 1px solid black;" > </td>
+                                            <td style="padding: 8px;border: 1px solid black; " />
+                                            <td style="padding: 8px; border: 1px solid black; " />
+                                            <td style="padding: 8px; border: 1px solid black;" > </td>
                                         </tr>
 
                                         <t t-foreach="doc.order_line" t-as="line">
