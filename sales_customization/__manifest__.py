@@ -17,6 +17,8 @@
     "views/shipping_terms.xml",
     "views/hs_code.xml",
     "views/company.xml",
+    "views/sale_order_custom_view.xml",
+    "views/product_kanban_inherit_view.xml",
     # "views/res_partner_view.xml",
     
     # "report/custom_header.xml",

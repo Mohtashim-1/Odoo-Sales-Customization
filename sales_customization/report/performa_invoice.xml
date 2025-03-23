@@ -42,11 +42,25 @@
 
 
             <div class="footer">
-              <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 240mm; height: auto; margin-bottom: 20px !important;" />
+
+              <!-- <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 240mm; height: auto; margin-bottom: 20px !important;" /> -->
+              <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
+        <img t-if="doc.company_id.image_field_2" 
+             t-att-src="image_data_uri(doc.company_id.image_field_2)" 
+             alt="Footer Logo" 
+             style="width: 100%; max-width: 240mm; height: " />
+    </t>
+    <t t-else="">
+        <img t-if="doc.company_id.image_field_2" 
+             t-att-src="image_data_uri(doc.company_id.image_field_2)" 
+             alt="Footer Logo" 
+             style="width: 100%; max-width: 240mm; height: auto; padding-top: 15px !important; " />
+    </t>
+                
             </div>
 
 
-            <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice/ Sales Contract</h1>
+            <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice / Sales Contract</h1>
 
 
              <table style="width: 100%; border-spacing: 0;">
@@ -64,33 +78,29 @@
                     <td style="width: 60%; padding-top: 10px;"> <span t-esc="doc.pi_no"/></td>
                 </tr>
                 <tr>
-                    <td style="width: 40%;"><strong>Consigned To:</strong></td>
-                    <td style="width: 60%;"><span t-field="doc.partner_shipping_id.display_name" /></td>
+                    <td style="width: 40%; vertical-align: top;"><strong>Consigned To:</strong></td>
+                    <td style="width: 60%; vertical-align: top;"><span t-field="doc.partner_shipping_id.display_name" /></td>
+
+                    <!-- <td style="width: 40%;"><strong>Consigned To:</strong></td>
+                    <td style="width: 60%;"><span t-field="doc.partner_shipping_id.display_name" /></td> -->
                 </tr>
                 <tr>
-                    <td><strong>Consigned Address:</strong></td>
-                    <td><span t-esc="doc.partner_shipping_id.street"/></td>
+                    <td style="vertical-align: top;"><strong>Consigned Address:</strong></td>
+                    <td style="vertical-align: top;"><span t-esc="doc.partner_shipping_id.street"/></td>
                 </tr>
                 <tr>
-                    <td><strong>Country:</strong></td>
-                    <td><span t-esc="doc.partner_shipping_id.country_id.name"/></td>
+                    <td style="vertical-align: top;"><strong>Country:</strong></td>
+                    <td style="vertical-align: top;"><span t-esc="doc.partner_shipping_id.country_id.name"/></td>
                 </tr>
                 <tr>
-                    <td><strong>City:</strong></td>
-                    <td><span t-esc="doc.partner_shipping_id.city"/></td>
+                    <td style="vertical-align: top;"><strong>City:</strong></td>
+                    <td style="vertical-align: top;"><span t-esc="doc.partner_shipping_id.city"/></td>
                 </tr>
                 <tr>
-                    <td><strong>POL:</strong></td>
-                    <td><span t-field="doc.destination" /></td>
+                    <td style="vertical-align: top;"><strong>POL:</strong></td>
+                    <td style="vertical-align: top;"><span t-field="doc.destination" /></td>
                 </tr>
-                <tr>
-                    <td><strong>POD:</strong></td>
-                    <td><span t-field="doc.delivery" /></td>
-                </tr>
-                <tr>
-                    <td><strong>FDA:</strong></td>
-                    <td><span t-field="doc.fda" /></td>
-                </tr>
+                
             </table>
         </td>
 
@@ -129,6 +139,22 @@
                     <td><strong>Total CBM:</strong></td>
                     <td><span t-esc="'{:.0f}'.format(doc.total_order_cbm)" /></td>
                 </tr>
+                <tr>
+                    <td style="vertical-align: top;"><strong>POD:</strong></td>
+                    <td style="vertical-align: top;"><span t-field="doc.delivery" /></td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top;"><strong>FDA:</strong></td>
+                    <td style="vertical-align: top;">
+                    <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
+                    17999125792
+                    </t>
+                    <t t-else="">
+                    10453750218
+                    </t>
+                    <!-- <span t-field="doc.fda" /> -->
+                    </td>
+                </tr>
             </table>
         </td>
     </tr>
@@ -154,14 +180,16 @@
       15-20 Days after confirmation of order. Documents include: Commercial Invoice, Packing List, B/L, Phytosanitary  <span t-field="doc.payment_term_id"/>
               </p>
 
-              <div style="margin-top: 20px; font-size:11pt padding-top: 10px;">
+              <div style="margin-top: 10px; font-size:11pt padding-top: 10px;">
                 <p style="margin: 0; padding: 0;"><strong>Destination: </strong><span t-field="doc.destination"/>
                 </p>
-                <p style="margin: 0; padding: 0;">SHIPMENT: WITHIN 25 DAYS AFTER RECEIPT OF SIGNED CONTRACT
+                <p style="margin: 0; padding: 0;">Shipment: Within 25 Days After Receipt of Signed Contract
                 </p>
-                <p style="margin: 0; padding: 0;">VALIDITY: THIS OFFER IS VALID UNTIL <span t-field="doc.validity"/>
+                <p style="margin: 0; padding: 0;">Validity: This Offer Is Valid Until
+<span t-field="doc.validity"/>
                 </p>
-                <p style="margin: 0; padding: 0;">DOCUMENTS: B/L, COMMERCIAL INVOICE, PACKING LIST, PHYTOSANITARY CERTIFICATE, CERTIFICATE OF ORIGIN</p>
+                <p style="margin: 0; padding: 0;">Documents: B/L, Commercial Invoice, Packing List, Phytosanitary Certificate, Certificate of Origin
+</p>
               </div>
 
             </div>
@@ -193,7 +221,7 @@
                     <t t-if="line.product_id.categ_id.name not in sub_category_lst">
                       <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]" />
                       <tr>
-                        <td style="background-color:#DCDCDC" />
+                        <td style="background-color:#DCDCDC" /> 
                         <td style="background-color:#DCDCDC" />
                         <td style="padding: 5px; background-color: #DCDCDC; text-align: left; vertical-align: middle; width: 150px;">
                           <strong>
@@ -275,29 +303,36 @@
                 </tfoot> -->
               </table>
             </t>
-<br/><br/>
+<br/>
+
 
 <table style="width: 100%; font-size: 11pt; border-collapse: collapse;">
   <tr>
     <!-- Left Section: Bank Details -->
     <td style="width: 50%; vertical-align: top; padding-right: 20px;">
-      <h3 style="font-size: 11pt; font-weight: bold; margin-bottom: 5px;">Seller Bank Details:</h3>
-      <table style="width: 100%; border-collapse: collapse;">
+      <h3 style="font-size: 11pt; font-weight: bold; margin-bottom: 5px; padding-top: 10px;">Seller Bank Details:</h3>
+      <!-- <h3 style="font-size: 11pt; font-weight: bold; margin-bottom: 5px; display: none;">Seller Bank Details:</h3> -->
+
+      <table style="width: 100%; border-collapse: collapse; font-size: 10pt;">
         <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
-          <tr><td><strong>BANK:</strong></td><td>Meezan Bank Limited</td></tr>
-          <tr><td><strong>BRANCH:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
-          <tr><td><strong>ACCOUNT TITLE:</strong></td><td>M/S VITAL PRODUCTS PVT. LTD</td></tr>
-          <tr><td><strong>ACCOUNT NO:</strong></td><td>01110104778802</td></tr>
-          <tr><td><strong>SWIFT CODE:</strong></td><td>MEZNPKKAXXX</td></tr>
-          <tr><td><strong>IBAN#:</strong></td><td>PK02MEZN0001110104778802</td></tr>
+          <!-- <tr><td style="display: none;"><strong>Seller Bank Detail:</strong></td></tr> -->
+          <!-- <tr><td><strong>Seller Bank Detail:</strong></td></tr> -->
+          <tr><td><strong>Bank:</strong></td><td>Meezan Bank Limited</td></tr>
+          <tr><td><strong>Branch:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
+          <tr><td><strong>Account Title:</strong></td><td>M/S VITAL PRODUCTS PVT. LTD</td></tr>
+          <tr><td><strong>Account No:</strong></td><td>01110104778802</td></tr>
+          <tr><td><strong>Swift Code:</strong></td><td>MEZNPKKAXXX</td></tr>
+          <tr><td><strong>IBAN #</strong></td><td>PK02MEZN0001110104778802</td></tr>
         </t>
         <t t-else="">
-          <tr><td><strong>BANK:</strong></td><td>Meezan Bank Limited</td></tr>
-          <tr><td><strong>BRANCH:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
-          <tr><td><strong>ACCOUNT TITLE:</strong></td><td>M/S Eastern Products Pvt. Ltd</td></tr>
-          <tr><td><strong>ACCOUNT NO:</strong></td><td>0104507174</td></tr>
-          <tr><td><strong>SWIFT CODE:</strong></td><td>MEZNPKKAXXX</td></tr>
-          <tr><td><strong>IBAN#:</strong></td><td>PK79MEZN0001110104507174</td></tr>
+          <!-- <tr><td style="display: none;"><strong>Seller Bank Detail:</strong></td></tr> -->
+          <!-- <tr><td><strong>Seller Bank Detail:</strong></td></tr> -->
+          <tr><td><strong>Bank:</strong></td><td>Meezan Bank Limited</td></tr>
+          <tr><td><strong>Branch:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
+          <tr><td><strong>Account Title:</strong></td><td>M/S Eastern Products Pvt. Ltd</td></tr>
+          <tr><td><strong>Account No:</strong></td><td>0104507174</td></tr>
+          <tr><td><strong>Swift Code:</strong></td><td>MEZNPKKAXXX</td></tr>
+          <tr><td><strong>IBAN #</strong></td><td>PK79MEZN0001110104507174</td></tr>
         </t>
       </table>
     </td>
@@ -305,7 +340,7 @@
     <!-- Right Section: Financial Details -->
     <td style="width: 50%; vertical-align: top; text-align: right; padding-left: 20px; ">
       <div style="width: 100%; margin-bottom: 10px;"></div>
-      <table style="width: 100%; text-align: right; border-collapse: collapse;">
+      <table style="width: 100%; text-align: right; border-collapse: collapse; font-size: 11pt;">
         <tr>
           <td><strong>Net FOB Value in USD:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.amount_total)"></t></td>
@@ -333,7 +368,8 @@
 </table>
 
 
-
+<br/>
+<br/>
 
           <div style="page-break-inside: avoid;">
 

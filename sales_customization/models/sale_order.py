@@ -86,6 +86,10 @@ class SaleOrder(models.Model):
     shipping_line = fields.Char(string="Shipping Lline")
     total_items = fields.Integer(string="Total Items", compute="_compute_total_items")
 
+    def action_custom_save(self):
+        """ Custom save action """
+        return True  # Odoo automatically saves records when an action is performed.
+
 
     @api.onchange('container_type', 'total_order_cbm','total_qty')
     def _onchange_cbm_limit(self):

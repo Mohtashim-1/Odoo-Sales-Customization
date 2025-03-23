@@ -12,6 +12,7 @@
         </field>
     </record>
 
+
     <!-- Adding Extra Fields in Order Lines -->
     <record id="view_sale_order_line_inherit_serial_number" model="ir.ui.view">
         <field name="name">sale.order.line.inherit</field>

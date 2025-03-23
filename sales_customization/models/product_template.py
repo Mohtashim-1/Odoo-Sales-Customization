@@ -31,6 +31,17 @@ class ProductTemplate(models.Model):
     fcl_40 = fields.Float(string="40ft FCL HQ", compute="_compute_40fcl")
     shelf_life = fields.Float(string="Shelf Life", default = 3)
 
+    @api.model
+    def create(self, vals):
+        if 'name' in vals:
+            vals['name'] = vals['name'].title()  # Convert to Title Case
+        return super(ProductTemplate, self).create(vals)
+
+    def write(self, vals):
+        if 'name' in vals:
+            vals['name'] = vals['name'].title()  # Convert to Title Case
+        return super(ProductTemplate, self).write(vals)
+
     @api.depends('name')
     def _compute_product_code(self):
         for record in self:

@@ -1,0 +1,15 @@
+<odoo>
+    <record id="product_product_kanban_catalog_inherit" model="ir.ui.view">
+        <field name="name">product.product.kanban.catalog.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_view_kanban_catalog"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='o_kanban_price']" position="after">
+                <div class="o_kanban_custom_text">
+                   Packaging: <field name="packaging_detail_id" tracking="True" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+	

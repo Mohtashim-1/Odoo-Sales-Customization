@@ -8,6 +8,12 @@ class ResPartner(models.Model):
     port = fields.Char("Port")
     # code = fields.Char("code")
 
+    @api.model
+    def create(self, vals):
+        if 'name' in vals:
+            vals['name'] = vals['name'].title()  # Capitalize Name
+        return super(ResPartner, self).create(vals)
+
     @api.onchange('name')
     def _onchange_name_set_ref(self):
         """
@@ -33,6 +39,11 @@ class ResPartner(models.Model):
         """
         if 'name' in vals and vals['name']:
             vals['ref'] = ''.join(word[0] for word in vals['name'].split())
+        return super(ResPartner, self).write(vals)
+    
+    def write(self, vals):
+        if 'name' in vals:
+            vals['name'] = vals['name'].title()  # Capitalize Name
         return super(ResPartner, self).write(vals)
 
     
