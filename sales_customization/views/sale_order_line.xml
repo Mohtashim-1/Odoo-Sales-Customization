@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+
+
+
     <!-- Sorting Order Lines in Sales Order -->
     <record id="view_sale_order_line_sorted" model="ir.ui.view">
         <field name="name">sale.order.line.sorted</field>
@@ -19,6 +23,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
+            
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
                 <field name="launch_date" optional="show" />
                 <field name="categ_id_name" optional="show" />
@@ -43,7 +48,7 @@
                 <field name="lbs_oz" optional="show"  />
                 <field name="status" optional="show"  />
                 <field name="description" optional="show"  />
-                <field name="analysis" optional="show"  />
+                <field name="analysis" />
             </xpath>
         </field>
     </record>

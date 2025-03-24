@@ -180,7 +180,8 @@
       15-20 Days after confirmation of order. Documents include: Commercial Invoice, Packing List, B/L, Phytosanitary  <span t-field="doc.payment_term_id"/>
               </p>
 
-              <div style="margin-top: 10px; font-size:11pt padding-top: 10px;">
+              <!-- <div style="margin-top: 10px; font-size:11pt padding-top: 10px;"> -->
+              <div style=" font-size:11pt;">
                 <p style="margin: 0; padding: 0;"><strong>Destination: </strong><span t-field="doc.destination"/>
                 </p>
                 <p style="margin: 0; padding: 0;">Shipment: Within 25 Days After Receipt of Signed Contract
@@ -221,17 +222,18 @@
                     <t t-if="line.product_id.categ_id.name not in sub_category_lst">
                       <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]" />
                       <tr>
-                        <td style="background-color:#DCDCDC" /> 
-                        <td style="background-color:#DCDCDC" />
-                        <td style="padding: 5px; background-color: #DCDCDC; text-align: left; vertical-align: middle; width: 150px;">
+                        <td style="background-color:#EDEDED" /> 
+                        <td style="background-color:#EDEDED" />
+                        <!-- <td style="padding: 3px; background-color: #EDEDED; text-align: left; vertical-align: middle; width: 150px; "> -->
+                        <td style="background-color: #EDEDED; text-align: left; width: 150px; ">
                           <strong>
                             <span t-esc="line.product_id.categ_id.name" />
                           </strong>
                         </td>
-                        <td style="background-color:#DCDCDC" />
-                        <td style="background-color:#DCDCDC" />
-                        <td style="background-color:#DCDCDC" />
-                        <td style="background-color:#DCDCDC" />
+                        <td style="background-color:#EDEDED" />
+                        <td style="background-color:#EDEDED" />
+                        <td style="background-color:#EDEDED" />
+                        <td style="background-color:#EDEDED" />
 
                       </tr>
 
