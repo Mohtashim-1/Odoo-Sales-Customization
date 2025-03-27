@@ -7,8 +7,7 @@
     'author':'Mohtashim',
     'depends': ['base', 'product', 'sale_management', 'web'], 
     'data': [
-    # 'views/sale_order.xml',
-    
+    # view
     'views/product_template_view.xml',
     'views/partner.xml',
     'views/sale_order.xml',
@@ -19,18 +18,16 @@
     "views/company.xml",
     "views/sale_order_custom_view.xml",
     "views/product_kanban_inherit_view.xml",
-    # "views/res_partner_view.xml",
-    
-    # "report/custom_header.xml",
-
-   
     'views/sale_order_line.xml',
-    
-    
+    # report
     "report/report_action.xml",
     "report/sales_order_template.xml",
+    # security
     "security/ir.model.access.csv",
-    
+    'security/group.xml',
+    # 'security/record_rules.xml',
+    # 'security/sale_order_line_access.xml',
+    # report
     "report/performa_invoice.xml",
     "report/order_sheet.xml",
     'report/commercial_invoice.xml',
@@ -40,9 +37,8 @@
     'report/export_order.xml',
     'report/bl_instruction.xml',
     'report/custom_invoice.xml',
-    
+    # view
     'views/menu.xml',
-    # "report/report.xml"
 ],
     'installable': True,
     'application': False,

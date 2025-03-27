@@ -18,7 +18,7 @@
 
 
     <!-- Adding Extra Fields in Order Lines -->
-    <record id="view_sale_order_line_inherit_serial_number" model="ir.ui.view">
+    <!-- <record id="view_sale_order_line_inherit_serial_number" model="ir.ui.view">
         <field name="name">sale.order.line.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
@@ -51,5 +51,5 @@
                 <field name="analysis" />
             </xpath>
         </field>
-    </record>
+    </record> -->
 </odoo>

@@ -63,11 +63,11 @@
             <h1 style="font-size: 24px; font-weight: bold;">Proforma Invoice / Sales Contract</h1>
 
 
-             <table style="width: 100%; border-spacing: 0;">
+             <table style="width: 100%; border-spacing: 0; font-size:11pt">
     <tr>
         <!-- Left Column: Consignee Information -->
-        <td style="width: 48%; vertical-align: top; padding-right: 5%;"> <!-- Added 5% right padding -->
-            <table style="width: 100%; border-spacing: 0;">
+        <td style="width: 48%; vertical-align: top; padding-right: 5%; font-size:11pt"> <!-- Added 5% right padding -->
+            <table style="width: 100%; border-spacing: 0; font-size:11pt">
                 <tr>
                     <td colspan="2" t-att-style="'background-color: %s; color: %s; vertical-align: middle; width: 45px;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
                         <strong>Consignee:</strong>
@@ -108,8 +108,8 @@
         <td style="width: 1%;"></td>
 
         <!-- Right Column: Shipping Details -->
-        <td style="width: 50%; vertical-align: top;">
-            <table style="width: 100%; border-spacing: 0;">
+        <td style="width: 50%; vertical-align: top; font-size:11pt">
+            <table style="width: 100%; border-spacing: 0; font-size:11pt">
                 <tr>
                     <td colspan="2" t-att-style="'background-color: %s; color: %s; vertical-align: middle; width: 45px;' % (doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
                         <strong>Shipping Details:</strong>
@@ -396,7 +396,7 @@
 
 
             
-<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+<table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size:11pt">
     <tr>
         <!-- Left Column -->
         <td style="width: 40%; text-align: center; vertical-align: bottom;">

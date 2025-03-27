@@ -8,6 +8,10 @@ class ResPartner(models.Model):
     port = fields.Char("Port")
     # code = fields.Char("code")
 
+    def action_custom_save(self):
+        """ Custom save action """
+        return True  # Odoo automatically saves records when an action is performed.
+
     @api.model
     def create(self, vals):
         if 'name' in vals:

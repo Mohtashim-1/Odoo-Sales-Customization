@@ -1,82 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Combined optimized view with group restrictions -->
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- First group of fields after partner_id -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="partner_code" groups="bn_sale_security.sales_user_group"/>
+                <field name="required_date" groups="bn_sale_security.sales_user_group"/>
+                <field name="customer_container" groups="bn_sale_security.sales_user_group"/>
+                <field name="container_type" groups="bn_sale_security.sales_user_group"/>
+                <field name="pi_no" groups="bn_sale_security.sales_user_group"/>
+                <field name="shipping_line" groups="bn_sale_security.sales_user_group"/>
+                <field name="shipment" groups="bn_sale_security.sales_user_group"/>
+                <field name="order_date" groups="bn_sale_security.sales_user_group"/>
+                <field name="container_no" groups="bn_sale_security.sales_user_group"/>
+                <field name="container_cbm" groups="bn_sale_security.sales_user_group"/>
+                <field name="validity" groups="bn_sale_security.sales_user_group"/>
+                <field name="total_gross_weight" groups="bn_sale_security.sales_user_group"/>
+                <field name="total_net_weight" groups="bn_sale_security.sales_user_group"/>
+                <field name="total_cbm" groups="bn_sale_security.sales_user_group"/>
+                <field name="total_order_cbm" groups="bn_sale_security.sales_user_group"/>
+                <field name="total_in_words" groups="bn_sale_security.sales_user_group"/>
+            </xpath>
 
-    <record id="view_order_form_inherit_hide_tax" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit.hide.tax</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
-    </field>
-</record>
+            <!-- Second group of fields after tag_ids -->
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="label_name" groups="bn_sale_security.sales_user_group"/>
+                <field name="manufactory_date" groups="bn_sale_security.sales_user_group"/>
+                <field name="expiry_date" groups="bn_sale_security.sales_user_group"/>
+                <field name="best_before" groups="bn_sale_security.sales_user_group"/>
+                <field name="print_instruction" groups="bn_sale_security.sales_user_group"/>
+                <field name="destination" groups="bn_sale_security.sales_user_group"/>
+                <field name="delivery" groups="bn_sale_security.sales_user_group"/>
+                <field name="fda" groups="bn_sale_security.sales_user_group"/>
+                <field name="fi_number" groups="bn_sale_security.sales_user_group"/>
+                <field name="fi_date" groups="bn_sale_security.sales_user_group"/>
+                <field name="container_cbm" groups="bn_sale_security.sales_user_group"/>
+                <field name="bl_no" groups="bn_sale_security.sales_user_group"/>
+                <field name="bl_date" groups="bn_sale_security.sales_user_group"/>
+                <field name="vessel_voyage" groups="bn_sale_security.sales_user_group"/>
+            </xpath>
 
-  <record id="view_order_form_inherit" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='partner_id']" position="after">
-            <!-- <field name="customer_vat" readonly="1"/>
-            <field name="address"/> -->
-            <field name="partner_code"  />
-            <field name="required_date"  />
-            <field name="customer_container"  />
-            <field name="container_type"  />
+            <!-- Fields before tax_totals -->
+            <xpath expr="//field[@name='tax_totals']" position="before">
+                <field name="freight" groups="bn_sale_security.sales_user_group"/>
+                <field name="total_qty" groups="bn_sale_security.sales_user_group"/>
+                <field name="discount" groups="bn_sale_security.sales_user_group"/>
+                <field name="total" groups="bn_sale_security.sales_user_group"/>
+            </xpath>
+
+            <!-- Order line fields -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
+                <field name="launch_date" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="categ_id_name" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="image" widget="image" options="{'size': [40, 40]}" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="hs_code_id" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="packaging_detail_id" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="pkts" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="no_of_pieces" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="length" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="width" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="height" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="net_weight" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="gross_weight" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="cbm" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="order_cbm" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="fcl_20" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="fcl_40" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="shelf_life" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="custom_price" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="custom_amount" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="no_of_ctn" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="lbs_oz" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="status" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="description" optional="show" groups="bn_sale_security.sales_user_group"/>
+                <field name="analysis" groups="bn_sale_security.sales_user_group"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                <attribute name="groups">bn_sale_security.sales_user_group</attribute>
+            </xpath>
             
-            <!-- <field name="container_carrier"  /> -->
-            <field name="pi_no"  />
-            <field name="shipping_line" />
-            <field name="shipment" />
-            <field name="order_date" />
-           
-
-            <field name="container_no" />
-            <field name="container_cbm" />
-            <field name="validity" />
-            <field name="total_gross_weight" />
-            <field name="total_net_weight" />
-            <field name="total_cbm" />
-            <field name="total_order_cbm" />
-            <field name="total_in_words" />
-            
-        </xpath>
-
-        <xpath expr="//field[@name='tag_ids']" position="after">
-            <!-- <field name="delivery_date" /> -->
-            <field name="label_name" />
-            <field name="manufactory_date" />
-            <field name="expiry_date" />
-            <field name="best_before" />
-            <field name="print_instruction" />
-            <field name="destination" />
-            <field name="delivery" />
-            <field name="fda" />
-            <!-- <field name="terms" /> -->
-            <!-- <field name="language_instructions" /> -->
-            <!-- <field name="lot_code" /> -->
-            <!-- <field name="producer_code" /> -->
-            <field name="fi_number" />
-            <field name="fi_date" />
-            <!-- <field name="container_no" /> -->
-            <field name="container_cbm" />
-            <field name="bl_no" />
-            <field name="bl_date" />
-            <field name="vessel_voyage" />
-            <!-- <field name="loading_port" /> -->
-            <!-- <field name="port_of_discharge" /> -->
-            <!-- <field name="vessel" /> -->
-            <!-- <field name="voyage" />    -->
-        </xpath>
-
-        <xpath expr="//field[@name='tax_totals']" position="before">
-            <field name="freight" />
-            <field name="total_qty" />
-            <field name="discount" />
-            <field name="total" />
-        </xpath>
-
-        
-    </field>
-</record>
+            <!-- Remove tax_id field from order line if needed -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
+        </field>
+    </record>
 
 </odoo>
