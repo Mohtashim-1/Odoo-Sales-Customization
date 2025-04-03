@@ -1,0 +1,21 @@
+/* Hide all promotional buttons with multiple selectors */
+button[name="action_open_coupon_wizard"],
+button[name="578"],
+button[data-action="578"],
+button[name="action_open_discount_wizard"],
+button[name="action_open_reward_wizard"],
+button[name="action_open_delivery_wizard"],
+button[name="action_open_promotions"],
+.btn-promotion,
+.btn-coupon,
+.o_form_button_promotion {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide button containers */
+div[name="so_button_below_order_lines"],
+div.float-end.d-flex.gap-1,
+div.oe_button_box + div:not(.oe_title) {
+    display: none !important;
+}

@@ -5,6 +5,12 @@
     'summary': 'Custom Fields for Product Template',
     'description': 'This module adds custom fields to the Product Template (Item Master).',
     'author':'Mohtashim',
+    # 'assets': {
+    # 'web.assets_backend': [
+    #     'sales_customization/static/src/css/hide_buttons.css',
+    #     'sales_customization/static/src/js/hide_buttons.js',
+    #     ],
+    # },
     'depends': ['base', 'product', 'sale_management', 'web'], 
     'data': [
     # view

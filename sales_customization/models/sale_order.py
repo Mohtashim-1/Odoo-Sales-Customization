@@ -71,7 +71,7 @@ class SaleOrder(models.Model):
 
     freight = fields.Float(string="Freight")
     discount = fields.Float(string="Discount")
-    total = fields.Float(string="Total1", compute="_compute_total")
+    total = fields.Float(string="Total Amount", compute="_compute_total")
     total_qty = fields.Float(string="Total Quantity", compute="_compute_total_qty")
     total_net_weight = fields.Float(string="Total Net Weight", compute="_compute_total_net_weight")
     total_gross_weight = fields.Float(string="Total Gross Weight", compute="_compute_total_gross_weight")
@@ -158,20 +158,6 @@ class SaleOrder(models.Model):
         for order in self:
             order.total_gross_weight = sum(line.gross_weight for line in order.order_line)
 
-    # @api.depends('net_weight')
-    # def _compute_total_net_weight(self):
-    #     net_weight = 0
-    #     for record in self.order_line:
-    #         net_weight += record.net_weight
-    #     self.total_net_weight = net_weight
-
-    # @api.depends('gross_weight')
-    # def _compute_total_gross_weight(self):
-    #     gross_weight = 0
-    #     for record in self.order_line:
-    #         gross_weight += record.gross_weight
-    #     self.total_gross_weight = gross_weight
-
     @api.onchange('freight')
     def add_total_value(self):
         self.tax_totals['amount_total'] = self.freight + self.tax_totals['amount_total']
@@ -184,10 +170,6 @@ class SaleOrder(models.Model):
             qty += record.product_uom_qty
         self.total_qty = qty
 
-        
-        
-
-
     @api.depends('freight','discount')
     def _compute_total(self):
         for record in self:
@@ -198,3 +180,13 @@ class SaleOrder(models.Model):
     def _compute_amount_to_words(self):
         for record in self:
             record.total_in_words = num2words(record.total)
+            
+    def get_report_action(self):
+        """ Override to always hide the print button """
+        action = super().get_report_action()
+        action['config'] = False  # This will hide the print button
+        return action
+    
+    def _get_report_action(self, report, data=None):
+        """ Completely disable printing for all Sales Orders """
+        return False

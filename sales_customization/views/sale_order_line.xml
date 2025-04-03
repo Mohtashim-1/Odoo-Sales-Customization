@@ -49,7 +49,7 @@
                 <field name="status" optional="show"  />
                 <field name="description" optional="show"  />
                 <field name="analysis" />
-            </xpath>
-        </field>
-    </record> -->
+            </xpath> -->
+        <!-- </field> -->
+    <!-- </record> -->
 </odoo>
