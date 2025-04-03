@@ -181,12 +181,22 @@ class SaleOrder(models.Model):
         for record in self:
             record.total_in_words = num2words(record.total)
             
-    def get_report_action(self):
-        """ Override to always hide the print button """
-        action = super().get_report_action()
-        action['config'] = False  # This will hide the print button
-        return action
+    # def get_report_action(self):
+    #     """ Override to always hide the print button """
+    #     action = super().get_report_action()
+    #     action['config'] = False  # This will hide the print button
+    #     return action
     
-    def _get_report_action(self, report, data=None):
-        """ Completely disable printing for all Sales Orders """
-        return False
+    # def _get_report_action(self, report, data=None):
+    #     """ Completely disable printing for all Sales Orders """
+    #     return False
+    
+    # def get_report_action(self):
+    #     """ Completely disable printing for all sales orders """
+    #     action = super().get_report_action()
+    #     # Remove print options
+    #     action['config'] = False
+    #     # Remove all report types (PDF, Excel, etc.)
+    #     if 'report_type' in action:
+    #         del action['report_type']
+    #     return action
