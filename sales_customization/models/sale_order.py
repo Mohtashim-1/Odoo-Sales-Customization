@@ -85,6 +85,21 @@ class SaleOrder(models.Model):
 
     shipping_line = fields.Char(string="Shipping Lline")
     total_items = fields.Integer(string="Total Items", compute="_compute_total_items")
+    
+    # assignee_id = fields.Many2one(
+    #     'res.users',
+    #     string='Assignee',
+    #     tracking=True,
+    #     help="Person responsible for this order"
+    # )
+    
+    assignee_ids = fields.Many2many(
+        'res.users',
+        string='Assignees',
+        tracking=True,
+        help="People responsible for this order"
+    )
+
 
     def action_custom_save(self):
         """ Custom save action """

@@ -1,101 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-
-<record id="view_order_form_custom_details" model="ir.ui.view">
-    <field name="name">sale.order.form.custom.details</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-        <!-- Add the new page to the existing notebook -->
-        <xpath expr="//notebook" position="inside">
-            <page string="Other Details" name="other_details" groups="bn_sale_security.sales_user_group">
-                <group>
-                    <group string="Product Information">
-                        <field name="label_name"/>
-                        <field name="manufactory_date"/>
-                        <field name="expiry_date"/>
-                        <field name="best_before"/>
-                        <field name="print_instruction"/>
+    <!-- Custom Details Page -->
+    <record id="view_order_form_custom_details" model="ir.ui.view">
+        <field name="name">sale.order.form.custom.details</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Other Details" name="other_details" groups="bn_sale_security.sales_user_group">
+                    <group>
+                        <group string="Product Information">
+                            <field name="user_id"/>
+                            <!-- <field name="assignee_id" /> -->
+                            <field name="assignee_ids" widget="many2many_tags"/>
+                            <field name="label_name"/>
+                            <field name="manufactory_date"/>
+                            <field name="expiry_date"/>
+                            <field name="best_before"/>
+                            <field name="print_instruction"/>
+                        </group>
+                        <group string="Shipping Details">
+                            <field name="destination"/>
+                            <field name="delivery"/>
+                            <field name="fda"/>
+                            <field name="container_cbm"/>
+                        </group>
+                        <group string="Documentation">
+                            <field name="fi_number"/>
+                            <field name="fi_date"/>
+                            <field name="bl_no"/>
+                            <field name="bl_date"/>
+                            <field name="vessel_voyage"/>
+                        </group>
                     </group>
-                    
-                    <group string="Shipping Details">
-                        <field name="destination"/>
-                        <field name="delivery"/>
-                        <field name="fda"/>
-                        <field name="container_cbm"/>
-                    </group>
-                    
-                    <group string="Documentation">
-                        <field name="fi_number"/>
-                        <field name="fi_date"/>
-                        <field name="bl_no"/>
-                        <field name="bl_date"/>
-                        <field name="vessel_voyage"/>
-                    </group>
-                </group>
-            </page>
-        </xpath>
-    </field>
-</record>
+                </page>
+            </xpath>
+        </field>
+    </record>
 
-<record id="hide_other_info_page" model="ir.ui.view">
-    <field name="name">hide.other.info.page</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-        <!-- Only modify the page we want to hide -->
-        <page name="other_information" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </page>
-
-        <page name="optional_products" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </page>
-
-        <!-- <page name="optional_products" position="attributes">
-            <attribute name="groups">bn_sale_security.sales_user_group</attribute>
-        </page> -->
-    </field>
-</record>
-
-
-<!-- <record id="custom_sale_order_form" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit.custom</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-
-       <field name="state" 
-       attrs="{'readonly': [('state', '=', 'cancel'), ('locked', '=', True)]}" 
-       invisible="[(state == 'cancel' or locked)]"
-       groups="bn_sale_security.sales_user_group"/>
-        
-    </field>
-</record> -->
-
-
-    <record id="custom_sale_order_form" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit.custom</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-
-        <field name="state" position="attributes">
-                <attribute name="invisible">1</attribute> 
-        </field>       
-    </field>
-</record>
-
-
-    <!-- Combined optimized view with group restrictions -->
+    <!-- Main Inherited View -->
     <record id="view_order_form_inherit" model="ir.ui.view">
         <field name="name">sale.order.form.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-
-
+            <!-- Hide elements -->
+            <field name="state" position="attributes">
+                <attribute name="invisible">1</attribute> 
+            </field>
+            
             <xpath expr="//button[@name='action_open_discount_wizard']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
@@ -104,38 +57,28 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
 
-            
-
-
-
-
-            <!-- First group of fields after partner_id -->
+            <!-- Field groups after partner_id -->
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="partner_code" groups="bn_sale_security.sales_user_group"/>
-                
                 <field name="required_date" groups="bn_sale_security.sales_user_group"/>
                 <field name="customer_container" groups="bn_sale_security.sales_user_group"/>
-                <!-- <field name="container_type" groups="bn_sale_security.sales_user_group"/> -->
                 <field name="container_type"/>
                 <field name="pi_no" groups="bn_sale_security.sales_user_group"/>
                 <field name="payment_term_id" groups="bn_sale_security.sales_user_group"/>
                 <field name="shipping_line" groups="bn_sale_security.sales_user_group"/>
                 <field name="shipment" groups="bn_sale_security.sales_user_group"/>
-               
                 <field name="order_date" groups="bn_sale_security.sales_user_group"/>
                 <field name="container_no" groups="bn_sale_security.sales_user_group"/>
                 <field name="container_cbm" groups="bn_sale_security.sales_user_group"/>
                 <field name="validity" groups="bn_sale_security.sales_user_group"/>
-                <!-- <field name="total_gross_weight" groups="bn_sale_security.sales_user_group"/> -->
-                <field name="total_gross_weight" />
+                <field name="total_gross_weight"/>
                 <field name="total_net_weight" groups="bn_sale_security.sales_user_group"/>
                 <field name="total_cbm" groups="bn_sale_security.sales_user_group"/>
-                <!-- <field name="total_order_cbm" groups="bn_sale_security.sales_user_group"/> -->
-                <field name="total_order_cbm" />
+                <field name="total_order_cbm"/>
                 <field name="total_in_words" groups="bn_sale_security.sales_user_group"/>
             </xpath>
 
-            <!-- Second group of fields after tag_ids -->
+            <!-- Second group of fields -->
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <field name="label_name" groups="bn_sale_security.sales_user_group"/>
                 <field name="manufactory_date" groups="bn_sale_security.sales_user_group"/>
@@ -153,59 +96,42 @@
                 <field name="vessel_voyage" groups="bn_sale_security.sales_user_group"/>
             </xpath>
 
-            <!-- field amount total -->
+            <!-- Hide tax totals -->
             <xpath expr="//field[@name='tax_totals']" position="attributes">
-    <attribute name="invisible">1</attribute>
-</xpath>
-
-
-            
-
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
             <!-- Fields before tax_totals -->
             <xpath expr="//field[@name='tax_totals']" position="before">
-                
                 <field name="freight" groups="bn_sale_security.sales_user_group"/>
-                <field name="total_qty" />
+                <field name="total_qty"/>
                 <field name="discount" groups="bn_sale_security.sales_user_group"/>
                 <field name="total" groups="bn_sale_security.sales_user_group"/>
-                
-                <field name="total" />
             </xpath>
-<xpath expr="//div[@class='oe_chatter']" position="replace">
-    <group groups="bn_sale_security.sales_user_group">
-        <div class="oe_chatter">
-            <field name="message_follower_ids"/>
-            <field name="activity_ids"/>
-            <field name="message_ids"/>
-        </div>
-    </group>
-    <group groups="!bn_sale_security.sales_user_group">
-        <!-- Empty div to hide chatter for everyone else -->
-        <div/>
-    </group>
-</xpath>
 
+            <!-- Chatter control -->
+            <xpath expr="//div[@class='oe_chatter']" position="replace">
+                <group groups="bn_sale_security.sales_user_group">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </group>
+                <group groups="!bn_sale_security.sales_user_group">
+                    <div/>
+                </group>
+            </xpath>
+
+            <!-- Order line controls -->
             <xpath expr="//sheet//field[@name='order_line']/tree//control" position="replace">
                 <control>
                     <create name="add_product_control" string="Add a product"/>
-                    <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"
-                    groups="bn_sale_security.sales_user_group"
-                    />
-                    <create name="add_note_control" string="Add a note" 
-                            context="{'default_display_type': 'line_note'}" 
-                            groups="bn_sale_security.sales_user_group"/>
+                    <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}" groups="bn_sale_security.sales_user_group"/>
+                    <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}" groups="bn_sale_security.sales_user_group"/>
                     <button name="action_add_from_catalog" string="Catalog" type="object" class="px-4 btn-link" context="{'order_id': parent.id}"/>
                 </control>
             </xpath>
-
-            
-
-        <!-- Special handling for invoice_status field to avoid group conflicts -->
-        <!-- <xpath expr="//field[@name='invoice_status'][@groups='base.group_no_one']" position="attributes">
-            <attribute name="groups">base.group_no_one,bn_sale_security.sales_user_group</attribute>
-        </xpath> -->
-
 
             <!-- Order line fields -->
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
@@ -239,11 +165,25 @@
                 <attribute name="groups">bn_sale_security.sales_user_group</attribute>
             </xpath>
             
-            <!-- Remove tax_id field from order line if needed -->
             <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
         </field>
     </record>
 
-   
+    
+<record id="hide_other_info_page" model="ir.ui.view">
+    <field name="name">hide.other.info.page</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <!-- Only modify the page we want to hide -->
+        <page name="other_information" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </page> 
 
+        <page name="optional_products" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </page>
+
+    </field>
+</record>
 </odoo>
