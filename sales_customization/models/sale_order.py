@@ -66,6 +66,8 @@ class SaleOrder(models.Model):
     container_type = fields.Selection([
         ('20fcl', '20FCL'),
         ('40fcl', '40FCL'),
+        ('45hc', '45HC'),
+        ('lcl', 'LCL'),
        
     ], string='Container Type', required=True, default='20fcl')
 
@@ -123,6 +125,29 @@ class SaleOrder(models.Model):
                         'message': "The Total CBM exceeds the limit for 40FCL (65 CBM). Please check your data.",
                     }
                 }
+            elif record.container_type == '45hc' and record.total_order_cbm > 75:
+                return {
+                    'warning': {
+                        'title': "CBM Exceeds Limit",
+                        'message': "The Total CBM exceeds the limit for 45HC (75 CBM). Please check your data.",
+                    }
+                }
+            elif record.container_type == 'lcl' and record.total_order_cbm >= 20:
+                return {
+                    'warning': {
+                        'title': "CBM Exceeds Limit",
+                        'message': "The Total CBM exceeds the limit for LCL (20 CBM). Please check your data.",
+                    }
+                }
+
+            elif record.container_type == '20fcl' and record.total_order_cbm < 20:
+                return {
+                    'warning': {
+                        'title': "CBM Below Container Capacity",
+                        'message': "The Total CBM is below 20 CBM. You may consider selecting 'LCL' instead of '20FCL' to optimize container usage.",
+                    }
+                }
+
 
     @api.depends('order_line')
     def _compute_total_items(self):

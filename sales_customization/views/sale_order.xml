@@ -106,7 +106,7 @@
                 <field name="freight" groups="bn_sale_security.sales_user_group"/>
                 <field name="total_qty"/>
                 <field name="discount" groups="bn_sale_security.sales_user_group"/>
-                <field name="total" groups="bn_sale_security.sales_user_group"/>
+                <field name="total"/>
             </xpath>
 
             <!-- Chatter control -->
