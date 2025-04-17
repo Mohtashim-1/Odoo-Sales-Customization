@@ -106,6 +106,10 @@
                 <field name="freight" groups="bn_sale_security.sales_user_group"/>
                 <field name="total_qty"/>
                 <field name="discount" groups="bn_sale_security.sales_user_group"/>
+                <field name="discount_reason" groups="bn_sale_security.sales_user_group" />
+                <field name="credit_note_amount" groups="bn_sale_security.sales_user_group" />
+                <field name="credit_note_description" groups="bn_sale_security.sales_user_group"/>
+
                 <field name="total"/>
             </xpath>
 

@@ -69,10 +69,12 @@ class SaleOrder(models.Model):
         ('45hc', '45HC'),
         ('lcl', 'LCL'),
        
-    ], string='Container Type', required=True, default='20fcl')
+    ], string='Container Type', required=True, default='lcl')
 
     freight = fields.Float(string="Freight")
+    # frieght_description = fields.Char(string="Frieght Reason")
     discount = fields.Float(string="Discount")
+    # discount_description = fields.Char(string="Discount Reason")
     total = fields.Float(string="Total Amount", compute="_compute_total")
     total_qty = fields.Float(string="Total Quantity", compute="_compute_total_qty")
     total_net_weight = fields.Float(string="Total Net Weight", compute="_compute_total_net_weight")
@@ -101,8 +103,12 @@ class SaleOrder(models.Model):
         tracking=True,
         help="People responsible for this order"
     )
-
-
+    
+    discount_reason = fields.Text(string="Discount Reason")
+    freight_reason = fields.Text(string="Freight Reason")
+    credit_note_amount = fields.Float(string="Credit Note")
+    credit_note_description = fields.Text(string="Credit Note Description")
+    
     def action_custom_save(self):
         """ Custom save action """
         return True  # Odoo automatically saves records when an action is performed.
@@ -213,7 +219,7 @@ class SaleOrder(models.Model):
     @api.depends('freight','discount')
     def _compute_total(self):
         for record in self:
-            record.total = record.freight + record.amount_total - record.discount
+            record.total = ( record.freight + record.amount_total - record.credit_note_amount ) - record.discount 
             # print(f"total_1: {record.amount_total}")
 
     @api.depends('total','total_qty','discount','freight')

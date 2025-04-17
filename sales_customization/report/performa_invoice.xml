@@ -347,9 +347,17 @@
           <td><strong>Net FOB Value in USD:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.amount_total)"></t></td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td><strong>Freight:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
+        </tr> -->
+        <tr t-if="doc.freight_reason">
+          <td><strong>Freight:</strong></td>
+          <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
+        </tr>
+        <tr>
+          <td><strong>Discount:</strong></td>
+          <td>$ <t t-esc="'{:.2f}'.format(doc.discount)" /></td>
         </tr>
         <tr>
           <td><strong>Credit Note:</strong></td>
