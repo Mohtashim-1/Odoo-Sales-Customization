@@ -351,11 +351,11 @@
           <td><strong>Freight:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
         </tr> -->
-        <tr t-if="doc.freight_reason">
+        <tr>
           <td><strong>Freight:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
         </tr>
-        <tr>
+        <tr t-if="doc.discount_reason">
           <td><strong>Discount:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.discount)" /></td>
         </tr>
