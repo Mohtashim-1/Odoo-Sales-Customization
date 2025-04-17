@@ -359,9 +359,9 @@
           <td><strong>Discount:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.discount)" /></td>
         </tr>
-        <tr>
+        <tr t-if="doc.credit_note_description">
           <td><strong>Credit Note:</strong></td>
-          <td><!-- <t t-esc="'{:.2f}'.format(doc.credit_note)" /> --></td>
+          <td><t t-esc="'{:.2f}'.format(doc.credit_note_amount)" /></td>
         </tr>
         <tr>
           <td>
