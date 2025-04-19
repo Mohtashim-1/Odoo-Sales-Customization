@@ -2,9 +2,21 @@
     'name': 'Sales Customization',
     'version': '2.0.0',
     'category': 'Sales',
-    'summary': 'Custom Fields for Product Template',
-    'description': 'This module adds custom fields to the Product Template (Item Master).',
-    'author':'Mohtashim',
+    'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
+    'description': '''
+    The Sales Customization module enhances Odoo's standard Sales and Product features by introducing a set of custom fields and views tailored for specialized sales processes. It adds new fields to the Product Template (Item Master) and Sales Orders, allowing for better data control, document generation, and workflow optimization.
+
+    Key Features:
+    - Custom fields for Product Template, Sales Orders, and Partners
+    - Extended views for sales-related documents
+    - Custom Kanban view enhancements for Product Templates
+    - Tailored sales reports: Proforma Invoice, Commercial Invoice, Order Sheet, Packaging List, Export Order, BL Instruction, Financial Report, and more
+    - User access control through defined security groups
+    ''',
+    'author':'Mohtashim Shoaib',
+    'company': 'Alpha Edge Solutions',
+    'maintainer': 'Alpha Edge Solutions',
+    'website': 'https://alphaedgesolution.com',
     # 'assets': {
     # 'web.assets_backend': [
     #     'sales_customization/static/src/css/hide_buttons.css',
