@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '1.0.0',
+    'version': '2.0.0',
     'category': 'Sales',
     'summary': 'Custom Fields for Product Template',
     'description': 'This module adds custom fields to the Product Template (Item Master).',
