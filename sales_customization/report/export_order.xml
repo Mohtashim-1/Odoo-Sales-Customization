@@ -179,80 +179,87 @@
                                 </t> -->
 
                                 <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
-                                <t t-set="sub_category_lst" t-value="[]"/>
-                                <t t-set="product_lst" t-value="[]"/>
-                                <t t-set="s_no" t-value="1"/>
+                                <!-- Set up allowed category IDs from export_order_categories -->
+<t t-set="allowed_category_ids" t-value="[]"/>
+<t t-foreach="doc.export_order_categories" t-as="cat">
+    <t t-set="allowed_category_ids" t-value="allowed_category_ids + [cat.id]"/>
+</t>
 
-                                <t t-foreach="doc.order_line" t-as="line">
-                                    <t t-if="line.product_id.categ_id.name not in sub_category_lst">
-                                        <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
+<!-- Track seen sub-categories and products -->
+<t t-set="sub_category_lst" t-value="[]"/>
+<t t-set="product_lst" t-value="[]"/>
+<t t-set="s_no" t-value="1"/>
 
-                                        <tr>
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;">
-                                                <strong><span t-esc="line.product_id.categ_id.name" /></strong>
-                                                <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
-                                            </td>
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                        </tr>
+<!-- Main Order Line Filter Loop -->
+<t t-foreach="doc.order_line" t-as="line">
+    <t t-if="line.product_id.categ_id.id in allowed_category_ids and line.product_id.categ_id.name not in sub_category_lst">
+        <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
 
-                                        <t t-foreach="doc.order_line" t-as="line">
-                                            <t t-if="line.product_id.categ_id.name in sub_category_lst and line.product_id.id not in product_lst">
-                                                <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
+        <!-- Sub-category header row -->
+        <tr>
+            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="padding: 8px; border: 1px solid black; font-weight: bold;">
+                <span t-esc="line.product_id.categ_id.name"/>
+            </td>
+            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="padding: 8px; border: 1px solid black;" />
+        </tr>
 
-                                                <tr>
-                                                    <td style="padding: 8px; border: 1px solid black;">
-                                                        <span t-esc="s_no"/>
-                                                        <t t-set="s_no" t-value="s_no+1"/>
-                                                    </td>
-                                                    <!-- <td style="padding: 8px; border: 1px solid black; text-align: center;">
-                                                        <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 40px; height: 40px;" />
-                                                    </td> -->
-                                                    <td style="padding: 8px; border-bottom: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
-    <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
-        <img 
-            t-if="line.image" 
-            t-att-src="image_data_uri(line.image)" 
-            alt="Product Image" 
-            style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px;" 
-        />
-    </div>
-</td>
-                                                    <td style="padding: 8px; border: 1px solid black;">
-                                                        <span t-esc="line.name"/>
-                                                    </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
-                                                        <t t-esc="int(line.product_uom_qty)"/>
-                                                    </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
-                                                        <!-- <span t-esc="line.packaging_detail_id.no_of_pieces"/> -->
-                                                        <!-- <span t-esc="'{:.0f}'.format(line.packaging_detail_id.no_of_pieces)" /> -->
-                                                        <span t-esc="'{:.0f}'.format(line.pkts)" />
-                                                        <!-- <span t-esc="line.pkts"/> -->
-                                                    </td>
-                                                     <td style="padding: 8px; border: 1px solid black; text-align: center;">
-                                                        <span t-esc="line.lbs_oz"/>
-                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
-                                                        <span t-esc="line.packaging_detail_id.display_name"/>
-                                                    </td>
-                                                    <td style="padding: 8px; border: 1px solid black;">
-                                                        <span t-esc="line.status"/>
-                                                    </td>
-                                                    <td style="padding: 8px; border: 1px solid black;">
-                                                        <span t-esc="line.description"/>
-                                                    </td>
-                                                </tr>
-                                            </t>
-                                        </t>
-                                    </t>
-                                </t>
+        <!-- Nested loop to render all products in the same sub-category -->
+        <t t-foreach="doc.order_line" t-as="subline">
+            <t t-if="subline.product_id.categ_id.id == line.product_id.categ_id.id and subline.product_id.id not in product_lst">
+                <t t-set="product_lst" t-value="product_lst + [subline.product_id.id]"/>
+
+                <!-- Product Row -->
+                <tr>
+                    <td style="padding: 8px; border: 1px solid black;">
+                        <span t-esc="s_no"/>
+                        <t t-set="s_no" t-value="s_no + 1"/>
+                    </td>
+                    <td style="padding: 8px; border-bottom: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
+                        <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
+                            <img 
+                                t-if="subline.image" 
+                                t-att-src="image_data_uri(subline.image)" 
+                                alt="Product Image" 
+                                style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px;" 
+                            />
+                        </div>
+                    </td>
+                    <td style="padding: 8px; border: 1px solid black;">
+                        <span t-esc="subline.name"/>
+                    </td>
+                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                        <t t-esc="int(subline.product_uom_qty)"/>
+                    </td>
+                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                        <span t-esc="'{:.0f}'.format(subline.pkts)"/>
+                    </td>
+                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                        <span t-esc="subline.lbs_oz"/>
+                    </td>
+                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                        <span t-esc="subline.packaging_detail_id.display_name"/>
+                    </td>
+                    <td style="padding: 8px; border: 1px solid black;">
+                        <span t-esc="subline.status"/>
+                    </td>
+                    <td style="padding: 8px; border: 1px solid black;">
+                        <span t-esc="subline.description"/>
+                    </td>
+                </tr>
+            </t>
+        </t>
+    </t>
+</t>
+
+
+                                
                                 <!-- Syed Owais Noor <-> ByteCode -->
                             </tbody>
                             <!-- <tfoot>

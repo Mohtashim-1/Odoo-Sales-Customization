@@ -104,6 +104,11 @@ class SaleOrder(models.Model):
         help="People responsible for this order"
     )
     
+    export_order_categories = fields.Many2many(
+        'product.category',
+        string='Export Order Categories'
+    )
+    
     discount_reason = fields.Text(string="Discount Reason")
     freight_reason = fields.Text(string="Freight Reason")
     credit_note_amount = fields.Float(string="Credit Note")

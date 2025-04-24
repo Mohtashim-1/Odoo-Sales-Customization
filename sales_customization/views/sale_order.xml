@@ -22,6 +22,7 @@
                         <group string="Shipping Details">
                             <field name="destination"/>
                             <field name="delivery"/>
+
                             <field name="fda"/>
                             <field name="container_cbm"/>
                         </group>
@@ -63,6 +64,7 @@
                 <field name="required_date" groups="bn_sale_security.sales_user_group"/>
                 <field name="customer_container" groups="bn_sale_security.sales_user_group"/>
                 <field name="container_type"/>
+                <!-- <field name="export_order_categories"/> -->
                 <field name="pi_no" groups="bn_sale_security.sales_user_group"/>
                 <field name="payment_term_id" groups="bn_sale_security.sales_user_group"/>
                 <field name="shipping_line" groups="bn_sale_security.sales_user_group"/>
@@ -87,6 +89,8 @@
                 <field name="print_instruction" groups="bn_sale_security.sales_user_group"/>
                 <field name="destination" groups="bn_sale_security.sales_user_group"/>
                 <field name="delivery" groups="bn_sale_security.sales_user_group"/>
+                
+
                 <field name="fda" groups="bn_sale_security.sales_user_group"/>
                 <field name="fi_number" groups="bn_sale_security.sales_user_group"/>
                 <field name="fi_date" groups="bn_sale_security.sales_user_group"/>
