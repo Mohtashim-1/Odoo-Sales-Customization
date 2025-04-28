@@ -37,6 +37,7 @@
     "views/sale_order_custom_view.xml",
     "views/product_kanban_inherit_view.xml",
     'views/sale_order_line.xml',
+    'views/res_users_views.xml',
     # report
     "report/report_action.xml",
     "report/sales_order_template.xml",

@@ -114,6 +114,11 @@ class SaleOrder(models.Model):
     credit_note_amount = fields.Float(string="Credit Note")
     credit_note_description = fields.Text(string="Credit Note Description")
     
+    signature_type = fields.Selection([
+        ('system', 'System Generated'),
+        ('user',   'User Signature'),
+    ], default='system', string='Signature Type')
+    
     def action_custom_save(self):
         """ Custom save action """
         return True  # Odoo automatically saves records when an action is performed.

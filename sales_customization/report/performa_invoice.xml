@@ -416,9 +416,9 @@
 
 
             
-<table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size:11pt">
+<!-- <table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size:11pt">
     <tr>
-        <!-- Left Column -->
+        Left Column
         <td style="width: 40%; text-align: center; vertical-align: bottom;">
             <img 
                 t-if="doc.company_id.image_field_3" 
@@ -430,17 +430,17 @@
             <p style="border-top: 1px solid black; width: 100%; margin-top: 5px;"></p>
         </td>
 
-        <!-- Center Column (Spacer) -->
+        Center Column (Spacer)
         <td style="width: 20%;"></td>
 
-        <!-- Right Column -->
+        Right Column
         <td style="width: 40%; text-align: center; vertical-align: bottom;">
             <p style="border-top: 1px solid black; width: 100%; margin-top: 5px;"></p>
         </td>
     </tr>
     
     <tr>
-        <!-- Footer -->
+        Footer
         <td style="width: 40%; text-align: left;">
             <strong>Eastern Product (PVT.) LTD.</strong>
         </td>
@@ -449,7 +449,56 @@
             <strong><span t-field="doc.partner_id.name"></span></strong>
         </td>
     </tr>
+</table> -->
+
+
+<table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size:11pt">
+  <tr>
+      <!-- Left Column: only when user_signature -->
+      <t t-if="doc.signature_type == 'user'">
+          <td style="width: 40%; text-align: center; vertical-align: bottom;">
+              <img 
+                  t-if="doc.user_id.signature_image"
+                  t-att-src="image_data_uri(doc.user_id.signature_image)" 
+                  alt="User Signature" 
+                  style="width: 65%; height: auto; object-fit: contain;" 
+              />
+              <br/>
+              <p style="border-top: 1px solid black; width: 100%; margin-top: 5px;"></p>
+          </td>
+      </t>
+      <!-- If system, emit an empty cell of same width so layout stays -->
+      <t t-if="doc.signature_type == 'system'">
+          <td style="width: 40%;"></td>
+      </t>
+
+      <!-- Center spacer -->
+      <td style="width: 20%;"></td>
+
+      <!-- Right Column: e.g. partner signature spot (unchanged) -->
+      <td style="width: 40%; text-align: center; vertical-align: bottom;">
+          <p style="border-top: 1px solid black; width: 100%; margin-top: 5px;"></p>
+      </td>
+  </tr>
+  <tr>
+      <td style="width: 40%; text-align: left;">
+        <t t-if="doc.signature_type != 'system'">
+          <strong>Eastern Product (PVT.) LTD.</strong>
+        </t>
+      </td>
+      <td style="width: 20%;"></td>
+      <td style="width: 40%; text-align: right;">
+          <strong><span t-field="doc.partner_id.name"/></strong>
+      </td>
+  </tr>
 </table>
+
+<!-- If it's a system‐generated report, show the notice below -->
+<t t-if="doc.signature_type == 'system'">
+  <p style="text-align: center; font-style: italic; margin-top: 10px;">
+      Report is system generated and does not require any signature.
+  </p>
+</t>
 
 
 
