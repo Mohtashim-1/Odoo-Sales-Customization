@@ -451,6 +451,10 @@
     </tr>
 </table> -->
 
+<t t-if="doc.signature_type == 'system'">
+  <div style="height: 80px;"></div>
+</t>
+
 
 <table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size:11pt">
   <tr>

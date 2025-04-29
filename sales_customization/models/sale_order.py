@@ -226,11 +226,13 @@ class SaleOrder(models.Model):
             qty += record.product_uom_qty
         self.total_qty = qty
 
-    @api.depends('freight','discount')
+#########################################################
+    @api.depends('freight', 'discount', 'credit_note_amount', 'order_line.price_subtotal')
     def _compute_total(self):
         for record in self:
-            record.total = ( record.freight + record.amount_total - record.credit_note_amount ) - record.discount 
-            # print(f"total_1: {record.amount_total}")
+            line_total = sum(record.order_line.mapped('price_subtotal'))  # Sum of all order_line price_subtotal
+            record.total = (record.freight + line_total - record.credit_note_amount) - record.discount
+
 
     @api.depends('total','total_qty','discount','freight')
     def _compute_amount_to_words(self):
