@@ -226,7 +226,6 @@ class SaleOrder(models.Model):
             qty += record.product_uom_qty
         self.total_qty = qty
 
-#########################################################
     @api.depends('freight', 'discount', 'credit_note_amount', 'order_line.price_subtotal')
     def _compute_total(self):
         for record in self:
