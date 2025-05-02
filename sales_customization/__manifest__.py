@@ -44,7 +44,7 @@
     # security
     "security/ir.model.access.csv",
     'security/group.xml',
-    # 'security/record_rules.xml',
+    'security/record_rules.xml',
     # 'security/sale_order_line_access.xml',
     # report
     "report/performa_invoice.xml",

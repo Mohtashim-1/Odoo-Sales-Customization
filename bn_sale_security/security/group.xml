@@ -5,6 +5,10 @@
         <field name="name">Sale/User Group</field>
     </record>
 
+    <record id="sales_user_group" model="res.groups">
+        <field name="name">Sale/Document Group</field>
+    </record>
+
     <record id="sales_manager_group" model="res.groups">
         <field name="name">Sale/Manager Group</field>
     </record>
