@@ -355,7 +355,7 @@
           <td><strong>Freight:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
         </tr>
-        <tr >
+        <tr t-if="doc.discount_reason">
           <td><strong>Discount:</strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.discount)" /></td>
         </tr>
@@ -365,7 +365,7 @@
           <td><t t-esc="doc.discount_reason"/></td>
       </tr>
       
-        <tr>
+        <tr t-if="doc.credit_note_description">
           <td><strong>Credit Note:</strong></td>
           <td><t t-esc="'{:.2f}'.format(doc.credit_note_amount)" /></td>
         </tr>
