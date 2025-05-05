@@ -90,13 +90,6 @@ class SaleOrder(models.Model):
     shipping_line = fields.Char(string="Shipping Lline")
     total_items = fields.Integer(string="Total Items", compute="_compute_total_items")
     
-    # assignee_id = fields.Many2one(
-    #     'res.users',
-    #     string='Assignee',
-    #     tracking=True,
-    #     help="Person responsible for this order"
-    # )
-    
     assignee_ids = fields.Many2many(
         'res.users',
         string='Assignees',
@@ -257,3 +250,17 @@ class SaleOrder(models.Model):
     #     if 'report_type' in action:
     #         del action['report_type']
     #     return action
+
+
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+
+        # Check if user is in 'Sale/Customer Group'
+        if self.env.user.has_group('sales_customization.sales_customer_group'):
+            # Search for partner linked to current user
+            partner = self.env['res.partner'].search([('user_id', '=', self.env.uid)], limit=1)
+            if partner:
+                res['partner_id'] = partner.id
+
+        return res
