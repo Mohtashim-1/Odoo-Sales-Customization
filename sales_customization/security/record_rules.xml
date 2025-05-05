@@ -14,6 +14,19 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
+        
+        
+
+        <record id="access_res_users_document_group" model="ir.model.access">
+            <field name="name">res.users read access for Sale/Document Group</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="group_id" ref="sales_customization.sales_document_group"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
         <record id="access_sale_order_line_document_group" model="ir.model.access">
             <field name="name">sale.order.line access for Sale/Document Group</field>
             <field name="model_id" ref="sale.model_sale_order_line"/>
@@ -23,6 +36,17 @@
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
         </record>
+
+        <record id="access_res_users_sales_customer_group" model="ir.model.access">
+            <field name="name">res.users access for Sales Customer Group</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="group_id" ref="your_module.sales_customer_group"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        
 
         <record id="sale_order_line_access_for_document_group" model="ir.rule">
             <field name="name">Sale Order Line - Full Access for Document Group</field>
@@ -52,12 +76,23 @@
         
 
         <!-- Restrict res.partner to own customers ONLY for sales_customer_group -->
-        <record id="rule_partner_sales_user_only" model="ir.rule">
+        <!-- <record id="rule_partner_sales_user_only" model="ir.rule">
             <field name="name">Sales: own customers only</field>
             <field name="model_id" ref="base.model_res_partner"/>
             <field name="domain_force">[('user_id', '=', user.id)]</field>
             <field name="groups" eval="[(4, ref('sales_customization.sales_customer_group'))]"/>
+        </record> -->
+
+        <record id="access_res_users_customer_group" model="ir.model.access">
+            <field name="name">res.users read access for Sales Customer Group</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="group_id" ref="sales_customization.sales_customer_group"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
         </record>
+        
 
     </data>
 
