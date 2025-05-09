@@ -356,14 +356,15 @@
           <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
         </tr>
         <tr t-if="doc.discount_reason">
-          <td><strong>Discount:</strong></td>
+          <!-- <td><strong>Discount:</strong></td> -->
+          <td><strong><t t-esc="doc.discount_reason"/></strong></td>
           <td>$ <t t-esc="'{:.2f}'.format(doc.discount)" /></td>
         </tr>
 
-        <tr t-if="doc.discount_reason">
+        <!-- <tr t-if="doc.discount_reason">
           <td><strong>Discount Reason:</strong></td>
           <td><t t-esc="doc.discount_reason"/></td>
-      </tr>
+        </tr> -->
       
         <tr t-if="doc.credit_note_description">
           <td><strong>Credit Note:</strong></td>
