@@ -26,6 +26,7 @@
     'depends': ['base', 'product', 'sale_management', 'web'], 
     'data': [
     # view
+    'views/res_users_views.xml',
     'views/product_template_view.xml',
     'views/partner.xml',
     'views/sale_order.xml',
@@ -37,7 +38,8 @@
     "views/sale_order_custom_view.xml",
     "views/product_kanban_inherit_view.xml",
     'views/sale_order_line.xml',
-    'views/res_users_views.xml',
+    'views/sale_order_customer_rule.xml',
+    
     # report
     "report/report_action.xml",
     "report/sales_order_template.xml",
@@ -45,6 +47,7 @@
     "security/ir.model.access.csv",
     'security/group.xml',
     'security/record_rules.xml',
+    'security/partner_only_own_contact_rule.xml',
     # 'security/sale_order_line_access.xml',
     # report
     "report/performa_invoice.xml",
