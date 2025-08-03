@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_sale_order_sales_user","sale.order access for Sales User","sale.model_sale_order","bn_sale_security.sales_user_group",1,1,1,1
+"access_sale_order_sales_manager","sale.order access for Sales Manager","sale.model_sale_order","bn_sale_security.sales_manager_group",1,0,0,0
+"access_sale_order_sales_director","sale.order access for Sales Director","sale.model_sale_order","bn_sale_security.sales_director_group",1,0,0,0
