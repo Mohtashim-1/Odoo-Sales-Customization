@@ -40,7 +40,7 @@
         <record id="access_res_users_sales_customer_group" model="ir.model.access">
             <field name="name">res.users access for Sales Customer Group</field>
             <field name="model_id" ref="base.model_res_users"/>
-            <field name="group_id" ref="your_module.sales_customer_group"/>
+            <field name="group_id" ref="sales_customization.sales_customer_group"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="0"/>
             <field name="perm_create" eval="0"/>

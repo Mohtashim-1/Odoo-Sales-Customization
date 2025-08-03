@@ -72,6 +72,11 @@ class SaleOrder(models.Model):
     ], string='Container Type', required=True, default='lcl')
 
     freight = fields.Float(string="Freight")
+    gross_total = fields.Float(
+        string="Gross Total",
+        compute="_compute_gross_total",
+        store=True
+    )
     # frieght_description = fields.Char(string="Frieght Reason")
     discount = fields.Float(string="Discount")
     # discount_description = fields.Char(string="Discount Reason")
@@ -111,6 +116,7 @@ class SaleOrder(models.Model):
         ('system', 'System Generated'),
         ('user',   'User Signature'),
     ], default='system', string='Signature Type')
+
     
     def action_custom_save(self):
         """ Custom save action """
@@ -264,3 +270,26 @@ class SaleOrder(models.Model):
                 res['partner_id'] = partner.id
 
         return res
+
+
+    @api.model
+    def create(self, vals):
+        # also enforce on create
+        if self.env.user.has_group('sales_customization.sales_customer_group'):
+            partner = self.env['res.partner'].search(
+                [('user_id', '=', self.env.uid)], limit=1
+            )
+            if partner:
+                vals['partner_id'] = partner.id
+        return super(SaleOrder, self).create(vals)
+
+    def write(self, vals):
+        # strip out any attempt to change partner_id
+        if self.env.user.has_group('sales_customization.sales_customer_group'):
+            vals.pop('partner_id', None)
+        return super(SaleOrder, self).write(vals)
+    
+    @api.depends('order_line.price_subtotal')
+    def _compute_gross_total(self):
+        for order in self:
+            order.gross_total = sum(line.price_subtotal for line in order.order_line)

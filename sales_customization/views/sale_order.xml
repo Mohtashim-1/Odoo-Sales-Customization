@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+      <!-- 1) Limit partner_id to your own partner for that group -->
+    
+
+
     <!-- Custom Details Page -->
     <record id="view_order_form_custom_details" model="ir.ui.view">
         <field name="name">sale.order.form.custom.details</field>
@@ -110,11 +114,12 @@
             <xpath expr="//field[@name='tax_totals']" position="before">
                 <field name="freight" groups="bn_sale_security.sales_user_group"/>
                 <field name="total_qty"/>
+                <field name="gross_total"/>
                 <field name="discount" groups="bn_sale_security.sales_user_group"/>
                 <field name="discount_reason" groups="bn_sale_security.sales_user_group" />
                 <field name="credit_note_amount" groups="bn_sale_security.sales_user_group" />
                 <field name="credit_note_description" groups="bn_sale_security.sales_user_group"/>
-
+                
                 <field name="total"/>
             </xpath>
 

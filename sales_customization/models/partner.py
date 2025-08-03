@@ -6,6 +6,11 @@ class ResPartner(models.Model):
 
     image_field_1 = fields.Image("Company Logo 1")
     port = fields.Char("Port")
+
+    brand_id = fields.Many2one(
+        'product.brand',
+        string='Customer Brand',
+    )
     # code = fields.Char("code")
 
     def action_custom_save(self):

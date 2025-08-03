@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- Record Rule: customers only see Sale Orders for their own partner -->
+    <record id="rule_sale_order_customer_only" model="ir.rule">
+      <field name="name">Sale Order: own partner only</field>
+      <field name="model_id" ref="sale.model_sale_order"/>
+      <!-- Limit to orders whose partner.user_id matches the current user -->
+      <field name="domain_force">[('partner_id.user_id','=',user.id)]</field>
+      <!-- Apply only to your custom customer group -->
+      <field name="groups" eval="[(4, ref('sales_customization.sales_customer_group'))]"/>
+    </record>
+  </data>
+</odoo>
