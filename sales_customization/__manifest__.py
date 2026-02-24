@@ -23,7 +23,7 @@
     #     'sales_customization/static/src/js/hide_buttons.js',
     #     ],
     # },
-    'depends': ['base', 'product', 'sale_management', 'web'], 
+    'depends': ['base', 'product', 'sale_management', 'web', 'crm'], 
     'data': [
     # security - Load first
     'security/group.xml',
@@ -43,6 +43,7 @@
     "views/company.xml",
     "views/sale_order_custom_view.xml",
     "views/product_kanban_inherit_view.xml",
+    "views/crm_lead_kanban_view.xml",
     'views/sale_order_line.xml',
     'views/sale_order_customer_rule.xml',
     

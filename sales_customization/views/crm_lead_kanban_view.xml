@@ -1,0 +1,13 @@
+<odoo>
+    <record id="crm_case_kanban_view_leads_inherit_country_state" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.leads.inherit.country.state</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="before">
+                <field name="state_id" class="text-truncate"/>
+                <field name="country_id" class="text-truncate"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
