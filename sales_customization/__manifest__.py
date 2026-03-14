@@ -29,6 +29,7 @@
     'security/group.xml',
     'security/ir.model.access.csv',
     'security/record_rules.xml',
+    'security/override_rules.xml',
     'security/partner_only_own_contact_rule.xml',
     
     # view
@@ -67,4 +68,5 @@
     'application': False,
     'auto_install': False,
     'license': 'LGPL-3',
+    'post_init_hook': 'post_init_hook',
 }

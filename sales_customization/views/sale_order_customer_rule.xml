@@ -5,8 +5,8 @@
     <record id="rule_sale_order_customer_only" model="ir.rule">
       <field name="name">Sale Order: own partner only</field>
       <field name="model_id" ref="sale.model_sale_order"/>
-      <!-- Limit to orders whose partner.user_id matches the current user -->
-      <field name="domain_force">[('partner_id.user_id','=',user.id)]</field>
+      <!-- Limit to orders assigned to the current user -->
+      <field name="domain_force">[('user_id','=',user.id)]</field>
       <!-- Apply only to your custom customer group -->
       <field name="groups" eval="[(4, ref('sales_customization.sales_customer_group'))]"/>
     </record>
