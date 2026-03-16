@@ -265,7 +265,10 @@ class SaleOrder(models.Model):
         # Check if user is in 'Sale/Customer Group'
         if self.env.user.has_group('sales_customization.sales_customer_group'):
             # Search for partner linked to current user
-            partner = self.env['res.partner'].search([('user_id', '=', self.env.uid)], limit=1)
+            partner = self.env['res.partner'].search(
+                ['|', ('user_id', '=', self.env.uid), ('user_ids', 'in', self.env.uid)],
+                limit=1,
+            )
             if partner:
                 res['partner_id'] = partner.id
 
@@ -277,7 +280,8 @@ class SaleOrder(models.Model):
         # also enforce on create
         if self.env.user.has_group('sales_customization.sales_customer_group'):
             partner = self.env['res.partner'].search(
-                [('user_id', '=', self.env.uid)], limit=1
+                ['|', ('user_id', '=', self.env.uid), ('user_ids', 'in', self.env.uid)],
+                limit=1,
             )
             if partner:
                 vals['partner_id'] = partner.id

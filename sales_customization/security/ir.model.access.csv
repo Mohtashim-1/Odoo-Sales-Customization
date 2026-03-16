@@ -4,5 +4,5 @@ access_hs_code_user,access_hs_code_user,model_hs_code,,1,1,1,1
 access_shipping_term,access_shipping_term,model_shipping_term,,1,1,1,1
 access_bank_detail,access_bank_detail,model_bank_detail,,1,1,1,1
 access_res_users_sales_customer_group,res.users access for Sales Customer Group,base.model_res_users,sales_customization.sales_customer_group,1,0,0,0
-
+access_sale_order_line_sales_customer_group,sale.order.line access for Sales Customer Group,sale.model_sale_order_line,sales_customization.sales_customer_group,1,1,1,0
 

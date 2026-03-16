@@ -6,6 +6,14 @@ class ResPartner(models.Model):
 
     image_field_1 = fields.Image("Company Logo 1")
     port = fields.Char("Port")
+    user_ids = fields.Many2many(
+        'res.users',
+        'res_partner_user_rel',
+        'partner_id',
+        'user_id',
+        string='Users',
+        help='Additional users assigned to this partner.',
+    )
 
     brand_id = fields.Many2one(
         'product.brand',

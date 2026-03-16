@@ -45,6 +45,7 @@
     "views/sale_order_custom_view.xml",
     "views/product_kanban_inherit_view.xml",
     "views/crm_lead_kanban_view.xml",
+    "views/crm_lead_search_view.xml",
     'views/sale_order_line.xml',
     'views/sale_order_customer_rule.xml',
     

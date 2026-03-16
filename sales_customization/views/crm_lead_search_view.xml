@@ -1,0 +1,28 @@
+<odoo>
+    <record id="crm_lead_search_view_inherit_color" model="ir.ui.view">
+        <field name="name">crm.lead.search.inherit.color</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="priority" eval="1000"/>
+        <field name="arch" type="xml">
+            <!-- Insert colors directly after Lost in the Filters list -->
+            <xpath expr="//filter[@name='lost']" position="after">
+                <separator/>
+                <filter string="Has Color" name="color_set" domain="[('color', '>', 0)]"/>
+                <filter string="Red" name="color_red" domain="[('color', '=', 1)]"/>
+                <filter string="Orange" name="color_orange" domain="[('color', '=', 2)]"/>
+                <filter string="Yellow" name="color_yellow" domain="[('color', '=', 3)]"/>
+                <filter string="Blue" name="color_blue" domain="[('color', '=', 4)]"/>
+                <filter string="Purple" name="color_purple" domain="[('color', '=', 5)]"/>
+                <filter string="Green" name="color_green" domain="[('color', '=', 6)]"/>
+                <filter string="Gray" name="color_gray" domain="[('color', '=', 7)]"/>
+                <filter string="Brown" name="color_brown" domain="[('color', '=', 8)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Force the Pipeline action to use the color-extended search view -->
+    <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
+        <field name="search_view_id" ref="sales_customization.crm_lead_search_view_inherit_color"/>
+    </record>
+</odoo>
