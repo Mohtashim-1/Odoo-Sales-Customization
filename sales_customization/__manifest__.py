@@ -36,6 +36,7 @@
     'views/res_users_views.xml',
     'views/product_template_view.xml',
     'views/partner.xml',
+    'views/partner_sales_dashboard.xml',
     'views/sale_order.xml',
     'views/bank_detail.xml',
     'views/packaging_details.xml',
@@ -46,6 +47,7 @@
     "views/product_kanban_inherit_view.xml",
     "views/crm_lead_kanban_view.xml",
     "views/crm_lead_search_view.xml",
+    "views/crm_lead_form_old_sale.xml",
     'views/sale_order_line.xml',
     'views/sale_order_customer_rule.xml',
     

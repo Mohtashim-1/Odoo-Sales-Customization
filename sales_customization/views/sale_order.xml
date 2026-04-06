@@ -183,7 +183,7 @@
         </field>
     </record>
 
-    
+
 <record id="hide_other_info_page" model="ir.ui.view">
     <field name="name">hide.other.info.page</field>
     <field name="model">sale.order</field>

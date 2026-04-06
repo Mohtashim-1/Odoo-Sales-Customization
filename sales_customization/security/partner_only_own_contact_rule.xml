@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <!-- Record Rule: customers only see their own contact -->
+    <!-- Record Rule: Sales Customer Group can read all partners.
+         Restricting res.partner causes cascading 403s because Odoo reads partner
+         records implicitly from sale orders, invoice addresses, product companies, etc.
+         Access to sensitive order data is already restricted via sale_order_customer_rule. -->
     <record id="rule_partner_only_own_contact" model="ir.rule">
-      <field name="name">Partner: only own contact</field>
+      <field name="name">Partner: read all for Sales Customer Group</field>
       <field name="model_id" ref="base.model_res_partner"/>
-      <!-- Only partners assigned to the logged-in user -->
-      <field name="domain_force">['|', ('user_id','=', user.id), ('user_ids','in', user.id)]</field>
-      <!-- Applies only to your customer group -->
+      <field name="domain_force">[(1, '=', 1)]</field>
       <field name="groups" eval="[(4, ref('sales_customization.sales_customer_group'))]"/>
     </record>
   </data>

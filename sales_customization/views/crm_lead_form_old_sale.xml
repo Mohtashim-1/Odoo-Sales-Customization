@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="crm_lead_view_form_inherit_old_sale" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit.old.sale</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    name="action_open_customer_dashboard"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-bar-chart"
+                    string="Customer Dashboard"
+                    invisible="not partner_id"
+                />
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_open_customer_dashboard"
+                    type="object"
+                    string="Customer Dashboard"
+                    class="btn-secondary"
+                    invisible="not partner_id"
+                />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Old Sales">
+                    <field name="old_sale_ids" context="{'default_lead_id': active_id}">
+                        <tree editable="bottom">
+                            <field name="old_sales"/>
+                            <field name="invoice_date"/>
+                            <field name="invoice_number"/>
+                            <field name="invoice_value"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="old_sales"/>
+                                <field name="invoice_date"/>
+                                <field name="invoice_number"/>
+                                <field name="invoice_value"/>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

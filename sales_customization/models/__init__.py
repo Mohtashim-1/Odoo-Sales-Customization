@@ -8,4 +8,4 @@ from . import bank_detail
 from . import company
 from . import partner
 from . import res_users
-
+from . import crm_lead_old_sale

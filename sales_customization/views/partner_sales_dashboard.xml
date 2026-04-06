@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_partner_form_inherit_sales_dashboard" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.sales.dashboard</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Sales Dashboard">
+                    <group>
+                        <group>
+                            <field name="old_sale_count" readonly="1"/>
+                            <field name="old_sale_total" readonly="1"/>
+                            <field name="sale_order_count" readonly="1"/>
+                            <field name="sale_order_total" readonly="1"/>
+                            <field name="last_sale_date" readonly="1"/>
+                        </group>
+                        <group>
+                            <button
+                                name="action_open_old_sales_chart"
+                                type="object"
+                                string="Old Sales Chart"
+                                class="btn-secondary"
+                            />
+                            <button
+                                name="action_open_sale_orders_chart"
+                                type="object"
+                                string="Sale Orders Chart"
+                                class="btn-secondary"
+                            />
+                        </group>
+                    </group>
+                    <group string="Old Sales">
+                        <field name="old_sale_ids" context="{'default_partner_id': active_id}" readonly="1">
+                            <tree>
+                                <field name="old_sales"/>
+                                <field name="invoice_date"/>
+                                <field name="invoice_number"/>
+                                <field name="invoice_value"/>
+                                <field name="lead_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_old_sale_graph_view" model="ir.ui.view">
+        <field name="name">crm.lead.old.sale.graph</field>
+        <field name="model">crm.lead.old.sale</field>
+        <field name="arch" type="xml">
+            <graph string="Old Sales" type="bar">
+                <field name="invoice_date" type="row"/>
+                <field name="invoice_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+</odoo>

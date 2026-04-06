@@ -293,6 +293,19 @@ class SaleOrder(models.Model):
             vals.pop('partner_id', None)
         return super(SaleOrder, self).write(vals)
     
+    @api.model
+    def get_views(self, views, options=None):
+        res = super().get_views(views, options)
+        if self.env.user.has_group('sales_customization.sales_customer_group'):
+            form_view = res.get('views', {}).get('form', {})
+            if form_view:
+                arch = form_view.get('arch', '')
+                old = 'name="partner_id"'
+                new = 'name="partner_id" domain="[(\'user_id\', \'=\', uid), (\'customer_rank\', \'&gt;\', 0)]"'
+                if old in arch and new not in arch:
+                    res['views']['form']['arch'] = arch.replace(old, new, 1)
+        return res
+
     @api.depends('order_line.price_subtotal')
     def _compute_gross_total(self):
         for order in self:

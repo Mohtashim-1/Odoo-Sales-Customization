@@ -14,9 +14,6 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        
-        
-
         <record id="access_res_users_document_group" model="ir.model.access">
             <field name="name">res.users read access for Sale/Document Group</field>
             <field name="model_id" ref="base.model_res_users"/>
@@ -37,27 +34,6 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="access_res_users_sales_customer_group" model="ir.model.access">
-            <field name="name">res.users access for Sales Customer Group</field>
-            <field name="model_id" ref="base.model_res_users"/>
-            <field name="group_id" ref="sales_customization.sales_customer_group"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
-            <field name="perm_create" eval="0"/>
-            <field name="perm_unlink" eval="0"/>
-        </record>
-        
-        <record id="access_sale_order_line_sales_customer_group" model="ir.model.access">
-            <field name="name">sale.order.line access for Sales Customer Group</field>
-            <field name="model_id" ref="sale.model_sale_order_line"/>
-            <field name="group_id" ref="sales_customization.sales_customer_group"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="1"/>
-            <field name="perm_create" eval="1"/>
-            <field name="perm_unlink" eval="0"/>
-        </record>
-        
-
         <record id="sale_order_line_access_for_document_group" model="ir.rule">
             <field name="name">Sale Order Line - Full Access for Document Group</field>
             <field name="model_id" ref="sale.model_sale_order_line"/>
@@ -68,32 +44,30 @@
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
         </record>
-        
-        
 
         <record id="sale_order_access_for_document_group" model="ir.rule">
             <field name="name">Sales Order - Full Access for Document Group</field>
             <field name="model_id" ref="sale.model_sale_order"/>
-            <field name="domain_force">[(1, '=', 1)]</field> <!-- Unrestricted access -->
+            <field name="domain_force">[(1, '=', 1)]</field>
             <field name="groups" eval="[(4, ref('sales_customization.sales_document_group'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
         </record>
-        
-        
-        
 
-        <!-- Restrict res.partner to own customers ONLY for sales_customer_group -->
-        <!-- <record id="rule_partner_sales_user_only" model="ir.rule">
-            <field name="name">Sales: own customers only</field>
-            <field name="model_id" ref="base.model_res_partner"/>
+        <!-- Override Sale's personal rule to hide unassigned orders -->
+        <record id="sale.sale_order_personal_rule" model="ir.rule">
             <field name="domain_force">[('user_id', '=', user.id)]</field>
-            <field name="groups" eval="[(4, ref('sales_customization.sales_customer_group'))]"/>
-        </record> -->
+        </record>
 
-        <record id="access_res_users_customer_group" model="ir.model.access">
+    </data>
+
+    <!-- noupdate="0": always re-applied on module upgrade -->
+    <data noupdate="0">
+
+        <!-- Model access: Sales Customer Group can read res.users (needed on login) -->
+        <record id="access_res_users_sales_customer_group" model="ir.model.access">
             <field name="name">res.users read access for Sales Customer Group</field>
             <field name="model_id" ref="base.model_res_users"/>
             <field name="group_id" ref="sales_customization.sales_customer_group"/>
@@ -103,7 +77,17 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <!-- Allow Sales Customer Group users to read all users (avoid 403 on login) -->
+        <record id="access_sale_order_line_sales_customer_group" model="ir.model.access">
+            <field name="name">sale.order.line access for Sales Customer Group</field>
+            <field name="model_id" ref="sale.model_sale_order_line"/>
+            <field name="group_id" ref="sales_customization.sales_customer_group"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- Record rule: Sales Customer Group can read all res.users records (required for login and relational fields) -->
         <record id="rule_res_users_read_all_sales_customer_group" model="ir.rule">
             <field name="name">Users: read all for Sales Customer Group</field>
             <field name="model_id" ref="base.model_res_users"/>
@@ -115,11 +99,19 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <!-- Override Sale's personal rule to hide unassigned orders -->
-        <record id="sale.sale_order_personal_rule" model="ir.rule">
-            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <!-- Record rule: Sales Customer Group full access on sale.order.line
+             Without this, the 'Personal Order Lines' rule (User: Own Documents Only)
+             blocks create/write when salesman_id is set to a different user. -->
+        <record id="rule_sale_order_line_sales_customer_group" model="ir.rule">
+            <field name="name">Sale Order Line - Full Access for Sales Customer Group</field>
+            <field name="model_id" ref="sale.model_sale_order_line"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('sales_customization.sales_customer_group'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
         </record>
-        
 
     </data>
 
