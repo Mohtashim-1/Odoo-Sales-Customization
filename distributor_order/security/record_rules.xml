@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Distributor Users can only see orders where they are the distributor partner's user -->
+    <record id="rule_distributor_order_own" model="ir.rule">
+        <field name="name">Distributor Order: own orders only</field>
+        <field name="model_id" ref="model_distributor_order"/>
+        <field name="groups" eval="[(4, ref('distributor_order.group_distributor_user'))]"/>
+        <field name="domain_force">[('distributor_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Salespersons see orders assigned to them -->
+    <record id="rule_distributor_order_salesperson" model="ir.rule">
+        <field name="name">Distributor Order: salesperson sees own assigned orders</field>
+        <field name="model_id" ref="model_distributor_order"/>
+        <field name="groups" eval="[(4, ref('distributor_order.group_distributor_salesperson'))]"/>
+        <field name="domain_force">[('salesperson_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Managers see everything – no domain restriction -->
+    <record id="rule_distributor_order_manager" model="ir.rule">
+        <field name="name">Distributor Order: manager sees all</field>
+        <field name="model_id" ref="model_distributor_order"/>
+        <field name="groups" eval="[(4, ref('distributor_order.group_distributor_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

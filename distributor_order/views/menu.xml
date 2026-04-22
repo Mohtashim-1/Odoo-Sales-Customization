@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Top-level app menu ──────────────────────────────────────────── -->
+    <menuitem id="menu_distributor_root"
+              name="Distributor"
+              web_icon="distributor_order,static/description/icon.png"
+              sequence="55"
+              groups="distributor_order.group_distributor_user"/>
+
+    <!-- ── Orders submenu ─────────────────────────────────────────────── -->
+    <menuitem id="menu_distributor_orders"
+              name="Orders"
+              parent="menu_distributor_root"
+              sequence="10"
+              groups="distributor_order.group_distributor_user"/>
+
+    <!-- My Orders  (visible to plain Distributor Users) -->
+    <menuitem id="menu_distributor_order_mine"
+              name="My Orders"
+              parent="menu_distributor_orders"
+              action="action_distributor_order_mine"
+              sequence="10"
+              groups="distributor_order.group_distributor_user"/>
+
+    <!-- Pending Approval  (visible to Salesperson+) -->
+    <menuitem id="menu_distributor_order_pending"
+              name="Pending Approval"
+              parent="menu_distributor_orders"
+              action="action_distributor_order_pending"
+              sequence="20"
+              groups="distributor_order.group_distributor_salesperson"/>
+
+    <!-- All Orders  (visible to Salesperson+) -->
+    <menuitem id="menu_distributor_order_all"
+              name="All Orders"
+              parent="menu_distributor_orders"
+              action="action_distributor_order_all"
+              sequence="30"
+              groups="distributor_order.group_distributor_salesperson"/>
+
+    <!-- ── Configuration submenu (Manager only) ──────────────────────── -->
+    <menuitem id="menu_distributor_config"
+              name="Configuration"
+              parent="menu_distributor_root"
+              sequence="90"
+              groups="distributor_order.group_distributor_manager"/>
+
+    <!-- Distributors (partner list filtered to distributors) -->
+    <record id="action_distributor_partners" model="ir.actions.act_window">
+        <field name="name">Distributors</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_distributor','=',True)]</field>
+        <field name="context">{'default_is_distributor': True}</field>
+    </record>
+
+    <menuitem id="menu_distributor_partners"
+              name="Distributors"
+              parent="menu_distributor_config"
+              action="action_distributor_partners"
+              sequence="10"
+              groups="distributor_order.group_distributor_manager"/>
+
+</odoo>

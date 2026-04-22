@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/odoo/odoo18_community/**)",
+      "Bash(python odoo-bin:*)",
+      "Read(//usr/bin/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(python3 -m json.tool)",
+      "Bash(docker exec:*)",
+      "Bash(grep -v \"^$\")",
+      "Bash(docker restart:*)",
+      "Bash(docker exec Odoo18-Live python3 -c \":*)",
+      "Bash(__NEW_LINE_270fc1a6745cea73__ docker exec DataBase-Live psql -U odoo VPPL -c \":*)"
+    ]
+  }
+}

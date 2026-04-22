@@ -65,6 +65,51 @@
     </field>
 </record>
 
+<record id="view_partner_form_contacts_visible" model="ir.ui.view">
+    <field name="name">res.partner.form.contacts.visible</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="priority" eval="1100"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='child_ids']" position="replace">
+            <field name="child_ids" context="{'default_parent_id': id, 'default_type': 'contact'}">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="function"/>
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                </tree>
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="type"/>
+                                <field name="name"/>
+                                <field name="function"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                            </group>
+                            <group>
+                                <field name="street"/>
+                                <field name="street2"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="zip"/>
+                                <field name="country_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </xpath>
+    </field>
+</record>
+
 
 
 </odoo>

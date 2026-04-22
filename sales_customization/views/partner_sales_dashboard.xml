@@ -14,6 +14,9 @@
                             <field name="sale_order_count" readonly="1"/>
                             <field name="sale_order_total" readonly="1"/>
                             <field name="last_sale_date" readonly="1"/>
+                            <field name="sale_invoice_count" readonly="1"/>
+                            <field name="sale_invoice_total" readonly="1"/>
+                            <field name="last_invoice_date" readonly="1"/>
                         </group>
                         <group>
                             <button
@@ -28,6 +31,18 @@
                                 string="Sale Orders Chart"
                                 class="btn-secondary"
                             />
+                            <button
+                                name="action_open_sale_invoices_chart"
+                                type="object"
+                                string="Sale Invoices Chart"
+                                class="btn-secondary"
+                            />
+                            <button
+                                name="action_open_sales_dashboard"
+                                type="object"
+                                string="Dashboard"
+                                class="btn-primary"
+                            />
                         </group>
                     </group>
                     <group string="Old Sales">
@@ -36,8 +51,19 @@
                                 <field name="old_sales"/>
                                 <field name="invoice_date"/>
                                 <field name="invoice_number"/>
-                                <field name="invoice_value"/>
+                                <field name="invoice_value" sum="Total"/>
                                 <field name="lead_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Sale Invoices">
+                        <field name="invoice_ids" context="{'default_partner_id': active_id}" readonly="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="invoice_date"/>
+                                <field name="move_type"/>
+                                <field name="amount_total"/>
+                                <field name="state"/>
                             </tree>
                         </field>
                     </group>

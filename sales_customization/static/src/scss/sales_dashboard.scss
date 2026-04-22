@@ -1,0 +1,121 @@
+.o_sales_dashboard {
+    padding: 24px;
+}
+
+.o_sales_dashboard_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.o_sales_dashboard_title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.o_sales_dashboard_subtitle {
+    color: #6c757d;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.o_sales_kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.o_sales_filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    background: #ffffff;
+    border: 1px solid #e6e9ef;
+    border-radius: 10px;
+    padding: 12px 16px;
+}
+
+.o_filter_group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 180px;
+}
+
+.o_filter_label {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.o_filter_input {
+    padding: 6px 8px;
+    border: 1px solid #d7dce3;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.o_filter_actions {
+    display: flex;
+    gap: 8px;
+}
+
+.o_kpi {
+    background: #ffffff;
+    border: 1px solid #e6e9ef;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.o_kpi_label {
+    color: #6c757d;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.o_kpi_value {
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.o_kpi_sub {
+    color: #343a40;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.o_sales_charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 16px;
+}
+
+.o_chart_card {
+    background: #ffffff;
+    border: 1px solid #e6e9ef;
+    border-radius: 10px;
+    padding: 16px;
+    min-height: 360px;
+}
+
+.o_chart_title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.o_chart {
+    min-height: 300px;
+}
+
+.o_sales_dashboard_loading {
+    padding: 24px;
+    color: #6c757d;
+}

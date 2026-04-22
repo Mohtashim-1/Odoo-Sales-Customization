@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sales_customization.SalesDashboard">
+        <div class="o_sales_dashboard">
+            <t t-if="state.loading">
+                <div class="o_sales_dashboard_loading">Loading dashboard...</div>
+            </t>
+            <t t-else="">
+                <div class="o_sales_dashboard_header">
+                    <div>
+                        <h1 class="o_sales_dashboard_title">Sales Dashboard</h1>
+                        <t t-if="state.data.partner.name">
+                            <div class="o_sales_dashboard_subtitle">Customer: <t t-esc="state.data.partner.name"/></div>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="o_sales_filters">
+                    <div class="o_filter_group">
+                        <label class="o_filter_label">Start Date</label>
+                        <input type="date" t-model="state.filters.startDate" class="o_filter_input"/>
+                    </div>
+                    <div class="o_filter_group">
+                        <label class="o_filter_label">End Date</label>
+                        <input type="date" t-model="state.filters.endDate" class="o_filter_input"/>
+                    </div>
+                    <div class="o_filter_group">
+                        <label class="o_filter_label">Customer</label>
+                        <select t-model="state.filters.partnerId" class="o_filter_input">
+                            <option value="">All Customers</option>
+                            <t t-foreach="state.partners" t-as="p" t-key="p.id">
+                                <option t-att-value="p.id"><t t-esc="p.name"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="o_filter_actions">
+                        <button type="button" class="btn btn-primary" t-on-click="onApplyFilters">Apply</button>
+                        <button type="button" class="btn btn-secondary" t-on-click="onResetFilters">Reset</button>
+                    </div>
+                </div>
+
+                <div class="o_sales_kpis">
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Sales Orders</div>
+                        <div class="o_kpi_value"><t t-esc="state.data.kpis.sale_order_count"/></div>
+                        <div class="o_kpi_sub"><t t-esc="formatCurrency(state.data.kpis.sale_order_total)"/></div>
+                        <div class="o_kpi_sub">Last: <t t-esc="state.data.kpis.last_sale_date || '-'"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Sales Invoices</div>
+                        <div class="o_kpi_value"><t t-esc="state.data.kpis.sale_invoice_count"/></div>
+                        <div class="o_kpi_sub"><t t-esc="formatCurrency(state.data.kpis.sale_invoice_total)"/></div>
+                        <div class="o_kpi_sub">Last: <t t-esc="state.data.kpis.last_invoice_date || '-'"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Historical (Old) Sales</div>
+                        <div class="o_kpi_value"><t t-esc="state.data.kpis.old_sale_count"/></div>
+                        <div class="o_kpi_sub"><t t-esc="formatCurrency(state.data.kpis.old_sale_total)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Paid Invoices</div>
+                        <div class="o_kpi_value"><t t-esc="formatCurrency(state.data.kpis.invoice_paid_total)"/></div>
+                        <div class="o_kpi_sub">Total Paid Amount</div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Open Invoices</div>
+                        <div class="o_kpi_value"><t t-esc="formatCurrency(state.data.kpis.invoice_open_total)"/></div>
+                        <div class="o_kpi_sub">Outstanding Amount</div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Average Order Value</div>
+                        <div class="o_kpi_value"><t t-esc="formatCurrency(state.data.kpis.avg_order_value)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Average Invoice Value</div>
+                        <div class="o_kpi_value"><t t-esc="formatCurrency(state.data.kpis.avg_invoice_value)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Paid %</div>
+                        <div class="o_kpi_value"><t t-esc="formatPercent(state.data.kpis.paid_pct)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Open %</div>
+                        <div class="o_kpi_value"><t t-esc="formatPercent(state.data.kpis.open_pct)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Credit Notes Total</div>
+                        <div class="o_kpi_value"><t t-esc="formatCurrency(state.data.kpis.refund_total)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Credit Notes Count</div>
+                        <div class="o_kpi_value"><t t-esc="formatNumber(state.data.kpis.refund_count)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Returns Impact %</div>
+                        <div class="o_kpi_value"><t t-esc="formatPercent(state.data.kpis.refund_pct)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Top 5 Customer Share</div>
+                        <div class="o_kpi_value"><t t-esc="formatPercent(state.data.kpis.top_customer_share)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">New Customers</div>
+                        <div class="o_kpi_value"><t t-esc="formatNumber(state.data.kpis.new_customers)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Returning Customers</div>
+                        <div class="o_kpi_value"><t t-esc="formatNumber(state.data.kpis.returning_customers)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Avg Days to Invoice</div>
+                        <div class="o_kpi_value"><t t-esc="formatNumber(state.data.kpis.avg_days_to_invoice)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Avg Days to Pay</div>
+                        <div class="o_kpi_value"><t t-esc="formatNumber(state.data.kpis.avg_days_to_pay)"/></div>
+                    </div>
+                    <div class="o_kpi">
+                        <div class="o_kpi_label">Gross Margin</div>
+                        <div class="o_kpi_value"><t t-esc="formatCurrency(state.data.kpis.margin_total)"/></div>
+                        <div class="o_kpi_sub">Margin %: <t t-esc="formatPercent(state.data.kpis.margin_pct)"/></div>
+                    </div>
+                </div>
+
+                <div class="o_sales_charts">
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Sales Orders (Last 12 Months)</div>
+                        <div t-ref="soChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Sales Invoices (Last 12 Months)</div>
+                        <div t-ref="invChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Historical (Old) Sales (Last 12 Months)</div>
+                        <div t-ref="oldChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Invoice Payment States</div>
+                        <div t-ref="payChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Top Customers (Sales Orders)</div>
+                        <div t-ref="topChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Top Items</div>
+                        <div t-ref="itemsChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Top Categories</div>
+                        <div t-ref="catChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Container Type Mix</div>
+                        <div t-ref="containerChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Invoice Aging Buckets</div>
+                        <div t-ref="agingChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Paid vs Open (Monthly)</div>
+                        <div t-ref="paidOpenChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Refunds Trend</div>
+                        <div t-ref="refundChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Gross Margin Trend</div>
+                        <div t-ref="marginChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Customer Cohort (New vs Returning)</div>
+                        <div t-ref="cohortChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Sales by Salesperson</div>
+                        <div t-ref="salespersonChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Sales by Brand</div>
+                        <div t-ref="brandChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Sales by Country</div>
+                        <div t-ref="countryChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Sales by Port</div>
+                        <div t-ref="portChart" class="o_chart"></div>
+                    </div>
+                    <div class="o_chart_card">
+                        <div class="o_chart_title">Top Payment Terms</div>
+                        <div t-ref="termsChart" class="o_chart"></div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

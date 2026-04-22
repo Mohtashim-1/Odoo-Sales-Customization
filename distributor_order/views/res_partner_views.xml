@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extend partner form with distributor tab -->
+    <record id="view_partner_form_distributor" model="ir.ui.view">
+        <field name="name">res.partner.form.distributor</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Distributor flag next to the partner name -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="is_distributor" widget="boolean_toggle"/>
+            </xpath>
+
+            <!-- Salesperson field – only visible when is_distributor is true -->
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="is_distributor" invisible="1"/>
+                <field name="distributor_salesperson_id"
+                       invisible="not is_distributor"
+                       groups="distributor_order.group_distributor_salesperson"/>
+            </xpath>
+
+            <!-- Smart button for distributor orders -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_distributor_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="not is_distributor">
+                    <field string="Orders" name="distributor_order_count" widget="statinfo"/>
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

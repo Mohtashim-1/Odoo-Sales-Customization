@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ─── Category ─────────────────────────────────────────────── -->
+    <record id="module_category_distributor" model="ir.module.category">
+        <field name="name">Distributor</field>
+        <field name="description">Manage distributor orders and approvals.</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- ─── Groups ────────────────────────────────────────────────── -->
+
+    <!-- Distributor User  – can create / view their own orders -->
+    <record id="group_distributor_user" model="res.groups">
+        <field name="name">Distributor User</field>
+        <field name="category_id" ref="module_category_distributor"/>
+        <field name="comment">Can create and view their own distributor orders.</field>
+    </record>
+
+    <!-- Distributor Salesperson – can approve / reject orders assigned to them -->
+    <record id="group_distributor_salesperson" model="res.groups">
+        <field name="name">Distributor Salesperson</field>
+        <field name="category_id" ref="module_category_distributor"/>
+        <field name="implied_ids" eval="[(4, ref('group_distributor_user'))]"/>
+        <field name="comment">Can approve or reject distributor orders and convert them to sale orders.</field>
+    </record>
+
+    <!-- Distributor Manager – full access -->
+    <record id="group_distributor_manager" model="res.groups">
+        <field name="name">Distributor Manager</field>
+        <field name="category_id" ref="module_category_distributor"/>
+        <field name="implied_ids" eval="[(4, ref('group_distributor_salesperson'))]"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="comment">Full access to all distributor orders.</field>
+    </record>
+
+</odoo>

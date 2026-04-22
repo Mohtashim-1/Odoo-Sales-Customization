@@ -17,13 +17,15 @@
     'company': 'Alpha Edge Solutions',
     'maintainer': 'Alpha Edge Solutions',
     'website': 'https://alphaedgesolution.com',
-    # 'assets': {
-    # 'web.assets_backend': [
-    #     'sales_customization/static/src/css/hide_buttons.css',
-    #     'sales_customization/static/src/js/hide_buttons.js',
-    #     ],
-    # },
-    'depends': ['base', 'product', 'sale_management', 'web', 'crm'], 
+    'assets': {
+        'web.assets_backend': [
+            'sales_customization/static/lib/apexcharts/apexcharts.min.js',
+            'sales_customization/static/src/js/sales_dashboard.js',
+            'sales_customization/static/src/xml/sales_dashboard.xml',
+            'sales_customization/static/src/scss/sales_dashboard.scss',
+        ],
+    },
+    'depends': ['base', 'product', 'sale_management', 'web', 'crm', 'account'], 
     'data': [
     # security - Load first
     'security/group.xml',
@@ -50,6 +52,7 @@
     "views/crm_lead_form_old_sale.xml",
     'views/sale_order_line.xml',
     'views/sale_order_customer_rule.xml',
+    'views/sales_dashboard_menu.xml',
     
     # report
     "report/report_action.xml",
