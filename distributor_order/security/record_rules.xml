@@ -6,7 +6,7 @@
         <field name="name">Distributor Order: own orders only</field>
         <field name="model_id" ref="model_distributor_order"/>
         <field name="groups" eval="[(4, ref('distributor_order.group_distributor_user'))]"/>
-        <field name="domain_force">[('distributor_id.user_ids', 'in', [user.id])]</field>
+        <field name="domain_force">['|', ('distributor_id.user_ids', 'in', [user.id]), ('distributor_id', '=', user.partner_id.commercial_partner_id.id)]</field>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="True"/>
         <field name="perm_create" eval="True"/>

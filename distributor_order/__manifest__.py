@@ -17,7 +17,7 @@ Key Features:
     'company': 'Alpha Edge Solutions',
     'maintainer': 'Alpha Edge Solutions',
     'website': 'https://alphaedgesolution.com',
-    'depends': ['base', 'sale_management', 'product', 'uom'],
+    'depends': ['base', 'sale_management', 'product', 'uom', 'mrp'],
     'data': [
         # security – load first
         'security/security_groups.xml',

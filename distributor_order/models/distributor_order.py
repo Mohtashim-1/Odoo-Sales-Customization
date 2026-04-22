@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -6,7 +8,7 @@ class DistributorOrder(models.Model):
     _name = 'distributor.order'
     _description = 'Distributor Order'
     _order = 'order_date desc, name desc'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['product.catalog.mixin', 'mail.thread', 'mail.activity.mixin']
 
     # ─── Identity ──────────────────────────────────────────────────────────────
 
@@ -231,6 +233,67 @@ class DistributorOrder(models.Model):
             vals['distributor_id'] = current_user_distributor.id
             vals['salesperson_id'] = self._get_distributor_salesperson(current_user_distributor).id
         return super().write(vals)
+
+    def _default_order_line_values(self):
+        default_data = super()._default_order_line_values()
+        new_default_data = self.env['distributor.order.line']._get_product_catalog_lines_data()
+        return {**default_data, **new_default_data}
+
+    def _get_action_add_from_catalog_extra_context(self):
+        return {
+            **super()._get_action_add_from_catalog_extra_context(),
+            'product_catalog_currency_id': self.currency_id.id,
+            'product_catalog_digits': self.order_line_ids._fields['price_unit'].get_digits(self.env),
+        }
+
+    def _get_product_catalog_domain(self):
+        return [('sale_ok', '=', True)]
+
+    def _get_product_catalog_order_data(self, products, **kwargs):
+        res = super()._get_product_catalog_order_data(products, **kwargs)
+        for product in products:
+            res[product.id]['price'] = product.lst_price
+        return res
+
+    def _get_product_catalog_record_lines(self, product_ids, **kwargs):
+        grouped_lines = defaultdict(lambda: self.env['distributor.order.line'])
+        for line in self.order_line_ids:
+            if line.product_id.id not in product_ids:
+                continue
+            grouped_lines[line.product_id] |= line
+        return grouped_lines
+
+    def _get_parent_field_on_child_model(self):
+        return 'order_id'
+
+    def _update_order_line_info(self, product_id, quantity, **kwargs):
+        self.ensure_one()
+        line = self.order_line_ids.filtered(lambda l: l.product_id.id == product_id)[:1]
+        product = self.env['product.product'].browse(product_id)
+        if line:
+            if quantity > 0:
+                line.product_qty = quantity
+            elif self.state == 'draft':
+                price_unit = product.lst_price
+                line.unlink()
+                return price_unit
+            else:
+                line.product_qty = 0
+            return line.price_unit
+        if quantity > 0:
+            line = self.env['distributor.order.line'].create({
+                'order_id': self.id,
+                'product_id': product_id,
+                'product_qty': quantity,
+                'price_unit': product.lst_price,
+                'description': product.description_sale or '',
+            })
+            return line.price_unit
+        return product.lst_price
+
+    def _is_readonly(self):
+        self.ensure_one()
+        return self.state != 'draft'
 
     # ─── Workflow Actions ──────────────────────────────────────────────────────
 

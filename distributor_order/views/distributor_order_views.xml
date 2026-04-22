@@ -14,8 +14,16 @@
                 <field name="description"/>
                 <field name="product_qty"/>
                 <field name="product_uom_id"/>
-                <field name="price_unit"/>
+                <field name="price_unit" readonly="1"/>
                 <field name="price_subtotal" readonly="1" sum="Total"/>
+                <control>
+                    <create string="Add a product"/>
+                    <button name="action_add_from_catalog"
+                            string="Catalog"
+                            type="object"
+                            class="px-4 btn-link"
+                            context="{'order_id': parent.id}"/>
+                </control>
             </tree>
         </field>
     </record>
@@ -116,6 +124,7 @@
                         <page string="Order Lines" name="order_lines">
                             <!-- reference the standalone tree view – no inline <tree> -->
                             <field name="order_line_ids"
+                                   readonly="state != 'draft'"
                                    context="{'default_order_id': active_id}"/>
 
                             <group class="oe_subtotal_footer oe_right">
