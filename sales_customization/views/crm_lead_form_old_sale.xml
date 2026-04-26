@@ -7,6 +7,14 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button
+                    name="action_sync_partner_from_lead"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-refresh"
+                    string="Sync to Customer"
+                    invisible="not partner_id"
+                />
+                <button
                     name="action_open_customer_dashboard"
                     type="object"
                     class="oe_stat_button"
@@ -14,14 +22,35 @@
                     string="Customer Dashboard"
                     invisible="not partner_id"
                 />
+                <button
+                    name="action_open_crm_charts_dashboard"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-line-chart"
+                    string="CRM Charts"
+                />
             </xpath>
             <xpath expr="//header" position="inside">
+                <button
+                    name="action_sync_partner_from_lead"
+                    type="object"
+                    string="Sync to Customer"
+                    class="btn-secondary"
+                    invisible="not partner_id"
+                    confirm="Copy address, phone, email, and related fields from this lead to the customer record?"
+                />
                 <button
                     name="action_open_customer_dashboard"
                     type="object"
                     string="Customer Dashboard"
                     class="btn-secondary"
                     invisible="not partner_id"
+                />
+                <button
+                    name="action_open_crm_charts_dashboard"
+                    type="object"
+                    string="CRM Charts"
+                    class="btn-secondary"
                 />
             </xpath>
             <xpath expr="//notebook" position="inside">
@@ -41,6 +70,19 @@
                                 <field name="invoice_value"/>
                             </group>
                         </form>
+                    </field>
+                </page>
+                <page string="Dashboard">
+                    <field name="old_sale_ids" mode="graph,pivot" readonly="1" nolabel="1">
+                        <graph string="Old Sales by Month" type="bar">
+                            <field name="invoice_date" interval="month" type="row"/>
+                            <field name="invoice_value" type="measure"/>
+                        </graph>
+                        <pivot string="Old Sales Analysis">
+                            <field name="invoice_date" interval="month" type="row"/>
+                            <field name="old_sales" type="col"/>
+                            <field name="invoice_value" type="measure"/>
+                        </pivot>
                     </field>
                 </page>
             </xpath>

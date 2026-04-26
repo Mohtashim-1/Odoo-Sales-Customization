@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.0.0',
+    'version': '2.0.1',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''
@@ -48,6 +48,7 @@
     "views/sale_order_custom_view.xml",
     "views/product_kanban_inherit_view.xml",
     "views/crm_lead_kanban_view.xml",
+    "views/crm_lead_dashboard.xml",
     "views/crm_lead_search_view.xml",
     "views/crm_lead_form_old_sale.xml",
     'views/sale_order_line.xml',

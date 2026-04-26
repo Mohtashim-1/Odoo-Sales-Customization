@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Minimal margins: letterhead/footer are drawn inside the QWeb body (not Odoo report header). -->
+    <record id="paperformat_distributor_order" model="report.paperformat">
+        <field name="name">A4 Distributor Order (custom header)</field>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">25</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
     <record id="action_report_distributor_order" model="ir.actions.report">
         <field name="name">Distributor Order</field>
         <field name="model">distributor.order</field>
@@ -9,57 +25,53 @@
         <field name="report_file">distributor_order.report_distributor_order</field>
         <field name="binding_model_id" ref="model_distributor_order"/>
         <field name="binding_type">report</field>
-        <field name="paperformat_id" ref="base.paperformat_euro"/>
+        <field name="paperformat_id" ref="distributor_order.paperformat_distributor_order"/>
     </record>
 
     <template id="report_distributor_order">
       <t t-call="web.html_container">
         <t t-foreach="docs" t-as="doc">
           <style>
-                    table {
+                    .meta-table td, .meta-table th {
+                        border: 0 !important;
+                        padding: 4px 6px;
+                        text-align: left;
+                    }
+                    .items-table, .items-table td, .items-table th {
                         border: 1px solid black;
-                        width: 100%;
                         border-collapse: collapse;
                     }
-                    th, td {
-                        padding: 8px;
+                    .items-table td, .items-table th {
+                        padding: 4px;
                         text-align: left;
-                        border: 1px solid black;
                     }
                     .header img {
                         width: 100%;
                         height: auto;
                     }
-
+                    .header {
+                        text-align: center;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .footer {
+                        text-align: center;
+                    }
           </style>
-          <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
-            <div class="header" style="text-align: center; margin-bottom: 30px;">
+          <div class="page" style="font-family: Arial, sans-serif; margin: 0;">
+            <t t-set="header_image" t-value="doc.company_id.image_field_1 or doc.company_id.logo"/>
+            <div class="header">
               <div>
-                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
+                <img t-if="header_image" t-att-src="image_data_uri(header_image)" alt="Company Header" style="display: block; width: 100%; max-width: 210mm; height: auto; margin: 0 auto 8px auto;" />
               </div>
-            </div>
-
-            <div class="footer">
-              <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
-                <img t-if="doc.company_id.image_field_2"
-                     t-att-src="image_data_uri(doc.company_id.image_field_2)"
-                     alt="Footer Logo"
-                     style="width: 100%; max-width: 240mm; height: " />
-              </t>
-              <t t-else="">
-                <img t-if="doc.company_id.image_field_2"
-                     t-att-src="image_data_uri(doc.company_id.image_field_2)"
-                     alt="Footer Logo"
-                     style="width: 100%; max-width: 240mm; height: auto; padding-top: 15px !important; " />
-              </t>
             </div>
 
             <h1 style="font-size: 24px; font-weight: bold;">Distributor Order</h1>
 
-            <table style="width: 100%; border-spacing: 0; font-size:11pt">
+            <table class="meta-table" style="width: 100%; border-spacing: 0; font-size:11pt">
                 <tr>
                     <td style="width: 48%; vertical-align: top; padding-right: 5%; font-size:11pt">
-                        <table style="width: 100%; border-spacing: 0; font-size:11pt">
+                        <table class="meta-table" style="width: 100%; border-spacing: 0; font-size:11pt">
                             <tr>
                                                                 <td style="width: 40%; padding-top: 10px;"><strong>Distributor:</strong></td>
 
@@ -76,7 +88,7 @@
                     </td>
                     <td style="width: 1%;"></td>
                     <td style="width: 50%; vertical-align: top; font-size:11pt">
-                        <table style="width: 100%; border-spacing: 0; font-size:11pt">
+                        <table class="meta-table" style="width: 100%; border-spacing: 0; font-size:11pt">
                                                         <tr>
                                 <td style="padding-top: 10px;"><strong>Salesperson:</strong></td>
                                 <td style="padding-top: 10px;"><span t-esc="doc.salesperson_id.name"/></td>
@@ -93,7 +105,7 @@
 
 
             <t t-if="doc.order_line_ids">
-              <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size:11pt">
+              <table class="table table-condensed items-table" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size:11pt">
                 <thead>
                   <tr style="background-color: #C0C0C0;">
                     <th style="padding: 4px; border-bottom: 1px solid black;width:5px">S#</th>
@@ -166,6 +178,21 @@
                 </tbody>
               </table>
             </t>
+
+            <div class="footer" style="page-break-inside: avoid;">
+              <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
+                <img t-if="doc.company_id.image_field_2"
+                     t-att-src="image_data_uri(doc.company_id.image_field_2)"
+                     alt="Footer"
+                     style="display: block; width: 100%; max-width: 240mm; height: auto; margin: 0 auto;" />
+              </t>
+              <t t-else="">
+                <img t-if="doc.company_id.image_field_2"
+                     t-att-src="image_data_uri(doc.company_id.image_field_2)"
+                     alt="Footer"
+                     style="display: block; width: 100%; max-width: 240mm; height: auto; margin: 0 auto; padding-top: 8px;" />
+              </t>
+            </div>
           </div>
         </t>
       </t>

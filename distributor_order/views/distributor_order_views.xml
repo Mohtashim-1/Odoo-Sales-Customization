@@ -117,7 +117,9 @@
                                    readonly="state != 'draft' or not can_edit_salesperson_id"
                                    options="{'no_open': True, 'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"/>
                             <field name="order_date" readonly="state != 'draft'"/>
-                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="company_id"
+                                   readonly="state != 'draft'"
+                                   options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group string="Tracking">
                             <field name="submission_date" readonly="1"/>

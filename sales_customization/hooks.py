@@ -1,8 +1,13 @@
-from odoo import api, SUPERUSER_ID
+from odoo import SUPERUSER_ID, api
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(*args):
+    # Odoo 18+: post_init_hook(env). Older versions: post_init_hook(cr, registry).
+    if len(args) == 1:
+        env = args[0]
+    else:
+        cr, _registry = args[0], args[1]
+        env = api.Environment(cr, SUPERUSER_ID, {})
     group_user = env.ref("base.group_user", raise_if_not_found=False)
     if not group_user:
         return
@@ -20,7 +25,19 @@ def post_init_hook(cr, registry):
         if users:
             users.write({"groups_id": [(4, group_user.id)]})
 
-    # Force update of Sale's personal rule domain (noupdate in core)
+    # Force update of Sale rules whose XML is noupdate=1 in core (XML overrides may not apply).
+    domain_mc = (
+        "['|', ('company_id', '=', False), ('company_id', 'in', user.company_ids.ids)]"
+    )
+    for xmlid in (
+        "sale.sale_order_comp_rule",
+        "sale.sale_order_line_comp_rule",
+        "sale.sale_order_report_comp_rule",
+    ):
+        mc_rule = env.ref(xmlid, raise_if_not_found=False)
+        if mc_rule:
+            mc_rule.write({"domain_force": domain_mc})
+
     rule = env.ref("sale.sale_order_personal_rule", raise_if_not_found=False)
     if rule:
         rule.write({"domain_force": "[('user_id', '=', user.id)]"})

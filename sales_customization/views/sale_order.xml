@@ -64,6 +64,9 @@
 
             <!-- Field groups after partner_id -->
             <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="company_id"
+                       readonly="state not in ['draft', 'sent']"
+                       options="{'no_create': True, 'no_open': True}"/>
                 <field name="partner_code" groups="bn_sale_security.sales_user_group"/>
                 <field name="required_date" groups="bn_sale_security.sales_user_group"/>
                 <field name="customer_container" groups="bn_sale_security.sales_user_group"/>
