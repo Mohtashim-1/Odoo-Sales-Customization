@@ -25,6 +25,8 @@ Key Features:
         'security/record_rules.xml',
         # data
         'data/sequence.xml',
+        # report
+        'report/distributor_order_report.xml',
         # views
         'views/res_partner_views.xml',
         'views/distributor_order_views.xml',

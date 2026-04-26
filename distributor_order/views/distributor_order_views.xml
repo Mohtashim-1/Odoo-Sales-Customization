@@ -72,6 +72,12 @@
                             class="btn-info"
                             invisible="not sale_order_id"/>
 
+                    <button name="%(distributor_order.action_report_distributor_order)d"
+                            string="Print"
+                            type="action"
+                            class="btn-secondary"
+                            invisible="not id"/>
+
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,submitted,approved,sale_created"/>
                 </header>
