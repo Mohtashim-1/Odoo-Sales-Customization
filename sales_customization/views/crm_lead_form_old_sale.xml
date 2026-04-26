@@ -22,13 +22,6 @@
                     string="Customer Dashboard"
                     invisible="not partner_id"
                 />
-                <button
-                    name="action_open_crm_charts_dashboard"
-                    type="object"
-                    class="oe_stat_button"
-                    icon="fa-line-chart"
-                    string="CRM Charts"
-                />
             </xpath>
             <xpath expr="//header" position="inside">
                 <button
@@ -45,12 +38,6 @@
                     string="Customer Dashboard"
                     class="btn-secondary"
                     invisible="not partner_id"
-                />
-                <button
-                    name="action_open_crm_charts_dashboard"
-                    type="object"
-                    string="CRM Charts"
-                    class="btn-secondary"
                 />
             </xpath>
             <xpath expr="//notebook" position="inside">
@@ -73,17 +60,9 @@
                     </field>
                 </page>
                 <page string="Dashboard">
-                    <field name="old_sale_ids" mode="graph,pivot" readonly="1" nolabel="1">
-                        <graph string="Old Sales by Month" type="bar">
-                            <field name="invoice_date" interval="month" type="row"/>
-                            <field name="invoice_value" type="measure"/>
-                        </graph>
-                        <pivot string="Old Sales Analysis">
-                            <field name="invoice_date" interval="month" type="row"/>
-                            <field name="old_sales" type="col"/>
-                            <field name="invoice_value" type="measure"/>
-                        </pivot>
-                    </field>
+                    <div style="width: 100%; margin-top: 8px;">
+                        <field name="total_sales_orders_html" widget="html" readonly="1" nolabel="1"/>
+                    </div>
                 </page>
             </xpath>
         </field>
