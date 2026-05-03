@@ -133,7 +133,7 @@
                             <!-- reference the standalone tree view – no inline <tree> -->
                             <field name="order_line_ids"
                                    readonly="state != 'draft'"
-                                   context="{'default_order_id': active_id}"/>
+                                   context="{'default_order_id': active_id, 'from_distributor_order_line': 1}"/>
 
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="amount_total" widget="monetary"

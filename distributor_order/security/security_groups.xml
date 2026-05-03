@@ -10,11 +10,20 @@
 
     <!-- ─── Groups ────────────────────────────────────────────────── -->
 
+    <!-- Read product master data for lines + catalog (implied by Distributor User). -->
+    <record id="group_distributor_catalog_reader" model="res.groups">
+        <field name="name">Distributor User / Product catalog</field>
+        <field name="category_id" ref="module_category_distributor"/>
+        <field name="comment">Technical group: read access on product variants/templates (and related) for distributor orders. Automatically applied with Distributor User.</field>
+    </record>
+
     <!-- Distributor User  – can create / view their own orders -->
     <record id="group_distributor_user" model="res.groups">
         <field name="name">Distributor User</field>
         <field name="category_id" ref="module_category_distributor"/>
-        <field name="comment">Can create and view their own distributor orders.</field>
+        <!-- Do not imply base.group_user here: upgrading would push Internal onto users who still have Portal → "more than one user types". Internal User is added in code (res.partner _ensure_distributor_user). -->
+        <field name="implied_ids" eval="[(4, ref('group_distributor_catalog_reader'))]"/>
+        <field name="comment">Can create and view their own distributor orders. Assign together with Internal User (see automation on distributor contacts).</field>
     </record>
 
     <!-- Distributor Salesperson – can approve / reject orders assigned to them -->

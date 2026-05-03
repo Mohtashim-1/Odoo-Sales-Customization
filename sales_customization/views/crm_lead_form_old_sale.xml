@@ -42,12 +42,19 @@
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Old Sales">
+                    <div class="d-flex justify-content-end align-items-baseline gap-2 mb-2">
+                        <span class="text-muted">Total invoice value</span>
+                        <field name="old_sale_invoice_total" readonly="1" class="fw-bold"/>
+                    </div>
                     <field name="old_sale_ids" context="{'default_lead_id': active_id}">
+                        <!-- tree (not list): embedded o2many subview must use tree root or fields validate against parent model. -->
+                        <!-- Monetary sum needs currency_id in arch activeFields. -->
                         <tree editable="bottom">
+                            <field name="currency_id" column_invisible="True"/>
                             <field name="old_sales"/>
                             <field name="invoice_date"/>
                             <field name="invoice_number"/>
-                            <field name="invoice_value"/>
+                            <field name="invoice_value" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
                         </tree>
                         <form>
                             <group>

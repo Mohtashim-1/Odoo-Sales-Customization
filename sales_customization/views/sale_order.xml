@@ -72,7 +72,7 @@
                 <field name="customer_container" groups="bn_sale_security.sales_user_group"/>
                 <field name="container_type"/>
                 <field name="signature_type" groups="bn_sale_security.sales_user_group"/>
-                <field name="export_order_categories" groups="bn_sale_security.sales_user_group"/>
+                <field name="export_order_category_tags" groups="bn_sale_security.sales_user_group" widget="many2many_tags" placeholder="Select tags to print on Export Order"/>
                 <field name="pi_no" groups="bn_sale_security.sales_user_group"/>
                 <field name="payment_term_id" groups="bn_sale_security.sales_user_group"/>
                 <field name="shipping_line" groups="bn_sale_security.sales_user_group"/>

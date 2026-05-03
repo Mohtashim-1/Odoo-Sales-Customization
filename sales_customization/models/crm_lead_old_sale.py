@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -39,6 +39,17 @@ class CrmLead(models.Model):
         'lead_id',
         string='Old Sales',
     )
+    old_sale_invoice_total = fields.Monetary(
+        string='Total invoice value',
+        compute='_compute_old_sale_invoice_total',
+        currency_field='company_currency',
+    )
+
+    @api.depends('old_sale_ids.invoice_value')
+    def _compute_old_sale_invoice_total(self):
+        for lead in self:
+            lead.old_sale_invoice_total = sum(lead.old_sale_ids.mapped('invoice_value'))
+
     total_sales_orders_html = fields.Html(
         string='Total Sales Orders',
         compute='_compute_old_sales_dashboard_html',

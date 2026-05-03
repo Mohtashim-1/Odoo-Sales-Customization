@@ -1,6 +1,9 @@
+import logging
 from datetime import date as py_date, datetime as py_datetime
 from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
+
+_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -842,11 +845,141 @@ class ResPartner(models.Model):
             'payment_terms': payment_terms,
         }
 
+    def _resolve_company_for_property_accounts(self):
+        """Company used for receivable/payable defaults (UI company first, then partner.company_id)."""
+        company = self.env.company
+        if company:
+            return company
+        if len(self) == 1 and self.company_id:
+            return self.company_id
+        return self.env['res.company'].browse()
+
+    def _account_from_ir_default(self, company, field_name):
+        """Optional user-defined defaults (Settings → Technical → Defaults)."""
+        if not company:
+            return self.env['account.account']
+        raw = self.env['ir.default'].sudo()._get(
+            'res.partner', field_name, user_id=False, company_id=company.id)
+        if raw in (None, False):
+            return self.env['account.account']
+        aid = raw[0] if isinstance(raw, (list, tuple)) else raw
+        try:
+            aid = int(aid)
+        except (TypeError, ValueError):
+            return self.env['account.account']
+        acc = self.env['account.account'].sudo().browse(aid)
+        return acc if acc.exists() else self.env['account.account']
+
+    def _get_default_account_receivable(self, company):
+        """First receivable account for the company CoA; fallback ir.property / ir.default."""
+        Account = self.env['account.account'].sudo().with_company(company)
+        if not company:
+            return Account.browse()
+        acc = Account.search([
+            ('company_id', '=', company.id),
+            ('account_type', '=', 'asset_receivable'),
+            ('deprecated', '=', False),
+        ], limit=1, order='code')
+        if acc:
+            return acc
+        prop = self.env['ir.property'].sudo().with_company(company)._get(
+            'property_account_receivable_id', 'res.partner')
+        if prop and prop._name == 'account.account':
+            return prop
+        acc = self._account_from_ir_default(company, 'property_account_receivable_id')
+        if acc:
+            return acc
+        _logger.warning(
+            'Partner autofill: no receivable account for company "%s" (id=%s). '
+            'Install a chart of accounts or set Accounting default accounts for contacts.',
+            company.name, company.id)
+        return Account.browse()
+
+    def _get_default_account_payable(self, company):
+        Account = self.env['account.account'].sudo().with_company(company)
+        if not company:
+            return Account.browse()
+        acc = Account.search([
+            ('company_id', '=', company.id),
+            ('account_type', '=', 'liability_payable'),
+            ('deprecated', '=', False),
+        ], limit=1, order='code')
+        if acc:
+            return acc
+        prop = self.env['ir.property'].sudo().with_company(company)._get(
+            'property_account_payable_id', 'res.partner')
+        if prop and prop._name == 'account.account':
+            return prop
+        acc = self._account_from_ir_default(company, 'property_account_payable_id')
+        if acc:
+            return acc
+        _logger.warning(
+            'Partner autofill: no payable account for company "%s" (id=%s). '
+            'Install a chart of accounts or set Accounting default accounts for contacts.',
+            company.name, company.id)
+        return Account.browse()
+
+    def _merge_default_property_accounts_for_write(self, vals):
+        """Inject default receivable/payable before write(); required-field validation runs inside write()."""
+        if 'property_account_receivable_id' not in self._fields:
+            return
+        company = self._resolve_company_for_property_accounts()
+        if not company:
+            _logger.warning('Partner autofill: no company (env.company empty and partner has no company_id).')
+            return
+        rec_field = 'property_account_receivable_id'
+        pay_field = 'property_account_payable_id'
+        # Web client sends cleared m2o as key present + False — must treat like "missing".
+        # Batch-safe: only set when every record is missing that property for this company.
+        if not vals.get(rec_field):
+            if all(not p.with_company(company).property_account_receivable_id for p in self):
+                acc = self._get_default_account_receivable(company)
+                if acc:
+                    vals[rec_field] = acc.id
+        if not vals.get(pay_field):
+            if all(not p.with_company(company).property_account_payable_id for p in self):
+                acc = self._get_default_account_payable(company)
+                if acc:
+                    vals[pay_field] = acc.id
+
     @api.model
-    def create(self, vals):
-        if 'name' in vals:
-            vals['name'] = vals['name'].title()  # Capitalize Name
-        return super(ResPartner, self).create(vals)
+    def _apply_default_property_accounts_to_vals(self, vals):
+        if 'property_account_receivable_id' not in self._fields:
+            return
+        if vals.get('property_account_receivable_id') and vals.get('property_account_payable_id'):
+            return
+        company_id = vals.get('company_id')
+        company = self.env['res.company'].browse(company_id) if company_id else self.env.company
+        if not company:
+            return
+        if not vals.get('property_account_receivable_id'):
+            acc = self._get_default_account_receivable(company)
+            if acc:
+                vals['property_account_receivable_id'] = acc.id
+        if not vals.get('property_account_payable_id'):
+            acc = self._get_default_account_payable(company)
+            if acc:
+                vals['property_account_payable_id'] = acc.id
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if 'property_account_receivable_id' not in self._fields:
+            return res
+        company = self.env.company
+        if not company and self.env.context.get('default_company_id'):
+            company = self.env['res.company'].browse(self.env.context['default_company_id'])
+        if not company:
+            return res
+        if 'property_account_receivable_id' in fields_list and not res.get('property_account_receivable_id'):
+            acc = self._get_default_account_receivable(company)
+            if acc:
+                res['property_account_receivable_id'] = acc.id
+        if 'property_account_payable_id' in fields_list and not res.get('property_account_payable_id'):
+            acc = self._get_default_account_payable(company)
+            if acc:
+                res['property_account_payable_id'] = acc.id
+        return res
 
     # @api.onchange('name')
     # def _onchange_name_set_ref(self):
@@ -869,28 +1002,19 @@ class ResPartner(models.Model):
                 # Limit to 3 letters
                 record.ref = initials[:3]
 
-
-    @api.model
-    def create(self, vals):
-        """
-        Set the `ref` field based on the `name` field during creation.
-        """
-        if 'name' in vals and vals['name']:
-            vals['ref'] = ''.join(word[0] for word in vals['name'].split())
-        return super(ResPartner, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name'):
+                vals['name'] = vals['name'].title()
+                vals['ref'] = ''.join(word[0] for word in vals['name'].split())
+            self._apply_default_property_accounts_to_vals(vals)
+        return super(ResPartner, self).create(vals_list)
 
     def write(self, vals):
-        """
-        Update the `ref` field based on the `name` field when the partner is updated.
-        """
-        if 'name' in vals and vals['name']:
+        self._merge_default_property_accounts_for_write(vals)
+        if vals.get('name'):
+            vals['name'] = vals['name'].title()
             vals['ref'] = ''.join(word[0] for word in vals['name'].split())
         return super(ResPartner, self).write(vals)
-    
-    def write(self, vals):
-        if 'name' in vals:
-            vals['name'] = vals['name'].title()  # Capitalize Name
-        return super(ResPartner, self).write(vals)
 
-    
-    

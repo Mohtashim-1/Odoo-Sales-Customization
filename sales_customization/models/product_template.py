@@ -3,6 +3,12 @@ from odoo import models, fields, api
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
+    export_category_tag_id = fields.Many2one(
+        'product.category.tag',
+        string='Export Category Tag',
+        ondelete='set null',
+    )
+
     launch_date = fields.Date(string='Launch Date')
     product_code = fields.Char(string='Product Code',compute='_compute_product_code', store=True)
     # hs_code = fields.Char(string='HS Code')

@@ -1,3 +1,4 @@
+from . import product_category_tag
 from . import product_template
 from . import packaging_details
 from . import sale_order
@@ -9,3 +10,4 @@ from . import company
 from . import partner
 from . import res_users
 from . import crm_lead_old_sale
+from . import crm_tag

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_category_tag_form" model="ir.ui.view">
+        <field name="name">product.category.tag.form</field>
+        <field name="model">product.category.tag</field>
+        <field name="arch" type="xml">
+            <form string="Export Category Tag">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_category_tag_tree" model="ir.ui.view">
+        <field name="name">product.category.tag.tree</field>
+        <field name="model">product.category.tag</field>
+        <field name="arch" type="xml">
+            <tree string="Export Category Tags">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_product_category_tag" model="ir.actions.act_window">
+        <field name="name">Export Category Tags</field>
+        <field name="res_model">product.category.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

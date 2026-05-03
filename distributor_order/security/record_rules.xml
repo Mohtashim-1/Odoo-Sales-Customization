@@ -37,4 +37,21 @@
         <field name="perm_unlink" eval="True"/>
     </record>
 
+    <!--
+      product.product: group rules for the same user are OR-combined (see ir.rule._compute_domain).
+      Other modules (e.g. brand filters on Sale/Customer Group) may add restrictive rules that still
+      block reads. This rule ORs in full read access for anyone with Distributor User so order lines,
+      list prefetch, and catalog can load variants. Write/create/unlink stay governed by ACLs.
+    -->
+    <record id="rule_product_product_distributor_user_read_all" model="ir.rule">
+        <field name="name">Product variant: read all for Distributor User (OR with other group rules)</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('distributor_order.group_distributor_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
 </odoo>

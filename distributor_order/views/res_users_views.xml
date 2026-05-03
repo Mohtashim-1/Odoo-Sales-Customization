@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_users_form_distributor_brands" model="ir.ui.view">
+        <field name="name">res.users.form.distributor.brands</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='access_rights']" position="inside">
+                <group string="Distributor orders" colspan="2">
+                    <field name="distributor_allowed_brand_ids"
+                           widget="many2many_tags"
+                           placeholder="All products (no brand filter)"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

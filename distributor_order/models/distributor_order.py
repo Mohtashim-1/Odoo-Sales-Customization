@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.osv import expression
 
 
 class DistributorOrder(models.Model):
@@ -158,8 +159,10 @@ class DistributorOrder(models.Model):
     def _get_distributor_salesperson(self, distributor):
         if not distributor:
             return self.env['res.users']
-        internal_users = distributor.user_ids.filtered(lambda user: not user.share).sorted('id')
-        return internal_users[:1]
+        # Assigned salesperson on the partner (do not use partner.user_ids — distributor logins are internal too).
+        if distributor.distributor_salesperson_id:
+            return distributor.distributor_salesperson_id
+        return self.env['res.users']
 
     @api.model
     def _get_current_user_distributor(self):
@@ -247,7 +250,18 @@ class DistributorOrder(models.Model):
         }
 
     def _get_product_catalog_domain(self):
-        return [('sale_ok', '=', True)]
+        domain = [('sale_ok', '=', True)]
+        user = self.env.user
+        if (
+            user.has_group('distributor_order.group_distributor_user')
+            and not user.has_group('distributor_order.group_distributor_salesperson')
+            and user.distributor_allowed_brand_ids
+        ):
+            domain = expression.AND([
+                domain,
+                [('product_tmpl_id.brand_id', 'in', user.distributor_allowed_brand_ids.ids)],
+            ])
+        return domain
 
     def _get_product_catalog_order_data(self, products, **kwargs):
         res = super()._get_product_catalog_order_data(products, **kwargs)

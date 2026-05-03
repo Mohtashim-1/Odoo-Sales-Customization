@@ -1,6 +1,6 @@
 {
     'name': 'Distributor Order Management',
-    'version': '1.0.0',
+    'version': '1.1.9',
     'category': 'Sales/Distributor',
     'summary': 'Manage distributor orders with salesperson approval workflow that converts to Odoo Sale Orders.',
     'description': '''
@@ -17,11 +17,12 @@ Key Features:
     'company': 'Alpha Edge Solutions',
     'maintainer': 'Alpha Edge Solutions',
     'website': 'https://alphaedgesolution.com',
-    'depends': ['base', 'sale_management', 'product', 'uom', 'mrp'],
+    'depends': ['base', 'sales_customization', 'sale_management', 'product', 'uom', 'mrp', 'sale_brand_filter'],
     'data': [
         # security – load first
         'security/security_groups.xml',
         'security/ir.model.access.csv',
+        'data/cleanup_product_access_rules.xml',
         'security/record_rules.xml',
         # data
         'data/sequence.xml',
@@ -29,6 +30,7 @@ Key Features:
         'report/distributor_order_report.xml',
         # views
         'views/res_partner_views.xml',
+        'views/res_users_views.xml',
         'views/distributor_order_views.xml',
         'views/menu.xml',
     ],
@@ -36,4 +38,5 @@ Key Features:
     'application': True,
     'auto_install': False,
     'license': 'LGPL-3',
+    'post_init_hook': 'post_init_hook',
 }

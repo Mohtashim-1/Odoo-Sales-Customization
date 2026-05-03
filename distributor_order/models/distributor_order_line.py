@@ -1,5 +1,5 @@
-from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 
 class DistributorOrderLine(models.Model):
@@ -98,3 +98,26 @@ class DistributorOrderLine(models.Model):
         if self.product_id:
             self.price_unit = self.product_id.lst_price
             self.description = self.product_id.description_sale or ''
+
+    @api.constrains('product_id')
+    def _check_distributor_order_product_brand(self):
+        for line in self:
+            if line.env.context.get('skip_distributor_brand_check'):
+                continue
+            if line.order_id.state != 'draft':
+                continue
+            user = line.env.user
+            if not (
+                user.has_group('distributor_order.group_distributor_user')
+                and not user.has_group('distributor_order.group_distributor_salesperson')
+            ):
+                continue
+            brands = user.distributor_allowed_brand_ids
+            if not brands:
+                continue
+            tmpl = line.product_id.product_tmpl_id
+            if not tmpl.brand_id or tmpl.brand_id not in brands:
+                raise ValidationError(_(
+                    'Product "%s" is not in your allowed brands for distributor orders.',
+                    line.product_id.display_name,
+                ))

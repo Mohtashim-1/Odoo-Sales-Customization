@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.0.2',
+    'version': '2.0.7',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''
@@ -36,6 +36,7 @@
     
     # view
     'views/res_users_views.xml',
+    'views/product_category_tag_views.xml',
     'views/product_template_view.xml',
     'views/partner.xml',
     'views/partner_sales_dashboard.xml',

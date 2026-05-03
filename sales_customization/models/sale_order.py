@@ -104,7 +104,14 @@ class SaleOrder(models.Model):
     
     export_order_categories = fields.Many2many(
         'product.category',
-        string='Export Order Categories'
+        string='Export Order Categories',
+        help='Deprecated: Export Order is now driven by Export Category Tags.',
+    )
+
+    export_order_category_tags = fields.Many2many(
+        'product.category.tag',
+        string='Export Category Tags',
+        help='Which export category tags to include on the Export Order PDF. Each product needs an Export Category Tag set on its template.',
     )
     
     discount_reason = fields.Text(string="Discount Reason")

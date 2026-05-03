@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Runs on every upgrade (noupdate=0): removes broken product.product record rules. -->
+    <data noupdate="0">
+        <function model="ir.rule" name="action_distributor_cleanup_legacy_product_rules"/>
+    </data>
+</odoo>

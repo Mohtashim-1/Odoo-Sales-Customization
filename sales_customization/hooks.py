@@ -41,3 +41,10 @@ def post_init_hook(*args):
     rule = env.ref("sale.sale_order_personal_rule", raise_if_not_found=False)
     if rule:
         rule.write({"domain_force": "[('user_id', '=', user.id)]"})
+
+    # Standard "Timesheets" PDF on sale.order (sale_timesheet) — not related to Export Order.
+    ts_report = env.ref(
+        "sale_timesheet.timesheet_report_sale_order", raise_if_not_found=False
+    )
+    if ts_report:
+        ts_report.write({"binding_model_id": False})

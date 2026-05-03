@@ -34,6 +34,14 @@
         parent="sales_customization"
         sequence="20"
     />
+
+    <menuitem
+        id="menu_product_category_tag"
+        name="Export Category Tags"
+        parent="sales_customization"
+        action="action_product_category_tag"
+        sequence="14"
+    />
 <!--     
     <menuitem
         id="menu_shipping_terms"

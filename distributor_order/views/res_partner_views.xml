@@ -30,6 +30,14 @@
                         invisible="not is_distributor">
                     <field string="Orders" name="distributor_order_count" widget="statinfo"/>
                 </button>
+                <button name="action_view_distributor_portal_users"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-user"
+                        invisible="not is_distributor"
+                        groups="base.group_user">
+                    <field string="Distributor users" name="distributor_portal_user_count" widget="statinfo"/>
+                </button>
             </xpath>
 
         </field>

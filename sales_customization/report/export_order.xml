@@ -53,6 +53,7 @@
 
                         <div style=" text-align: center;">
                                 <h1 style="font-size: 24px; font-weight: bold;">EXPORT ORDER</h1>
+                                <p style="font-size: 11px; margin-top: 2px;">Grouped by export category tag — set tags on the order and on each product.</p>
                             </div>
                         <table class="table table-condensed" style="width:100%; margin-top:20px; font-size:11pt">
                             <!-- <tr>
@@ -178,29 +179,26 @@
                                     </tr>
                                 </t> -->
 
-                                <!-- Syed Owais Noor ( Making a list of sub category and then check the all the product lines sub category ) -->
-                                <!-- Set up allowed category IDs from export_order_categories -->
-<t t-set="allowed_category_ids" t-value="[]"/>
-<t t-foreach="doc.export_order_categories" t-as="cat">
-    <t t-set="allowed_category_ids" t-value="allowed_category_ids + [cat.id]"/>
+                                <!-- Allowed tag IDs from export_order_category_tags (products must have Export Category Tag set) -->
+<t t-set="allowed_tag_ids" t-value="[]"/>
+<t t-foreach="doc.export_order_category_tags" t-as="tg">
+    <t t-set="allowed_tag_ids" t-value="allowed_tag_ids + [tg.id]"/>
 </t>
 
-<!-- Track seen sub-categories and products -->
-<t t-set="sub_category_lst" t-value="[]"/>
+<t t-set="tag_header_ids" t-value="[]"/>
 <t t-set="product_lst" t-value="[]"/>
 <t t-set="s_no" t-value="1"/>
 
-<!-- Main Order Line Filter Loop -->
 <t t-foreach="doc.order_line" t-as="line">
-    <t t-if="line.product_id.categ_id.id in allowed_category_ids and line.product_id.categ_id.name not in sub_category_lst">
-        <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
+    <t t-set="line_tag" t-value="line.product_id.product_tmpl_id.export_category_tag_id"/>
+    <t t-if="line_tag and line_tag.id in allowed_tag_ids and line_tag.id not in tag_header_ids">
+        <t t-set="tag_header_ids" t-value="tag_header_ids + [line_tag.id]"/>
 
-        <!-- Sub-category header row -->
         <tr>
             <td style="padding: 8px; border: 1px solid black;" />
             <td style="padding: 8px; border: 1px solid black;" />
             <td style="padding: 8px; border: 1px solid black; font-weight: bold;">
-                <span t-esc="line.product_id.categ_id.name"/>
+                <span t-esc="line_tag.name"/>
             </td>
             <td style="padding: 8px; border: 1px solid black;" />
             <td style="padding: 8px; border: 1px solid black;" />
@@ -210,12 +208,11 @@
             <td style="padding: 8px; border: 1px solid black;" />
         </tr>
 
-        <!-- Nested loop to render all products in the same sub-category -->
         <t t-foreach="doc.order_line" t-as="subline">
-            <t t-if="subline.product_id.categ_id.id == line.product_id.categ_id.id and subline.product_id.id not in product_lst">
+            <t t-set="sub_tag" t-value="subline.product_id.product_tmpl_id.export_category_tag_id"/>
+            <t t-if="sub_tag and sub_tag.id == line_tag.id and subline.product_id.id not in product_lst">
                 <t t-set="product_lst" t-value="product_lst + [subline.product_id.id]"/>
 
-                <!-- Product Row -->
                 <tr>
                     <td style="padding: 8px; border: 1px solid black;">
                         <span t-esc="s_no"/>
@@ -351,5 +348,10 @@
             </t>
         </t>
     </template>
+
+        <!-- Legacy t-name: DB print actions / favourites may still reference this xml id -->
+        <template id="commercial_invoice_report_category_tag" t-name="sales_customization.commercial_invoice_report_category_tag">
+            <t t-call="sales_customization.commercial_invoice_report1"/>
+        </template>
 </data>
 </odoo>
