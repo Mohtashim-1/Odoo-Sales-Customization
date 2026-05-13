@@ -1,6 +1,6 @@
 {
     'name': 'Distributor Order Management',
-    'version': '1.1.9',
+    'version': '1.2.0',
     'category': 'Sales/Distributor',
     'summary': 'Manage distributor orders with salesperson approval workflow that converts to Odoo Sale Orders.',
     'description': '''

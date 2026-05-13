@@ -179,6 +179,26 @@
               </table>
             </t>
 
+            <table class="meta-table" style="width: 100%; margin-top: 12px; font-size: 11pt;">
+                <tr>
+                  <td style="width: 33%;"><strong>Total Amount:</strong></td>
+                  <td style="width: 33%;">
+                    <span t-esc="doc.currency_id.symbol or '$'"/> <span t-esc="'{:.2f}'.format(doc.amount_total)"/>
+                  </td>
+                  <td/>
+                </tr>
+                <tr>
+                  <td><strong>Total Ctn:</strong></td>
+                  <td><span t-esc="'{:.2f}'.format(doc.total_ctn)"/></td>
+                  <td/>
+                </tr>
+                <tr>
+                  <td><strong>Total CBM:</strong></td>
+                  <td><span t-esc="'{:.4f}'.format(doc.total_cbm)"/></td>
+                  <td/>
+                </tr>
+              </table>
+
             <div class="footer" style="page-break-inside: avoid;">
               <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
                 <img t-if="doc.company_id.image_field_2"

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_form_inherit_export_dates" model="ir.ui.view">
+        <field name="name">project.task.form.export.dates</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='date_deadline_and_recurring_task']" position="after">
+                <field name="export_order_date"/>
+                <field name="container_arrival_warning" invisible="1"/>
+                <field name="container_arrival_date" invisible="container_arrival_warning"/>
+                <field name="container_arrival_date" class="text-danger fw-bold" string="Container Arrival Date" invisible="not container_arrival_warning"/>
+                <field name="container_days_left_text" class="text-danger fw-bold fst-italic" nolabel="1" readonly="1" invisible="not container_arrival_warning"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_kanban_inherit_container_arrival" model="ir.ui.view">
+        <field name="name">project.task.kanban.container.arrival</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='recurrence_id']" position="after">
+                <field name="container_arrival_date"/>
+                <field name="container_arrival_warning"/>
+                <field name="container_days_left_text"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_record_body')]" position="inside">
+                <div t-if="record.container_arrival_date.raw_value"
+                     t-att-class="record.container_arrival_warning.raw_value ? 'text-danger fw-bold mt-1' : 'text-muted mt-1'"
+                     style="font-size: 0.85rem;">
+                        <i class="fa fa-ship me-1" title="Container Arrival Date"/>
+                    <t t-out="record.container_arrival_date.value"/>
+                    <span t-if="record.container_arrival_warning.raw_value" class="ms-1 fst-italic">
+                        — <t t-out="record.container_days_left_text.value"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

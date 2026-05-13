@@ -121,14 +121,17 @@
                             </tr>
                             <tr>
                                 <td>
-                                   <strong> Order Date: </strong>
+                                   <strong>Export Order Date:</strong>
                                 </td>
-                                <td >
-
-                                <t t-esc="doc.order_date"/>
-
+                                <td>
+                                    <span t-if="doc.order_date" t-esc="doc.order_date.strftime('%d-%m-%Y')"/>
                                 </td>
-                                
+                                <td>
+                                    <strong>Container Arrival Date:</strong>
+                                </td>
+                                <td>
+                                    <span t-if="doc.container_arrival_date" t-esc="doc.container_arrival_date.strftime('%d-%m-%Y')"/>
+                                </td>
                             </tr>
                             
 

@@ -102,6 +102,20 @@ class DistributorOrder(models.Model):
         store=True,
         digits='Account',
     )
+    total_ctn = fields.Float(
+        string='Total Ctn',
+        compute='_compute_totals_ctn_cbm',
+        store=True,
+        digits='Product Unit of Measure',
+        help='Sum of order line quantities (same UoM as each line).',
+    )
+    total_cbm = fields.Float(
+        string='Total CBM',
+        compute='_compute_totals_ctn_cbm',
+        store=True,
+        digits=(16, 4),
+        help='Sum of line quantity × product CBM (from product template).',
+    )
 
     # ─── Notes & Rejection ─────────────────────────────────────────────────────
 
@@ -138,6 +152,23 @@ class DistributorOrder(models.Model):
     def _compute_amount_total(self):
         for order in self:
             order.amount_total = sum(order.order_line_ids.mapped('price_subtotal'))
+
+    @api.depends(
+        'order_line_ids.product_qty',
+        'order_line_ids.product_id',
+        'order_line_ids.product_id.product_tmpl_id.cbm',
+    )
+    def _compute_totals_ctn_cbm(self):
+        for order in self:
+            total_ctn = 0.0
+            total_cbm = 0.0
+            for line in order.order_line_ids:
+                qty = line.product_qty or 0.0
+                total_ctn += qty
+                tmpl = line.product_id.product_tmpl_id
+                total_cbm += qty * (tmpl.cbm or 0.0)
+            order.total_ctn = total_ctn
+            order.total_cbm = total_cbm
 
     def _compute_can_edit_distributor_id(self):
         can_edit = (

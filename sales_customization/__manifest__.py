@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.0.7',
+    'version': '2.0.8',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''
@@ -25,7 +25,7 @@
             'sales_customization/static/src/scss/sales_dashboard.scss',
         ],
     },
-    'depends': ['base', 'product', 'sale_management', 'web', 'crm', 'account'], 
+    'depends': ['base', 'product', 'sale_management', 'web', 'crm', 'account', 'project'], 
     'data': [
     # security - Load first
     'security/group.xml',
@@ -41,6 +41,7 @@
     'views/partner.xml',
     'views/partner_sales_dashboard.xml',
     'views/sale_order.xml',
+    'views/project_task_views.xml',
     'views/bank_detail.xml',
     'views/packaging_details.xml',
     "views/shipping_terms.xml",

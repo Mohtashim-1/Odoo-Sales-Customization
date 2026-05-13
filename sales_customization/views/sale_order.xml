@@ -26,7 +26,7 @@
                         <group string="Shipping Details">
                             <field name="destination"/>
                             <field name="delivery"/>
-
+                            <field name="container_arrival_date"/>
                             <field name="fda"/>
                             <field name="container_cbm"/>
                         </group>
@@ -78,6 +78,7 @@
                 <field name="shipping_line" groups="bn_sale_security.sales_user_group"/>
                 <field name="shipment" groups="bn_sale_security.sales_user_group"/>
                 <field name="order_date" groups="bn_sale_security.sales_user_group"/>
+                <field name="container_arrival_date" groups="bn_sale_security.sales_user_group"/>
                 <field name="container_no" groups="bn_sale_security.sales_user_group"/>
                 <field name="container_cbm" groups="bn_sale_security.sales_user_group"/>
                 <field name="validity" groups="bn_sale_security.sales_user_group"/>

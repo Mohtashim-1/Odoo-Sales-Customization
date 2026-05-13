@@ -49,7 +49,8 @@ class SaleOrder(models.Model):
         string='Required Date',
         default=lambda self: fields.Date.to_string(fields.Date.context_today(self) + timedelta(days=7))
     )
-    order_date = fields.Date(string='Order Date')
+    order_date = fields.Date(string='Export Order Date')
+    container_arrival_date = fields.Date(string='Container Arrival Date')
     manufactory_date = fields.Date(string='Manufactory Date')
     expiry_date = fields.Date(string='Expiry Date')
     best_before = fields.Date(string='Best Before Date')

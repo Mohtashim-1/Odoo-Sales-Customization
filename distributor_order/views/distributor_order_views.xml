@@ -137,9 +137,10 @@
                                    context="{'default_order_id': active_id, 'from_distributor_order_line': 1}"/>
 
                             <group class="oe_subtotal_footer oe_right">
+                                <field name="total_ctn"/>
+                                <field name="total_cbm"/>
                                 <field name="amount_total" widget="monetary"
-                                       options="{'currency_field': 'currency_id'}"
-                                       string="Total Amount"/>
+                                       options="{'currency_field': 'currency_id'}"/>
                             </group>
                         </page>
 
@@ -174,6 +175,8 @@
                 <field name="distributor_id"/>
                 <field name="salesperson_id"/>
                 <field name="order_date"/>
+                <field name="total_ctn" sum="Total Ctn" optional="show"/>
+                <field name="total_cbm" sum="Total CBM" optional="show"/>
                 <field name="amount_total" sum="Total" widget="monetary"
                        options="{'currency_field': 'currency_id'}"/>
                 <field name="state" widget="badge"
@@ -199,6 +202,8 @@
                 <field name="distributor_id"/>
                 <field name="salesperson_id"/>
                 <field name="order_date"/>
+                <field name="total_ctn"/>
+                <field name="total_cbm"/>
                 <field name="amount_total"/>
                 <field name="state"/>
                 <field name="currency_id"/>
