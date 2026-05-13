@@ -19,6 +19,9 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group_standard_price']" position="inside">
                 <field name="export_category_tag_id" options="{'no_create_edit': True}"/>
+                <separator string="Barcode options"/>
+                <field name="unit_barcode"/>
+                <field name="case_barcode"/>
                 <field name="launch_date" tracking="True" />
                 <field name="product_code" tracking="True" />
                 <field name="hs_code_id" tracking="True" />
@@ -47,6 +50,8 @@
         <field name="arch" type="xml">
             <xpath expr="//tree" position="inside">
                 <field name="export_category_tag_id" optional="show"/>
+                <field name="unit_barcode" optional="hide"/>
+                <field name="case_barcode" optional="hide"/>
                 <field name="launch_date"/>
                 <field name="product_code"/>
                 <field name="hs_code_id"/>
@@ -64,6 +69,19 @@
                 <field name="fcl_20"/>
                 <field name="fcl_40"/>
                 <field name="shelf_life"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_product_form_barcode" model="ir.ui.view">
+        <field name="name">product.product.form.barcode.custom</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_code']" position="after">
+                <separator string="Barcode options"/>
+                <field name="unit_barcode"/>
+                <field name="case_barcode"/>
             </xpath>
         </field>
     </record>

@@ -37,6 +37,9 @@ class ProductTemplate(models.Model):
     fcl_40 = fields.Float(string="40ft FCL HQ", compute="_compute_40fcl")
     shelf_life = fields.Float(string="Shelf Life", default = 3)
 
+    unit_barcode = fields.Char(string='Unit Barcode', tracking=True)
+    case_barcode = fields.Char(string='Case Barcode', tracking=True)
+
     @api.model
     def create(self, vals):
         if 'name' in vals:
@@ -105,3 +108,17 @@ class ProductTemplate(models.Model):
                 record.fcl_40 = 0
 
 
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    unit_barcode = fields.Char(
+        string='Unit Barcode',
+        related='product_tmpl_id.unit_barcode',
+        readonly=False,
+    )
+    case_barcode = fields.Char(
+        string='Case Barcode',
+        related='product_tmpl_id.case_barcode',
+        readonly=False,
+    )
