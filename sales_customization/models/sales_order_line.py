@@ -1,9 +1,16 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, AccessError
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     _order = "categ_id_name asc, id asc"
+
+    _RATE_EDIT_GROUPS = (
+        'sales_team.group_sale_manager',
+        'sales_team.group_sale_salesman_all_leads',
+    )
+
+    can_edit_sale_rates = fields.Boolean(compute='_compute_can_edit_sale_rates')
     categ_id_name = fields.Char(string='Category',related="product_id.categ_id.name", store=True, index=True)
 
     launch_date = fields.Date(string='Launch Date', related='product_id.product_tmpl_id.launch_date')
@@ -51,6 +58,24 @@ class SaleOrderLine(models.Model):
     lbs_oz = fields.Char(string='LBS OZ', compute="_compute_lbs_oz", store=True)
     pkts = fields.Float(string="PKTs", compute= "_calculate_p_w_q", store=True)
     
+    @api.model
+    def _user_can_edit_sale_rates(self):
+        return any(self.env.user.has_group(group) for group in self._RATE_EDIT_GROUPS)
+
+    @api.depends_context('uid')
+    def _compute_can_edit_sale_rates(self):
+        can_edit = self._user_can_edit_sale_rates()
+        for line in self:
+            line.can_edit_sale_rates = can_edit
+
+    def write(self, vals):
+        if 'price_unit' in vals and not self._user_can_edit_sale_rates():
+            protected_lines = self.filtered(lambda line: not line.display_type and line.price_unit != vals['price_unit'])
+            if protected_lines:
+                raise AccessError(
+                    "Only Sales Administrator or Sales / User: All Documents can change sale order rates."
+                )
+        return super().write(vals)
 
         
     @api.depends('product_uom_qty', 'no_of_pieces')

@@ -178,6 +178,22 @@
                 <field name="description" optional="show" groups="bn_sale_security.sales_user_group"/>
                 <field name="analysis" groups="bn_sale_security.sales_user_group"/>
             </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                <field name="can_edit_sale_rates" column_invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">not can_edit_sale_rates</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="before">
+                <field name="can_edit_sale_rates" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">not can_edit_sale_rates</attribute>
+            </xpath>
+
 
             <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
                 <attribute name="groups">bn_sale_security.sales_user_group</attribute>

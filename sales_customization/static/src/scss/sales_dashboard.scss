@@ -1,5 +1,10 @@
 .o_sales_dashboard {
     padding: 24px;
+    height: 100%;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .o_sales_dashboard_header {
