@@ -190,10 +190,32 @@ class DistributorOrder(models.Model):
     def _get_distributor_salesperson(self, distributor):
         if not distributor:
             return self.env['res.users']
-        # Assigned salesperson on the partner (do not use partner.user_ids — distributor logins are internal too).
+        # Prefer the dedicated distributor reviewer, then fall back to the partner's salespersons list.
         if distributor.distributor_salesperson_id:
             return distributor.distributor_salesperson_id
-        return self.env['res.users']
+
+        salesperson_group = self.env.ref(
+            'distributor_order.group_distributor_salesperson',
+            raise_if_not_found=False,
+        )
+        distributor_user_group = self.env.ref(
+            'distributor_order.group_distributor_user',
+            raise_if_not_found=False,
+        )
+        if 'user_ids' not in distributor._fields:
+            return self.env['res.users']
+        partner_salespersons = distributor.user_ids.filtered(lambda user: not user.share)
+        if distributor_user_group:
+            partner_salespersons = partner_salespersons.filtered(
+                lambda user: distributor_user_group not in user.groups_id
+            )
+        if salesperson_group:
+            reviewer = partner_salespersons.filtered(
+                lambda user: salesperson_group in user.groups_id
+            )[:1]
+            if reviewer:
+                return reviewer
+        return partner_salespersons[:1]
 
     @api.model
     def _get_current_user_distributor(self):
@@ -229,8 +251,12 @@ class DistributorOrder(models.Model):
             distributor = self._get_current_user_distributor()
             if distributor:
                 res['distributor_id'] = distributor.id
-                salesperson = self._get_distributor_salesperson(distributor)
-                res.setdefault('salesperson_id', salesperson.id)
+
+        if 'salesperson_id' in fields_list and not res.get('salesperson_id') and res.get('distributor_id'):
+            distributor = self.env['res.partner'].browse(res['distributor_id'])
+            salesperson = self._get_distributor_salesperson(distributor)
+            if salesperson:
+                res['salesperson_id'] = salesperson.id
         return res
 
     # ─── ORM overrides ─────────────────────────────────────────────────────────
@@ -251,6 +277,11 @@ class DistributorOrder(models.Model):
                     ))
                 vals['distributor_id'] = current_user_distributor.id
                 vals['salesperson_id'] = self._get_distributor_salesperson(current_user_distributor).id
+            elif vals.get('distributor_id') and not vals.get('salesperson_id'):
+                distributor = self.env['res.partner'].browse(vals['distributor_id'])
+                salesperson = self._get_distributor_salesperson(distributor)
+                if salesperson:
+                    vals['salesperson_id'] = salesperson.id
         return super().create(vals_list)
 
     def write(self, vals):
@@ -266,6 +297,11 @@ class DistributorOrder(models.Model):
                 ))
             vals['distributor_id'] = current_user_distributor.id
             vals['salesperson_id'] = self._get_distributor_salesperson(current_user_distributor).id
+        elif vals.get('distributor_id') and 'salesperson_id' not in vals:
+            distributor = self.env['res.partner'].browse(vals['distributor_id'])
+            salesperson = self._get_distributor_salesperson(distributor)
+            if salesperson:
+                vals['salesperson_id'] = salesperson.id
         return super().write(vals)
 
     def _default_order_line_values(self):

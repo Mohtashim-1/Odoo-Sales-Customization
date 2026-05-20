@@ -6,6 +6,7 @@
         <field name="name">res.partner.form.distributor</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="1100"/>
         <field name="arch" type="xml">
 
             <!-- Distributor flag next to the partner name -->
@@ -13,12 +14,12 @@
                 <field name="is_distributor" widget="boolean_toggle"/>
             </xpath>
 
-            <!-- Salesperson field – only visible when is_distributor is true -->
-            <xpath expr="//field[@name='user_id']" position="after">
+            <!-- Distributor reviewer used when creating distributor orders. -->
+            <xpath expr="//page[@name='sales_purchases']//field[@name='user_ids']" position="after">
                 <field name="is_distributor" invisible="1"/>
                 <field name="distributor_salesperson_id"
-                       invisible="not is_distributor"
-                       groups="distributor_order.group_distributor_salesperson"/>
+                       string="Assigned Salesperson"
+                       invisible="not is_distributor"/>
             </xpath>
 
             <!-- Smart button for distributor orders -->
