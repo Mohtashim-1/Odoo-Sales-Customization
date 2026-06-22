@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.0.9',
+    'version': '2.1.3',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''
@@ -25,7 +25,10 @@
             'sales_customization/static/src/scss/sales_dashboard.scss',
         ],
     },
-    'depends': ['base', 'product', 'sale_management', 'web', 'crm', 'account', 'project'], 
+    'depends': ['base', 'product', 'sale_management', 'web', 'crm', 'account', 'project'],
+    'external_dependencies': {
+        'python': ['xlsxwriter'],
+    },
     'data': [
     # security - Load first
     'security/group.xml',
@@ -52,6 +55,8 @@
     "views/crm_lead_kanban_view.xml",
     "views/crm_lead_search_view.xml",
     "views/crm_lead_form_old_sale.xml",
+    "wizard/old_sales_export_wizard_views.xml",
+    "views/old_sales_report.xml",
     'views/sale_order_line.xml',
     'views/sale_order_customer_rule.xml',
     'views/sales_dashboard_menu.xml',

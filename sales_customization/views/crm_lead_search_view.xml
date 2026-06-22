@@ -12,11 +12,14 @@
                 <filter string="Red" name="color_red" domain="[('color', '=', 1)]"/>
                 <filter string="Orange" name="color_orange" domain="[('color', '=', 2)]"/>
                 <filter string="Yellow" name="color_yellow" domain="[('color', '=', 3)]"/>
-                <filter string="Blue" name="color_blue" domain="[('color', '=', 4)]"/>
+                <filter string="Cyan" name="color_cyan" domain="[('color', '=', 4)]"/>
                 <filter string="Purple" name="color_purple" domain="[('color', '=', 5)]"/>
-                <filter string="Green" name="color_green" domain="[('color', '=', 6)]"/>
-                <filter string="Gray" name="color_gray" domain="[('color', '=', 7)]"/>
-                <filter string="Brown" name="color_brown" domain="[('color', '=', 8)]"/>
+                <filter string="Almond" name="color_almond" domain="[('color', '=', 6)]"/>
+                <filter string="Teal" name="color_teal" domain="[('color', '=', 7)]"/>
+                <filter string="Blue" name="color_blue" domain="[('color', '=', 8)]"/>
+                <filter string="Raspberry" name="color_raspberry" domain="[('color', '=', 9)]"/>
+                <filter string="Green" name="color_green" domain="[('color', '=', 10)]"/>
+                <filter string="Violet" name="color_violet" domain="[('color', '=', 11)]"/>
             </xpath>
         </field>
     </record>

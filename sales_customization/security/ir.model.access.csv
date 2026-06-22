@@ -4,6 +4,7 @@ access_hs_code_user,access_hs_code_user,model_hs_code,,1,1,1,1
 access_shipping_term,access_shipping_term,model_shipping_term,,1,1,1,1
 access_bank_detail,access_bank_detail,model_bank_detail,,1,1,1,1
 access_crm_lead_old_sale,access_crm_lead_old_sale,model_crm_lead_old_sale,base.group_user,1,1,1,1
+access_old_sales_export_wizard,access_old_sales_export_wizard,model_old_sales_export_wizard,base.group_user,1,1,1,1
 access_product_category_tag_user,access_product_category_tag_user,model_product_category_tag,base.group_user,1,1,1,1
 access_product_product_sales_customer,product.product sales customer read,product.model_product_product,sales_customization.sales_customer_group,1,0,0,0
 access_product_template_sales_customer,product.template sales customer read,product.model_product_template,sales_customization.sales_customer_group,1,0,0,0

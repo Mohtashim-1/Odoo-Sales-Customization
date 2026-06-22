@@ -52,7 +52,7 @@
                                 <field name="invoice_date"/>
                                 <field name="invoice_number"/>
                                 <field name="invoice_value" sum="Total"/>
-                                <field name="lead_id"/>
+                                <field name="lead_name" string="CRM Lead"/>
                             </tree>
                         </field>
                     </group>

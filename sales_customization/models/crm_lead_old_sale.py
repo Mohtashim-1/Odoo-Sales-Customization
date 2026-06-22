@@ -12,6 +12,12 @@ class CrmLeadOldSale(models.Model):
     _order = 'invoice_date desc, id desc'
 
     lead_id = fields.Many2one('crm.lead', string='Lead', required=True, ondelete='cascade')
+    lead_name = fields.Char(
+        string='CRM Lead',
+        related='lead_id.name',
+        store=True,
+        readonly=True,
+    )
     partner_id = fields.Many2one(
         'res.partner',
         string='Customer',

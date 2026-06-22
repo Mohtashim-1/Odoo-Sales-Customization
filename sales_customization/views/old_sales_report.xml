@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="crm_lead_old_sale_search_view" model="ir.ui.view">
+        <field name="name">crm.lead.old.sale.search</field>
+        <field name="model">crm.lead.old.sale</field>
+        <field name="arch" type="xml">
+            <search string="Old Sales">
+                <field name="partner_id" string="Customer"/>
+                <field name="old_sales"/>
+                <field name="invoice_number"/>
+                <field name="invoice_date"/>
+                <field name="lead_name" string="CRM Lead"/>
+                <filter string="This Year" name="filter_this_year"
+                    domain="[('invoice_date', '&gt;=', (context_today().strftime('%Y-01-01')))]"/>
+                <separator/>
+                <filter string="Has Customer" name="filter_has_customer" domain="[('partner_id', '!=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="group_by_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Invoice Date" name="group_by_invoice_date" context="{'group_by': 'invoice_date:month'}"/>
+                    <filter string="CRM Lead" name="group_by_lead" context="{'group_by': 'lead_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="crm_lead_old_sale_tree_report_view" model="ir.ui.view">
+        <field name="name">crm.lead.old.sale.tree.report</field>
+        <field name="model">crm.lead.old.sale</field>
+        <field name="arch" type="xml">
+            <tree string="Old Sales Report" create="0" edit="0" delete="0">
+                <header>
+                    <button
+                        name="%(sales_customization.action_old_sales_export_wizard)d"
+                        type="action"
+                        string="Export Excel"
+                        display="always"
+                        class="btn-primary"
+                    />
+                </header>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="partner_id" string="Customer"/>
+                <field name="old_sales"/>
+                <field name="invoice_date"/>
+                <field name="invoice_number"/>
+                <field name="invoice_value" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                <field name="lead_name" string="CRM Lead" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crm_lead_old_sale_pivot_report_view" model="ir.ui.view">
+        <field name="name">crm.lead.old.sale.pivot.report</field>
+        <field name="model">crm.lead.old.sale</field>
+        <field name="arch" type="xml">
+            <pivot string="Old Sales Analysis">
+                <field name="partner_id" type="row"/>
+                <field name="invoice_date" interval="month" type="col"/>
+                <field name="invoice_value" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="crm_lead_old_sale_graph_report_view" model="ir.ui.view">
+        <field name="name">crm.lead.old.sale.graph.report</field>
+        <field name="model">crm.lead.old.sale</field>
+        <field name="arch" type="xml">
+            <graph string="Old Sales Analysis" type="bar">
+                <field name="partner_id"/>
+                <field name="invoice_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_old_sales_report" model="ir.actions.act_window">
+        <field name="name">Old Sales Report</field>
+        <field name="res_model">crm.lead.old.sale</field>
+        <field name="view_mode">tree,pivot,graph</field>
+        <field name="search_view_id" ref="crm_lead_old_sale_search_view"/>
+        <field name="context">{'search_default_filter_has_customer': 1, 'search_default_group_by_partner': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No old sales records found.
+            </p>
+            <p>
+                Old sales are historical invoice records linked to CRM leads and customers.
+                Use the Export Excel button to download the report.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_old_sales_report_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="crm_lead_old_sale_tree_report_view"/>
+        <field name="act_window_id" ref="action_old_sales_report"/>
+    </record>
+
+    <record id="action_old_sales_report_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="crm_lead_old_sale_pivot_report_view"/>
+        <field name="act_window_id" ref="action_old_sales_report"/>
+    </record>
+
+    <record id="action_old_sales_report_graph" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="crm_lead_old_sale_graph_report_view"/>
+        <field name="act_window_id" ref="action_old_sales_report"/>
+    </record>
+
+    <menuitem
+        id="menu_old_sales_report"
+        name="Old Sales Report"
+        parent="sale.sale_menu_root"
+        action="action_old_sales_report"
+        sequence="25"
+    />
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="old_sales_export_wizard_form" model="ir.ui.view">
+        <field name="name">old.sales.export.wizard.form</field>
+        <field name="model">old.sales.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Old Sales to Excel">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="partner_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_export_excel"
+                        type="object"
+                        string="Export Excel"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_old_sales_export_wizard" model="ir.actions.act_window">
+        <field name="name">Export Old Sales</field>
+        <field name="res_model">old.sales.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
