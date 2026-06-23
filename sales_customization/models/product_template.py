@@ -1,5 +1,7 @@
 from odoo import models, fields, api
 
+from .product_access import check_product_create_access
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
@@ -40,11 +42,13 @@ class ProductTemplate(models.Model):
     unit_barcode = fields.Char(string='Unit Barcode', tracking=True)
     case_barcode = fields.Char(string='Case Barcode', tracking=True)
 
-    @api.model
-    def create(self, vals):
-        if 'name' in vals:
-            vals['name'] = vals['name'].title()  # Convert to Title Case
-        return super(ProductTemplate, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        check_product_create_access(self.env)
+        for vals in vals_list:
+            if 'name' in vals:
+                vals['name'] = vals['name'].title()
+        return super().create(vals_list)
 
     def write(self, vals):
         if 'name' in vals:
@@ -111,6 +115,11 @@ class ProductTemplate(models.Model):
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        check_product_create_access(self.env)
+        return super().create(vals_list)
 
     unit_barcode = fields.Char(
         string='Unit Barcode',
