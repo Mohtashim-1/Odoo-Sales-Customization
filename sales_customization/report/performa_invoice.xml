@@ -27,40 +27,34 @@
                     }
 
           </style>
-          <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 12px 30px 30px 30px;">
+          <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 5px 30px 30px 30px;">
             <!-- Header Section -->
-            <div class="header" style="text-align: center; margin-bottom: 8px;">
-              <div>
-                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
-              </div>
-              <div >
-                <!-- <h1 style="font-size: 24px; font-weight: bold;">PROFORMA INVOICE</h1> -->
-                <!-- <h3>Invoice No. <span t-esc="doc.name" /></h3> -->
-              </div>
+            <div t-if="doc.company_id.image_field_1" class="header" style="text-align: center; margin: 0; padding: 0; line-height: 0; font-size: 0;">
+              <img t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: auto; display: block; margin: 0; padding: 0;" />
             </div>
 
 
 
-            <div class="footer">
+            <div class="footer" style="margin: 0; padding: 0; line-height: 0; font-size: 0;">
 
               <!-- <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 240mm; height: auto; margin-bottom: 20px !important;" /> -->
               <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
-        <img t-if="doc.company_id.image_field_2" 
-             t-att-src="image_data_uri(doc.company_id.image_field_2)" 
-             alt="Footer Logo" 
-             style="width: 100%; max-width: 240mm; height: auto;" />
+        <img t-if="doc.company_id.image_field_2"
+             t-att-src="image_data_uri(doc.company_id.image_field_2)"
+             alt="Footer Logo"
+             style="width: 100%; max-width: 240mm; height: 0; overflow: hidden; display: none;" />
     </t>
     <t t-else="">
-        <img t-if="doc.company_id.image_field_2" 
-             t-att-src="image_data_uri(doc.company_id.image_field_2)" 
-             alt="Footer Logo" 
-             style="width: 100%; max-width: 240mm; height: auto; padding-top: 15px !important; " />
+        <img t-if="doc.company_id.image_field_2"
+             t-att-src="image_data_uri(doc.company_id.image_field_2)"
+             alt="Footer Logo"
+             style="width: 100%; max-width: 240mm; height: auto; margin: 0; padding: 0; display: block;" />
     </t>
                 
             </div>
 
 
-            <h1 style="font-size: 24px; font-weight: bold; margin: 0 0 10px 0;">Proforma Invoice / Sales Contract</h1>
+            <h1 style="font-size: 24px; font-weight: bold; margin: 0 0 8px 0;">Proforma Invoice / Sales Contract</h1>
 
 
              <table style="width: 100%; border-spacing: 0; font-size:11pt">
