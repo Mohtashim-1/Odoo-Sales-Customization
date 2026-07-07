@@ -67,13 +67,37 @@
                 <field name="company_id"
                        readonly="state not in ['draft', 'sent']"
                        options="{'no_create': True, 'no_open': True}"/>
-                <field name="partner_code" groups="bn_sale_security.sales_user_group"/>
+                <field name="is_mtj_company" invisible="1"/>
+                <field name="partner_code"
+                       readonly="1"
+                       invisible="not is_mtj_company"/>
+                <field name="partner_code"
+                       readonly="1"
+                       invisible="is_mtj_company"
+                       groups="bn_sale_security.sales_user_group"/>
                 <field name="required_date" groups="bn_sale_security.sales_user_group"/>
-                <field name="customer_container" groups="bn_sale_security.sales_user_group"/>
+                <field name="customer_container"
+                       invisible="not is_mtj_company"/>
+                <field name="customer_container"
+                       invisible="is_mtj_company"
+                       groups="bn_sale_security.sales_user_group"/>
+                <field name="pi_mm_yyyy"
+                       readonly="1"
+                       invisible="not is_mtj_company"/>
+                <field name="pi_mm_yyyy"
+                       readonly="1"
+                       invisible="is_mtj_company"
+                       groups="bn_sale_security.sales_user_group"/>
                 <field name="container_type"/>
                 <field name="signature_type" groups="bn_sale_security.sales_user_group"/>
                 <field name="export_order_category_tags" groups="bn_sale_security.sales_user_group" widget="many2many_tags" placeholder="Select tags to print on Export Order"/>
-                <field name="pi_no" groups="bn_sale_security.sales_user_group"/>
+                <field name="pi_no"
+                       readonly="1"
+                       invisible="not is_mtj_company"/>
+                <field name="pi_no"
+                       readonly="1"
+                       invisible="is_mtj_company"
+                       groups="bn_sale_security.sales_user_group"/>
                 <field name="payment_term_id" groups="bn_sale_security.sales_user_group"/>
                 <field name="shipping_line" groups="bn_sale_security.sales_user_group"/>
                 <field name="shipment" groups="bn_sale_security.sales_user_group"/>

@@ -88,8 +88,10 @@ class SaleOrder(models.Model):
     total_in_words = fields.Char(string="Total in Words", compute="_compute_amount_to_words", store=True)
     customer_container = fields.Char(string="Customer Container No.")
     label_name = fields.Char(string="PACKETS / LABELS FOR PRODUCTS' NAME")
+    pi_mm_yyyy = fields.Char(string="MM-YYYY", compute="_compute_pi_mm_yyyy")
     pi_no = fields.Char(string="PI No", compute="_compute_pi_no")
-    partner_code = fields.Char(string="Address", related='partner_id.ref', readonly=True)
+    partner_code = fields.Char(string="Partner Code", related='partner_id.ref', readonly=True)
+    is_mtj_company = fields.Boolean(string="Is MTJ Company", compute="_compute_is_mtj_company")
     total_cbm = fields.Float(string="Total CBM", compute="_compute_total_cbm")
     total_order_cbm = fields.Float(string="Total Order CBM", compute="_compute_total_order_cbm")
 
@@ -178,6 +180,20 @@ class SaleOrder(models.Model):
             order.total_items = len(order.order_line)
 
     
+
+    @api.depends('company_id', 'company_id.name')
+    def _compute_is_mtj_company(self):
+        for record in self:
+            company_name = (record.company_id.name or '').strip()
+            record.is_mtj_company = company_name == 'MTJ' or company_name.startswith('MTJ ')
+
+    @api.depends('customer_container', 'partner_code')
+    def _compute_pi_mm_yyyy(self):
+        current_month = datetime.now().strftime('%m')
+        current_year = datetime.now().strftime('%Y')
+        value = f"{current_month}-{current_year}"
+        for record in self:
+            record.pi_mm_yyyy = value
 
     @api.depends('customer_container', 'partner_code')
     def _compute_pi_no(self):
