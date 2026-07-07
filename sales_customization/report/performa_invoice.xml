@@ -25,13 +25,46 @@
                         width: 100%;
                         height: auto;
                     }
+                    .header-mtj img {
+                        width: 140px;
+                        max-width: 140px;
+                        height: auto;
+                    }
+                    .page-mtj {
+                        margin-top: 0;
+                        padding-top: 4px !important;
+                    }
+                    .page-mtj .header-mtj {
+                        margin: 0;
+                        padding: 0;
+                        text-align: right;
+                    }
+                    .page-mtj .header-mtj img {
+                        margin-left: auto;
+                        margin-right: 0;
+                    }
+                    .page-mtj .report-title {
+                        margin-top: 24px !important;
+                        margin-bottom: 8px !important;
+                    }
 
           </style>
-          <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 5px 30px 30px 30px;">
+          <t t-set="company_name" t-value="doc.company_id.name or ''"/>
+          <t t-set="is_mtj_company" t-value="company_name == 'MTJ' or company_name.startswith('MTJ ')"/>
+          <div t-attf-class="page #{'page-mtj' if is_mtj_company else ''}" t-att-style="'font-family: Arial, sans-serif; margin: 0; padding: %s 30px 30px 30px;' % ('4px' if is_mtj_company else '5px')">
             <!-- Header Section -->
-            <div t-if="doc.company_id.image_field_1" class="header" style="text-align: center; margin: 0; padding: 0; line-height: 0; font-size: 0;">
-              <img t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: auto; display: block; margin: 0; padding: 0;" />
-            </div>
+            <t t-if="doc.company_id.image_field_1">
+              <t t-if="is_mtj_company">
+                <div class="header header-mtj" style="text-align: right; margin: 0; padding: 0;">
+                  <img t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 140px; max-width: 140px; height: auto; display: block; margin: 0 0 0 auto; padding: 0;" />
+                </div>
+              </t>
+              <t t-else="">
+                <div class="header" style="text-align: center; margin: 0; padding: 0; line-height: 0; font-size: 0;">
+                  <img t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: auto; display: block; margin: 0; padding: 0;" />
+                </div>
+              </t>
+            </t>
 
 
 
@@ -54,7 +87,7 @@
             </div>
 
 
-            <h1 style="font-size: 24px; font-weight: bold; margin: 0 !important; margin-bottom: 8px !important;">Proforma Invoice / Sales Contract</h1>
+            <h1 class="report-title" t-att-style="'font-size: 24px; font-weight: bold; margin: %s !important;' % ('24px 0 8px 0' if is_mtj_company else '0 0 8px 0')">Proforma Invoice / Sales Contract</h1>
 
 
              <table style="width: 100%; border-spacing: 0; font-size:11pt">

@@ -53,7 +53,7 @@
             <field name="name">A4 - Proforma Invoice</field>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">35</field>
+            <field name="margin_top">24</field>
             <field name="margin_bottom">25</field>
             <field name="margin_left">10</field>
             <field name="margin_right">10</field>
