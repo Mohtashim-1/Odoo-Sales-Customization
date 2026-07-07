@@ -57,6 +57,15 @@ class SaleOrderLine(models.Model):
     custom_amount = fields.Float(string="Custom Amount",compute="_compute_custom_amount", store=True)
     lbs_oz = fields.Char(string='LBS OZ', compute="_compute_lbs_oz", store=True)
     pkts = fields.Float(string="PKTs", compute= "_calculate_p_w_q", store=True)
+    mtj_selected_price = fields.Float(
+        string='Selected Price',
+        compute='_compute_mtj_selected_price',
+    )
+    collection_categ_id = fields.Many2one(
+        'product.category',
+        string='Collection',
+        help='Select the product category (collection) before choosing a product.',
+    )
     
     @api.model
     def _user_can_edit_sale_rates(self):
@@ -67,6 +76,98 @@ class SaleOrderLine(models.Model):
         can_edit = self._user_can_edit_sale_rates()
         for line in self:
             line.can_edit_sale_rates = can_edit
+
+    @api.depends('product_id', 'order_id.price_selection', 'order_id.is_mtj_company')
+    def _compute_mtj_selected_price(self):
+        for line in self:
+            order = line.order_id
+            if order.is_mtj_company and line.product_id and order.price_selection:
+                line.mtj_selected_price = line.product_id.product_tmpl_id.get_mtj_price(
+                    order.price_selection
+                )
+            else:
+                line.mtj_selected_price = line.price_unit
+
+    def _apply_mtj_price_from_product(self):
+        """Trigger price_unit recompute for MTJ lines."""
+        mtj_lines = self.filtered(
+            lambda l: not l.display_type
+            and l.product_id
+            and l.order_id.is_mtj_company
+            and l.order_id.price_selection
+        )
+        if mtj_lines:
+            mtj_lines._compute_price_unit()
+
+    def _get_display_price(self):
+        self.ensure_one()
+        order = self.order_id
+        if (
+            order.is_mtj_company
+            and order.price_selection
+            and self.product_id
+            and not self.display_type
+        ):
+            return self.product_id.product_tmpl_id.get_mtj_price(order.price_selection)
+        return super()._get_display_price()
+
+    @api.depends(
+        'product_id',
+        'product_uom',
+        'product_uom_qty',
+        'order_id.price_selection',
+        'order_id.is_mtj_company',
+        'product_id.product_tmpl_id.fob_price_usd',
+        'product_id.product_tmpl_id.ddp_price_usd',
+        'product_id.product_tmpl_id.local_price_pkr',
+    )
+    def _compute_price_unit(self):
+        return super()._compute_price_unit()
+
+    @api.onchange('collection_categ_id')
+    def _onchange_mtj_collection_categ_id(self):
+        domain = {}
+        for line in self:
+            if not line.order_id.is_mtj_company:
+                continue
+            if line.collection_categ_id:
+                categ_ids = self.env['product.category'].search([
+                    ('id', 'child_of', line.collection_categ_id.id),
+                ]).ids
+                domain = {
+                    'product_template_id': [
+                        ('sale_ok', '=', True),
+                        ('categ_id', 'in', categ_ids),
+                    ],
+                    'product_id': [
+                        ('sale_ok', '=', True),
+                        ('categ_id', 'in', categ_ids),
+                    ],
+                }
+                if line.product_id and line.product_id.categ_id.id not in categ_ids:
+                    line.product_id = False
+                    line.product_template_id = False
+            else:
+                domain = {
+                    'product_template_id': [('id', '=', False)],
+                    'product_id': [('id', '=', False)],
+                }
+                line.product_id = False
+                line.product_template_id = False
+        return {'domain': domain} if domain else {}
+
+    @api.onchange('product_id', 'product_template_id')
+    def _onchange_mtj_product_price(self):
+        for line in self:
+            if line.product_id and line.order_id.is_mtj_company:
+                line.collection_categ_id = line.product_id.categ_id
+        self._apply_mtj_price_from_product()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        lines = super().create(vals_list)
+        lines._apply_mtj_price_from_product()
+        return lines
 
     def write(self, vals):
         if 'price_unit' in vals and not self._user_can_edit_sale_rates():

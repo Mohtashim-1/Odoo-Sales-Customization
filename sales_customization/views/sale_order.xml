@@ -68,6 +68,10 @@
                        readonly="state not in ['draft', 'sent']"
                        options="{'no_create': True, 'no_open': True}"/>
                 <field name="is_mtj_company" invisible="1"/>
+                <field name="collection_tag_id" invisible="1"/>
+                <field name="price_selection"
+                       invisible="not is_mtj_company"
+                       required="is_mtj_company"/>
                 <field name="partner_code"
                        readonly="1"
                        invisible="not is_mtj_company"/>
@@ -181,13 +185,23 @@
             </xpath>
             <xpath expr="//field[@name='order_line']/tree//field[@name='product_template_id']" position="attributes">
                 <attribute name="options">{'no_open': True, 'no_create': True, 'no_quick_create': True, 'no_create_edit': True}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="attributes">
-                <attribute name="options">{'no_create': True, 'no_quick_create': True, 'no_create_edit': True}</attribute>
+                <attribute name="readonly">parent.is_mtj_company and not collection_categ_id</attribute>
             </xpath>
 
             <!-- Order line fields -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="before">
+                <field name="collection_categ_id"
+                       string="Collection"
+                       invisible="not parent.is_mtj_company"
+                       required="parent.is_mtj_company"
+                       options="{'no_create': True}"/>
+            </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
+                <field name="mtj_selected_price"
+                       string="Item Rate"
+                       optional="show"
+                       invisible="not parent.is_mtj_company"
+                       readonly="1"/>
                 <field name="launch_date" optional="show" groups="bn_sale_security.sales_user_group"/>
                 <field name="categ_id_name" optional="show" groups="bn_sale_security.sales_user_group"/>
                 <field name="image" widget="image" options="{'size': [40, 40]}" optional="show" groups="bn_sale_security.sales_user_group"/>
@@ -235,6 +249,30 @@
             </xpath>
             
             <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
+        </field>
+    </record>
+
+    <record id="view_sale_order_tree_mtj_pricing" model="ir.ui.view">
+        <field name="name">sale.order.tree.mtj.pricing</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_mtj_company" column_invisible="1"/>
+                <field name="price_selection" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_order_tree_mtj_pricing_orders" model="ir.ui.view">
+        <field name="name">sale.order.tree.mtj.pricing.orders</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_mtj_company" column_invisible="1"/>
+                <field name="price_selection" optional="hide"/>
+            </xpath>
         </field>
     </record>
 

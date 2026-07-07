@@ -91,7 +91,11 @@ class SaleOrder(models.Model):
     pi_mm_yyyy = fields.Char(string="MM-YYYY", compute="_compute_pi_mm_yyyy")
     pi_no = fields.Char(string="PI No", compute="_compute_pi_no")
     partner_code = fields.Char(string="Partner Code", related='partner_id.ref', readonly=True)
-    is_mtj_company = fields.Boolean(string="Is MTJ Company", compute="_compute_is_mtj_company")
+    is_mtj_company = fields.Boolean(
+        string="Is MTJ Company",
+        compute="_compute_is_mtj_company",
+        store=True,
+    )
     total_cbm = fields.Float(string="Total CBM", compute="_compute_total_cbm")
     total_order_cbm = fields.Float(string="Total Order CBM", compute="_compute_total_order_cbm")
 
@@ -126,6 +130,25 @@ class SaleOrder(models.Model):
         ('system', 'System Generated'),
         ('user',   'User Signature'),
     ], default='system', string='Signature Type')
+
+    collection_tag_id = fields.Many2one(
+        'product.category.tag',
+        string='Collection',
+        help='Deprecated: use Collection on each order line (product category).',
+    )
+    price_selection = fields.Selection(
+        selection=[
+            ('fob_usd', 'FOB PRICE IN USD'),
+            ('ddp_usd', 'DDP PRICE IN USD'),
+            ('local_pkr', 'LOCAL PRICE IN PKR'),
+        ],
+        string='Price Selection',
+        default='fob_usd',
+    )
+    price_selection_label = fields.Char(
+        string='Price Selection',
+        compute='_compute_price_selection_label',
+    )
 
     
     def action_custom_save(self):
@@ -186,6 +209,44 @@ class SaleOrder(models.Model):
         for record in self:
             company_name = (record.company_id.name or '').strip()
             record.is_mtj_company = company_name == 'MTJ' or company_name.startswith('MTJ ')
+
+    @api.depends('price_selection')
+    def _compute_price_selection_label(self):
+        labels = dict(self._fields['price_selection'].selection)
+        for order in self:
+            order.price_selection_label = labels.get(order.price_selection, '')
+
+    def _mtj_get_currency(self):
+        self.ensure_one()
+        if self.price_selection == 'local_pkr':
+            currency = self.env['res.currency'].search([('name', '=', 'PKR')], limit=1)
+        else:
+            currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+        return currency or self.currency_id
+
+    def _apply_mtj_prices_to_lines(self):
+        self.filtered('is_mtj_company').order_line._apply_mtj_price_from_product()
+
+    def _mtj_currency_for_selection(self, price_selection):
+        if price_selection == 'local_pkr':
+            return self.env['res.currency'].search([('name', '=', 'PKR')], limit=1)
+        return self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+
+    @api.onchange('price_selection')
+    def _onchange_mtj_price_selection(self):
+        for order in self.filtered('is_mtj_company'):
+            currency = order._mtj_get_currency()
+            if currency:
+                order.currency_id = currency
+            order._apply_mtj_prices_to_lines()
+
+    @api.onchange('collection_tag_id')
+    def _onchange_mtj_collection_tag_id(self):
+        """Legacy header collection — filtering is on order lines via collection_categ_id."""
+        return {}
+
+    def action_add_from_catalog(self):
+        return super().action_add_from_catalog()
 
     @api.depends('customer_container', 'partner_code')
     def _compute_pi_mm_yyyy(self):
@@ -315,6 +376,10 @@ class SaleOrder(models.Model):
         # strip out any attempt to change partner_id
         if self.env.user.has_group('sales_customization.sales_customer_group'):
             vals.pop('partner_id', None)
+        if 'price_selection' in vals and len(self) == 1 and self.is_mtj_company:
+            currency = self._mtj_currency_for_selection(vals['price_selection'])
+            if currency:
+                vals['currency_id'] = currency.id
         return super(SaleOrder, self).write(vals)
     
     @api.model

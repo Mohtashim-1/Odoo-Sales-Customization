@@ -4,16 +4,20 @@
         <template id="report_sales_order" name="Sales Order Report" t-name="sales_customization.report_sales_order">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
+                    <style>
+                    .header:not(.header-mtj) img {
+                        width: 100%;
+                        height: auto;
+                    }
+                    </style>
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
                         <!-- Header Section -->
-                        <div class="header" style="text-align: center; margin-bottom: 30px;">
-                            <div>
-                                <img t-if="doc.company_id.image_field_1" t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;"/>
-                            </div>
-                            <div style="margin-top: 10px;">
+                        <t t-call="sales_customization.report_company_header">
+                            <t t-set="company" t-value="doc.company_id"/>
+                        </t>
+                            <div style="margin-top: 10px; text-align: center;">
                                 <h1 style="font-size: 24px; font-weight: bold;">Sales Order</h1>
                             </div>
-                        </div>
 
                         <!-- Customer Information -->
                         <div style="margin-bottom: 10px;">

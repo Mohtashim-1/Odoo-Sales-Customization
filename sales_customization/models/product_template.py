@@ -42,6 +42,20 @@ class ProductTemplate(models.Model):
     unit_barcode = fields.Char(string='Unit Barcode', tracking=True)
     case_barcode = fields.Char(string='Case Barcode', tracking=True)
 
+    fob_price_usd = fields.Float(string='FOB Price (USD)', tracking=True)
+    ddp_price_usd = fields.Float(string='DDP Price (USD)', tracking=True)
+    local_price_pkr = fields.Float(string='Local Price (PKR)', tracking=True)
+
+    def get_mtj_price(self, price_selection):
+        self.ensure_one()
+        price_map = {
+            'fob_usd': self.fob_price_usd,
+            'ddp_usd': self.ddp_price_usd,
+            'local_pkr': self.local_price_pkr,
+        }
+        price = price_map.get(price_selection, 0.0)
+        return price if price else self.list_price
+
     @api.model_create_multi
     def create(self, vals_list):
         check_product_create_access(self.env)
@@ -129,5 +143,20 @@ class ProductProduct(models.Model):
     case_barcode = fields.Char(
         string='Case Barcode',
         related='product_tmpl_id.case_barcode',
+        readonly=False,
+    )
+    fob_price_usd = fields.Float(
+        string='FOB Price (USD)',
+        related='product_tmpl_id.fob_price_usd',
+        readonly=False,
+    )
+    ddp_price_usd = fields.Float(
+        string='DDP Price (USD)',
+        related='product_tmpl_id.ddp_price_usd',
+        readonly=False,
+    )
+    local_price_pkr = fields.Float(
+        string='Local Price (PKR)',
+        related='product_tmpl_id.local_price_pkr',
         readonly=False,
     )

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <template id="report_performa_invoice">
+    <template id="report_performa_invoice" t-name="sales_customization.report_performa_invoice">
       <t t-call="web.html_container">
         <t t-foreach="docs" t-as="doc">
           <style>
@@ -32,10 +32,10 @@
                     }
                     .page-mtj {
                         margin-top: 0;
-                        padding-top: 4px !important;
+                        padding-top: 28px !important;
                     }
                     .page-mtj .header-mtj {
-                        margin: 0;
+                        margin: 0 0 28px 0;
                         padding: 0;
                         text-align: right;
                     }
@@ -51,11 +51,11 @@
           </style>
           <t t-set="company_name" t-value="doc.company_id.name or ''"/>
           <t t-set="is_mtj_company" t-value="company_name == 'MTJ' or company_name.startswith('MTJ ')"/>
-          <div t-attf-class="page #{'page-mtj' if is_mtj_company else ''}" t-att-style="'font-family: Arial, sans-serif; margin: 0; padding: %s 30px 30px 30px;' % ('4px' if is_mtj_company else '5px')">
+          <div t-attf-class="page #{'page-mtj' if is_mtj_company else ''}" t-att-style="'font-family: Arial, sans-serif; margin: 0; padding: %s 30px 30px 30px;' % ('28px' if is_mtj_company else '5px')">
             <!-- Header Section -->
             <t t-if="doc.company_id.image_field_1">
               <t t-if="is_mtj_company">
-                <div class="header header-mtj" style="text-align: right; margin: 0; padding: 0;">
+                <div class="header header-mtj" style="text-align: right; margin: 0 0 28px 0; padding: 0;">
                   <img t-att-src="image_data_uri(doc.company_id.image_field_1)" alt="Company Logo" style="width: 140px; max-width: 140px; height: auto; display: block; margin: 0 0 0 auto; padding: 0;" />
                 </div>
               </t>
@@ -144,11 +144,11 @@
                 </tr>
                 <tr style="margin-top: 50px !important;">
                     <td style="padding-top: 10px;"><strong>Date:</strong></td>
-                    <td style="padding-top: 10px;"><span t-esc="doc.date_order.strftime('%d-%m-%Y')"/></td>
+                    <td style="padding-top: 10px;"><span t-esc="doc.date_order and doc.date_order.strftime('%d-%m-%Y') or ''"/></td>
                 </tr>
                 <tr>
                     <td><strong>Valid Till Date:</strong></td>
-                    <td><span t-esc="doc.validity_date.strftime('%d-%m-%Y')"/></td>
+                    <td><span t-esc="doc.validity_date and doc.validity_date.strftime('%d-%m-%Y') or ''"/></td>
                 </tr>
                 <tr>
                     <td><strong>Total Cartons</strong></td>

@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.2.4',
+    'version': '2.3.4',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''
@@ -62,6 +62,7 @@
     'views/sales_dashboard_menu.xml',
     
     # report
+    "report/company_report_header.xml",
     "report/report_action.xml",
     "report/sales_order_template.xml",
     # report

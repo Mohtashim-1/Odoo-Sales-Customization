@@ -5,12 +5,15 @@
             <t t-call="web.html_container">
                 <t t-if="not o" t-set="o" t-value="docs" />
                 <t t-set="company" t-value="o.company_id" />
+
+                <style>
+                    .header:not(.header-mtj) img {
+                        width: 100%;
+                        height: auto;
+                    }
+                </style>
                 
-                <div class="header">
-                    <div>
-                        <img t-if="o.company_id.image_field_1" t-att-src="image_data_uri(o.company_id.image_field_1)" alt="Company Logo" style="width: 100%; max-width: 210mm; height: 30mm;" />
-                    </div>
-                </div>
+                <t t-call="sales_customization.report_company_header"/>
                 
                 <div class="page" style="page-break-before: always; font-size: 12px; line-height: 1.2;">
                     <!-- Header Section -->
