@@ -151,8 +151,19 @@
                 <field name="discount_reason" groups="bn_sale_security.sales_user_group" />
                 <field name="credit_note_amount" groups="bn_sale_security.sales_user_group" />
                 <field name="credit_note_description" groups="bn_sale_security.sales_user_group"/>
-                
-                <field name="total"/>
+                <field name="total"
+                       string="Net DDP Value in USD"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="not is_mtj_company or price_selection == 'local_pkr'"/>
+                <field name="total"
+                       string="Total Value"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="not is_mtj_company or price_selection != 'local_pkr'"/>
+                <field name="total"
+                       string="Total Amount"
+                       invisible="is_mtj_company"/>
             </xpath>
 
             <!-- Chatter control -->

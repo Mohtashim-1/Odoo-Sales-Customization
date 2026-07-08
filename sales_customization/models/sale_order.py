@@ -149,6 +149,10 @@ class SaleOrder(models.Model):
         string='Price Selection',
         compute='_compute_price_selection_label',
     )
+    total_value_label = fields.Char(
+        string='Total Value Label',
+        compute='_compute_total_value_label',
+    )
 
     
     def action_custom_save(self):
@@ -215,6 +219,16 @@ class SaleOrder(models.Model):
         labels = dict(self._fields['price_selection'].selection)
         for order in self:
             order.price_selection_label = labels.get(order.price_selection, '')
+
+    @api.depends('price_selection', 'is_mtj_company')
+    def _compute_total_value_label(self):
+        for order in self:
+            if not order.is_mtj_company:
+                order.total_value_label = 'Total Amount'
+            elif order.price_selection == 'local_pkr':
+                order.total_value_label = 'Total Value'
+            else:
+                order.total_value_label = 'Net DDP Value in USD'
 
     def _mtj_get_currency(self):
         self.ensure_one()
