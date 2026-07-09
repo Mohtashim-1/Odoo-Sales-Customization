@@ -343,9 +343,15 @@
       <!-- <h3 style="font-size: 11pt; font-weight: bold; margin-bottom: 5px; display: none;">Seller Bank Details:</h3> -->
 
       <table style="width: 100%; border-collapse: collapse; font-size: 10pt;">
-        <t t-if="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
-          <!-- <tr><td style="display: none;"><strong>Seller Bank Detail:</strong></td></tr> -->
-          <!-- <tr><td><strong>Seller Bank Detail:</strong></td></tr> -->
+        <t t-if="doc.bank_detail_id">
+          <tr><td><strong>Bank:</strong></td><td><span t-field="doc.bank_detail_id.bank_name"/></td></tr>
+          <tr><td><strong>Branch:</strong></td><td><span t-field="doc.bank_detail_id.branch"/></td></tr>
+          <tr><td><strong>Account Title:</strong></td><td><span t-field="doc.bank_detail_id.account_title"/></td></tr>
+          <tr><td><strong>Account No:</strong></td><td><span t-field="doc.bank_detail_id.account_no"/></td></tr>
+          <tr><td><strong>Swift Code:</strong></td><td><span t-field="doc.bank_detail_id.swift_code"/></td></tr>
+          <tr><td><strong>IBAN #</strong></td><td><span t-field="doc.bank_detail_id.iban"/></td></tr>
+        </t>
+        <t t-elif="doc.company_id.name == 'Vital Products (Pvt.) Ltd.'">
           <tr><td><strong>Bank:</strong></td><td>Meezan Bank Limited</td></tr>
           <tr><td><strong>Branch:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
           <tr><td><strong>Account Title:</strong></td><td>M/S VITAL PRODUCTS PVT. LTD</td></tr>
@@ -353,22 +359,15 @@
           <tr><td><strong>Swift Code:</strong></td><td>MEZNPKKAXXX</td></tr>
           <tr><td><strong>IBAN #</strong></td><td>PK02MEZN0001110104778802</td></tr>
         </t>
-
-        <t t-if="doc.company_id.name == 'MTJ'">
-          <!-- <tr><td style="display: none;"><strong>Seller Bank Detail:</strong></td></tr> -->
-          <!-- <tr><td><strong>Seller Bank Detail:</strong></td></tr> -->
+        <t t-elif="is_mtj_company">
           <tr><td><strong>Bank:</strong></td><td>Meezan Bank Limited</td></tr>
           <tr><td><strong>Branch:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
-          <tr><td><strong>Account Title:</strong></td><td>M/S VITAL PRODUCTS PVT. LTD</td></tr>
+          <tr><td><strong>Account Title:</strong></td><td>M/S VITAL COLLECTIONS PVT. LTD</td></tr>
           <tr><td><strong>Account No:</strong></td><td>01110105848262</td></tr>
           <tr><td><strong>Swift Code:</strong></td><td>MEZNPKKAXXX</td></tr>
           <tr><td><strong>IBAN #</strong></td><td>PK27MEZN0001110105848262</td></tr>
         </t>
-
-
         <t t-else="">
-          <!-- <tr><td style="display: none;"><strong>Seller Bank Detail:</strong></td></tr> -->
-          <!-- <tr><td><strong>Seller Bank Detail:</strong></td></tr> -->
           <tr><td><strong>Bank:</strong></td><td>Meezan Bank Limited</td></tr>
           <tr><td><strong>Branch:</strong></td><td>Shahrah-e-Faisal Karachi</td></tr>
           <tr><td><strong>Account Title:</strong></td><td>M/S Eastern Products Pvt. Ltd</td></tr>
