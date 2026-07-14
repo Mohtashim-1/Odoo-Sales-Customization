@@ -72,6 +72,20 @@
                 <field name="price_selection"
                        invisible="not is_mtj_company"
                        required="is_mtj_company"/>
+                <field name="mtj_price_currency_id"
+                       string="Price Currency"
+                       readonly="1"
+                       invisible="not is_mtj_company"/>
+                <field name="currency_id"
+                       string="Order Currency"
+                       invisible="not is_mtj_company"
+                       readonly="state not in ['draft', 'sent']"
+                       force_save="1"
+                       domain="[('active', '=', True)]"
+                       options="{'no_create': True, 'no_open': True}"/>
+                <field name="total_value_label" invisible="1"/>
+                <field name="mtj_exchange_rate"
+                       invisible="not is_mtj_company or mtj_price_currency_id == currency_id"/>
                 <field name="partner_code"
                        readonly="1"
                        invisible="not is_mtj_company"/>
@@ -152,7 +166,7 @@
                 <field name="credit_note_amount" groups="bn_sale_security.sales_user_group" />
                 <field name="credit_note_description" groups="bn_sale_security.sales_user_group"/>
                 <field name="total"
-                       string="Net DDP Value in USD"
+                       string="Net DDP Value"
                        widget="monetary"
                        options="{'currency_field': 'currency_id'}"
                        invisible="not is_mtj_company or price_selection == 'local_pkr'"/>

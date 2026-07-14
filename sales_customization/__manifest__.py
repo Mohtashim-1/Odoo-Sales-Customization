@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.3.7',
+    'version': '2.4.4',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''
@@ -36,6 +36,7 @@
     'security/record_rules.xml',
     'security/override_rules.xml',
     'security/partner_only_own_contact_rule.xml',
+    'data/currency_rate_cron.xml',
     
     # view
     'views/res_users_views.xml',

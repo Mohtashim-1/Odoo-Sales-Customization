@@ -153,6 +153,27 @@ class SaleOrder(models.Model):
         string='Total Value Label',
         compute='_compute_total_value_label',
     )
+    mtj_price_currency_id = fields.Many2one(
+        'res.currency',
+        string='Price Currency',
+        compute='_compute_mtj_price_currency_id',
+        store=True,
+        help='Currency of the selected product price (FOB/DDP = USD, Local = PKR).',
+    )
+    mtj_exchange_rate = fields.Float(
+        string='Exchange Rate',
+        digits=(12, 6),
+        default=1.0,
+        help='1 unit of Price Currency equals this many units of Order Currency.',
+    )
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        compute='_compute_currency_id',
+        inverse='_inverse_mtj_currency_id',
+        store=True,
+        readonly=False,
+        ondelete='restrict',
+    )
 
     
     def action_custom_save(self):
@@ -214,29 +235,111 @@ class SaleOrder(models.Model):
             company_name = (record.company_id.name or '').strip()
             record.is_mtj_company = company_name == 'MTJ' or company_name.startswith('MTJ ')
 
+    @api.depends('pricelist_id', 'company_id', 'is_mtj_company')
+    def _compute_currency_id(self):
+        regular_orders = self.filtered(lambda order: not order.is_mtj_company)
+        if regular_orders:
+            super(SaleOrder, regular_orders)._compute_currency_id()
+        for order in self.filtered('is_mtj_company'):
+            if not order.currency_id:
+                order.currency_id = (
+                    order._mtj_get_price_currency() or order.company_id.currency_id
+                )
+
+    def _inverse_mtj_currency_id(self):
+        """Allow MTJ users to pick the order currency independently of the pricelist."""
+        return
+
     @api.depends('price_selection')
     def _compute_price_selection_label(self):
         labels = dict(self._fields['price_selection'].selection)
         for order in self:
             order.price_selection_label = labels.get(order.price_selection, '')
 
-    @api.depends('price_selection', 'is_mtj_company')
+    @api.depends('price_selection', 'is_mtj_company', 'currency_id')
     def _compute_total_value_label(self):
         for order in self:
             if not order.is_mtj_company:
                 order.total_value_label = 'Total Amount'
             elif order.price_selection == 'local_pkr':
-                order.total_value_label = 'Total Value'
+                currency_name = order.currency_id.name or 'PKR'
+                order.total_value_label = f'Total Value ({currency_name})'
             else:
-                order.total_value_label = 'Net DDP Value in USD'
+                currency_name = order.currency_id.name or 'USD'
+                order.total_value_label = f'Net DDP Value in {currency_name}'
 
-    def _mtj_get_currency(self):
+    @api.depends('price_selection', 'is_mtj_company')
+    def _compute_mtj_price_currency_id(self):
+        for order in self:
+            if order.is_mtj_company and order.price_selection:
+                order.mtj_price_currency_id = order._mtj_get_price_currency()
+            else:
+                order.mtj_price_currency_id = False
+
+    def _mtj_get_price_currency(self):
         self.ensure_one()
         if self.price_selection == 'local_pkr':
-            currency = self.env['res.currency'].search([('name', '=', 'PKR')], limit=1)
-        else:
-            currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
-        return currency or self.currency_id
+            return self.env['res.currency'].search([('name', '=', 'PKR')], limit=1)
+        return self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+
+    def _mtj_get_currency(self):
+        return self._mtj_get_price_currency()
+
+    def _mtj_conversion_date(self):
+        self.ensure_one()
+        return self.date_order.date() if self.date_order else fields.Date.context_today(self)
+
+    def _mtj_ensure_currency_rates(self):
+        """Fetch today's rates when the order currency has no rate yet."""
+        self.ensure_one()
+        if not self.is_mtj_company or not self.currency_id:
+            return
+        rate_date = self._mtj_conversion_date()
+        Rate = self.env['res.currency.rate'].sudo()
+        currencies_to_check = (self.mtj_price_currency_id | self.currency_id).filtered(
+            lambda currency: currency != self.company_id.currency_id
+        )
+        missing = currencies_to_check.filtered(
+            lambda currency: not Rate.search_count([
+                ('currency_id', '=', currency.id),
+                ('company_id', '=', self.company_id.id),
+                ('name', '<=', rate_date),
+            ])
+        )
+        if missing:
+            self.env['res.currency']._mtj_update_company_rates(self.company_id, rate_date)
+
+    def _mtj_set_default_exchange_rate(self):
+        self.ensure_one()
+        from_currency = self.mtj_price_currency_id or self._mtj_get_price_currency()
+        to_currency = self.currency_id
+        if not from_currency or not to_currency or from_currency == to_currency:
+            self.mtj_exchange_rate = 1.0
+            return
+        self._mtj_ensure_currency_rates()
+        self.mtj_exchange_rate = from_currency._convert(
+            1.0,
+            to_currency,
+            self.company_id,
+            self._mtj_conversion_date(),
+        ) or 1.0
+
+    def _mtj_convert_amount(self, amount):
+        self.ensure_one()
+        from_currency = self.mtj_price_currency_id or self._mtj_get_price_currency()
+        to_currency = self.currency_id
+        if not amount or not from_currency or not to_currency:
+            return amount
+        if from_currency == to_currency:
+            return amount
+        if self.mtj_exchange_rate and self.mtj_exchange_rate > 0:
+            return amount * self.mtj_exchange_rate
+        return from_currency._convert(
+            amount,
+            to_currency,
+            self.company_id,
+            self._mtj_conversion_date(),
+        )
 
     def _apply_mtj_prices_to_lines(self):
         self.filtered('is_mtj_company').order_line._apply_mtj_price_from_product()
@@ -249,10 +352,18 @@ class SaleOrder(models.Model):
     @api.onchange('price_selection')
     def _onchange_mtj_price_selection(self):
         for order in self.filtered('is_mtj_company'):
-            currency = order._mtj_get_currency()
-            if currency:
-                order.currency_id = currency
+            order._mtj_set_default_exchange_rate()
             order._apply_mtj_prices_to_lines()
+
+    @api.onchange('currency_id', 'date_order')
+    def _onchange_mtj_currency_id(self):
+        for order in self.filtered('is_mtj_company'):
+            order._mtj_set_default_exchange_rate()
+            order._apply_mtj_prices_to_lines()
+
+    @api.onchange('mtj_exchange_rate')
+    def _onchange_mtj_exchange_rate(self):
+        self.filtered('is_mtj_company')._apply_mtj_prices_to_lines()
 
     @api.onchange('collection_tag_id')
     def _onchange_mtj_collection_tag_id(self):
@@ -374,27 +485,49 @@ class SaleOrder(models.Model):
         return res
 
 
-    @api.model
-    def create(self, vals):
-        # also enforce on create
-        if self.env.user.has_group('sales_customization.sales_customer_group'):
-            partner = self.env['res.partner'].search(
-                ['|', ('user_id', '=', self.env.uid), ('user_ids', 'in', self.env.uid)],
-                limit=1,
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if self.env.user.has_group('sales_customization.sales_customer_group'):
+                partner = self.env['res.partner'].search(
+                    ['|', ('user_id', '=', self.env.uid), ('user_ids', 'in', self.env.uid)],
+                    limit=1,
+                )
+                if partner:
+                    vals['partner_id'] = partner.id
+            company = self.env['res.company'].browse(
+                vals.get('company_id') or self.env.company.id
             )
-            if partner:
-                vals['partner_id'] = partner.id
-        return super(SaleOrder, self).create(vals)
+            company_name = (company.name or '').strip()
+            is_mtj = company_name == 'MTJ' or company_name.startswith('MTJ ')
+            if is_mtj and not vals.get('currency_id'):
+                price_selection = vals.get('price_selection', 'fob_usd')
+                price_currency = self._mtj_currency_for_selection(price_selection)
+                if price_currency:
+                    vals['currency_id'] = price_currency.id
+        orders = super().create(vals_list)
+        for order in orders.filtered('is_mtj_company'):
+            order._mtj_set_default_exchange_rate()
+            order.order_line._apply_mtj_price_from_product()
+        return orders
 
     def write(self, vals):
         # strip out any attempt to change partner_id
         if self.env.user.has_group('sales_customization.sales_customer_group'):
             vals.pop('partner_id', None)
-        if 'price_selection' in vals and len(self) == 1 and self.is_mtj_company:
-            currency = self._mtj_currency_for_selection(vals['price_selection'])
-            if currency:
-                vals['currency_id'] = currency.id
-        return super(SaleOrder, self).write(vals)
+        res = super(SaleOrder, self).write(vals)
+        mtj_orders = self.filtered('is_mtj_company')
+        if mtj_orders and any(
+            field in vals
+            for field in ('price_selection', 'currency_id', 'mtj_exchange_rate', 'date_order')
+        ):
+            for order in mtj_orders:
+                if 'mtj_exchange_rate' not in vals and any(
+                    field in vals for field in ('price_selection', 'currency_id', 'date_order')
+                ):
+                    order._mtj_set_default_exchange_rate()
+            mtj_orders.order_line._apply_mtj_price_from_product()
+        return res
     
     @api.model
     def get_views(self, views, options=None):

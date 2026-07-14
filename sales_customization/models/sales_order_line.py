@@ -77,14 +77,22 @@ class SaleOrderLine(models.Model):
         for line in self:
             line.can_edit_sale_rates = can_edit
 
-    @api.depends('product_id', 'order_id.price_selection', 'order_id.is_mtj_company')
+    @api.depends(
+        'product_id',
+        'order_id.price_selection',
+        'order_id.is_mtj_company',
+        'order_id.currency_id',
+        'order_id.mtj_exchange_rate',
+        'order_id.mtj_price_currency_id',
+    )
     def _compute_mtj_selected_price(self):
         for line in self:
             order = line.order_id
             if order.is_mtj_company and line.product_id and order.price_selection:
-                line.mtj_selected_price = line.product_id.product_tmpl_id.get_mtj_price(
+                base_price = line.product_id.product_tmpl_id.get_mtj_price(
                     order.price_selection
                 )
+                line.mtj_selected_price = order._mtj_convert_amount(base_price)
             else:
                 line.mtj_selected_price = line.price_unit
 
@@ -108,7 +116,8 @@ class SaleOrderLine(models.Model):
             and self.product_id
             and not self.display_type
         ):
-            return self.product_id.product_tmpl_id.get_mtj_price(order.price_selection)
+            base_price = self.product_id.product_tmpl_id.get_mtj_price(order.price_selection)
+            return order._mtj_convert_amount(base_price)
         return super()._get_display_price()
 
     @api.depends(
@@ -117,6 +126,9 @@ class SaleOrderLine(models.Model):
         'product_uom_qty',
         'order_id.price_selection',
         'order_id.is_mtj_company',
+        'order_id.currency_id',
+        'order_id.mtj_exchange_rate',
+        'order_id.mtj_price_currency_id',
         'product_id.product_tmpl_id.fob_price_usd',
         'product_id.product_tmpl_id.ddp_price_usd',
         'product_id.product_tmpl_id.local_price_pkr',
