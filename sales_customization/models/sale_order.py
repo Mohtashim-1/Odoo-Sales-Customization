@@ -96,6 +96,12 @@ class SaleOrder(models.Model):
         compute="_compute_is_mtj_company",
         store=True,
     )
+    use_order_currency = fields.Boolean(
+        string="Use Order Currency",
+        compute="_compute_use_order_currency",
+        store=True,
+        help="MTJ and VPPL export companies can choose Order Currency independently.",
+    )
     total_cbm = fields.Float(string="Total CBM", compute="_compute_total_cbm")
     total_order_cbm = fields.Float(string="Total Order CBM", compute="_compute_total_order_cbm")
 
@@ -229,25 +235,42 @@ class SaleOrder(models.Model):
 
     
 
+    @api.model
+    def _company_allows_order_currency(self, company):
+        """MTJ + VPPL export companies can select Order Currency freely."""
+        name = (company.name or '').strip()
+        if name == 'MTJ' or name.startswith('MTJ '):
+            return True
+        name_lower = name.lower()
+        return 'vital products' in name_lower or 'eastern products' in name_lower
+
     @api.depends('company_id', 'company_id.name')
     def _compute_is_mtj_company(self):
         for record in self:
             company_name = (record.company_id.name or '').strip()
             record.is_mtj_company = company_name == 'MTJ' or company_name.startswith('MTJ ')
 
-    @api.depends('pricelist_id', 'company_id', 'is_mtj_company')
+    @api.depends('company_id', 'company_id.name')
+    def _compute_use_order_currency(self):
+        for record in self:
+            record.use_order_currency = self._company_allows_order_currency(record.company_id)
+
+    @api.depends('pricelist_id', 'company_id', 'use_order_currency', 'is_mtj_company', 'price_selection')
     def _compute_currency_id(self):
-        regular_orders = self.filtered(lambda order: not order.is_mtj_company)
+        regular_orders = self.filtered(lambda order: not order.use_order_currency)
         if regular_orders:
             super(SaleOrder, regular_orders)._compute_currency_id()
-        for order in self.filtered('is_mtj_company'):
+        for order in self.filtered('use_order_currency'):
             if not order.currency_id:
-                order.currency_id = (
-                    order._mtj_get_price_currency() or order.company_id.currency_id
-                )
+                if order.is_mtj_company:
+                    order.currency_id = (
+                        order._mtj_get_price_currency() or order.company_id.currency_id
+                    )
+                else:
+                    order.currency_id = order.company_id.currency_id
 
     def _inverse_mtj_currency_id(self):
-        """Allow MTJ users to pick the order currency independently of the pricelist."""
+        """Allow MTJ/VPPL users to pick the order currency independently of the pricelist."""
         return
 
     @api.depends('price_selection')
@@ -256,23 +279,27 @@ class SaleOrder(models.Model):
         for order in self:
             order.price_selection_label = labels.get(order.price_selection, '')
 
-    @api.depends('price_selection', 'is_mtj_company', 'currency_id')
+    @api.depends('price_selection', 'is_mtj_company', 'use_order_currency', 'currency_id')
     def _compute_total_value_label(self):
         for order in self:
-            if not order.is_mtj_company:
-                order.total_value_label = 'Total Amount'
-            elif order.price_selection == 'local_pkr':
-                currency_name = order.currency_id.name or 'PKR'
+            currency_name = (order.currency_id.name if order.currency_id else None) or 'USD'
+            if order.is_mtj_company and order.price_selection == 'local_pkr':
                 order.total_value_label = f'Total Value ({currency_name})'
-            else:
-                currency_name = order.currency_id.name or 'USD'
+            elif order.is_mtj_company:
                 order.total_value_label = f'Net DDP Value in {currency_name}'
+            elif order.use_order_currency:
+                order.total_value_label = f'Net FOB Value in {currency_name}'
+            else:
+                order.total_value_label = 'Total Amount'
 
-    @api.depends('price_selection', 'is_mtj_company')
+    @api.depends('price_selection', 'is_mtj_company', 'use_order_currency', 'company_id')
     def _compute_mtj_price_currency_id(self):
         for order in self:
             if order.is_mtj_company and order.price_selection:
                 order.mtj_price_currency_id = order._mtj_get_price_currency()
+            elif order.use_order_currency:
+                # VPPL: product/list prices are stored in company currency (usually USD).
+                order.mtj_price_currency_id = order.company_id.currency_id
             else:
                 order.mtj_price_currency_id = False
 
@@ -292,7 +319,7 @@ class SaleOrder(models.Model):
     def _mtj_ensure_currency_rates(self):
         """Fetch today's rates when the order currency has no rate yet."""
         self.ensure_one()
-        if not self.is_mtj_company or not self.currency_id:
+        if not self.use_order_currency or not self.currency_id:
             return
         rate_date = self._mtj_conversion_date()
         Rate = self.env['res.currency.rate'].sudo()
@@ -311,7 +338,9 @@ class SaleOrder(models.Model):
 
     def _mtj_set_default_exchange_rate(self):
         self.ensure_one()
-        from_currency = self.mtj_price_currency_id or self._mtj_get_price_currency()
+        from_currency = self.mtj_price_currency_id or (
+            self._mtj_get_price_currency() if self.is_mtj_company else self.company_id.currency_id
+        )
         to_currency = self.currency_id
         if not from_currency or not to_currency or from_currency == to_currency:
             self.mtj_exchange_rate = 1.0
@@ -326,7 +355,9 @@ class SaleOrder(models.Model):
 
     def _mtj_convert_amount(self, amount):
         self.ensure_one()
-        from_currency = self.mtj_price_currency_id or self._mtj_get_price_currency()
+        from_currency = self.mtj_price_currency_id or (
+            self._mtj_get_price_currency() if self.is_mtj_company else self.company_id.currency_id
+        )
         to_currency = self.currency_id
         if not amount or not from_currency or not to_currency:
             return amount
@@ -357,9 +388,10 @@ class SaleOrder(models.Model):
 
     @api.onchange('currency_id', 'date_order')
     def _onchange_mtj_currency_id(self):
-        for order in self.filtered('is_mtj_company'):
+        for order in self.filtered('use_order_currency'):
             order._mtj_set_default_exchange_rate()
-            order._apply_mtj_prices_to_lines()
+            if order.is_mtj_company:
+                order._apply_mtj_prices_to_lines()
 
     @api.onchange('mtj_exchange_rate')
     def _onchange_mtj_exchange_rate(self):
@@ -498,17 +530,21 @@ class SaleOrder(models.Model):
             company = self.env['res.company'].browse(
                 vals.get('company_id') or self.env.company.id
             )
-            company_name = (company.name or '').strip()
-            is_mtj = company_name == 'MTJ' or company_name.startswith('MTJ ')
-            if is_mtj and not vals.get('currency_id'):
-                price_selection = vals.get('price_selection', 'fob_usd')
-                price_currency = self._mtj_currency_for_selection(price_selection)
-                if price_currency:
-                    vals['currency_id'] = price_currency.id
+            if self._company_allows_order_currency(company) and not vals.get('currency_id'):
+                company_name = (company.name or '').strip()
+                is_mtj = company_name == 'MTJ' or company_name.startswith('MTJ ')
+                if is_mtj:
+                    price_selection = vals.get('price_selection', 'fob_usd')
+                    price_currency = self._mtj_currency_for_selection(price_selection)
+                    if price_currency:
+                        vals['currency_id'] = price_currency.id
+                elif company.currency_id:
+                    vals['currency_id'] = company.currency_id.id
         orders = super().create(vals_list)
-        for order in orders.filtered('is_mtj_company'):
+        for order in orders.filtered('use_order_currency'):
             order._mtj_set_default_exchange_rate()
-            order.order_line._apply_mtj_price_from_product()
+            if order.is_mtj_company:
+                order.order_line._apply_mtj_price_from_product()
         return orders
 
     def write(self, vals):
@@ -516,17 +552,17 @@ class SaleOrder(models.Model):
         if self.env.user.has_group('sales_customization.sales_customer_group'):
             vals.pop('partner_id', None)
         res = super(SaleOrder, self).write(vals)
-        mtj_orders = self.filtered('is_mtj_company')
-        if mtj_orders and any(
+        currency_orders = self.filtered('use_order_currency')
+        if currency_orders and any(
             field in vals
             for field in ('price_selection', 'currency_id', 'mtj_exchange_rate', 'date_order')
         ):
-            for order in mtj_orders:
+            for order in currency_orders:
                 if 'mtj_exchange_rate' not in vals and any(
                     field in vals for field in ('price_selection', 'currency_id', 'date_order')
                 ):
                     order._mtj_set_default_exchange_rate()
-            mtj_orders.order_line._apply_mtj_price_from_product()
+            currency_orders.filtered('is_mtj_company').order_line._apply_mtj_price_from_product()
         return res
     
     @api.model

@@ -27,6 +27,9 @@
                     }
                 </style>
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">                        <!-- Header Section -->
+                        <t t-set="currency" t-value="doc.currency_id"/>
+                        <t t-set="currency_name" t-value="(currency and currency.name) or 'USD'"/>
+                        <t t-set="currency_symbol" t-value="(currency and (currency.symbol or currency.name)) or '$'"/>
                         <t t-call="sales_customization.report_company_header">
                             <t t-set="company" t-value="doc.company_id"/>
                         </t>
@@ -312,11 +315,11 @@
                                                     
                                                     <td style="padding: 8px; border: 1px solid black; text-align: center;width:12%">
                                                         <!-- <span t-esc="line.price_unit" /> -->
-                                                       $ <span t-esc="'{:.2f}'.format(line.custom_price)" />
+                                                       <t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(line.custom_price)" />
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;width:10%">
                                                         <!-- <span t-esc="line.price_total"/> -->
-                                                        $ <span t-esc="'{:.2f}'.format(line.custom_amount)" />
+                                                        <t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(line.custom_amount)" />
                                                     </td>
                                                 </tr>
                                             </t>
@@ -344,7 +347,7 @@
             <table style="width: 100%;">
   <tr>
     <td style="width: 50%;"></td> <!-- Empty column for spacing -->
-    <td style="width: 30%;" ><strong>TOAL FOB VALUE IN USD $ :</strong></td>
+    <td style="width: 30%;" ><strong>TOTAL FOB VALUE IN <t t-esc="currency_name"/> <t t-esc="currency_symbol"/> :</strong></td>
     <td style="width: 10%; "></td>
     <td style="width: 10%;" ><span t-esc="'{:.2f}'.format(doc.total)" /></td>
 </tr>

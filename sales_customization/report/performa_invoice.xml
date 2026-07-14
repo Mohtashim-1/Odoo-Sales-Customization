@@ -51,6 +51,9 @@
           </style>
           <t t-set="company_name" t-value="doc.company_id.name or ''"/>
           <t t-set="is_mtj_company" t-value="company_name == 'MTJ' or company_name.startswith('MTJ ')"/>
+          <t t-set="currency" t-value="doc.currency_id"/>
+          <t t-set="currency_name" t-value="(currency and currency.name) or 'USD'"/>
+          <t t-set="currency_symbol" t-value="(currency and (currency.symbol or currency.name)) or '$'"/>
           <div t-attf-class="page #{'page-mtj' if is_mtj_company else ''}" t-att-style="'font-family: Arial, sans-serif; margin: 0; padding: %s 30px 30px 30px;' % ('28px' if is_mtj_company else '5px')">
             <!-- Header Section -->
             <t t-if="doc.company_id.image_field_1">
@@ -301,10 +304,10 @@
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; width: 10%;vertical-align: top;">
                               <!-- <span t-esc="sub_line.price_unit" /> -->
-                              $                              <span t-esc="'{:.2f}'.format(sub_line.price_unit)" />
+                              <t t-esc="currency_symbol"/>                              <span t-esc="'{:.2f}'.format(sub_line.price_unit)" />
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right; width: 13%;vertical-align: top;">
-    $                              <span t-esc="'{:.2f}'.format(sub_line.price_subtotal)" />
+    <t t-esc="currency_symbol"/>                              <span t-esc="'{:.2f}'.format(sub_line.price_subtotal)" />
                             </td>
 
                           </tr>
@@ -383,21 +386,21 @@
       <div style="width: 100%; margin-bottom: 10px;"></div>
       <table style="width: 100%; text-align: right; border-collapse: collapse; font-size: 11pt;">
         <tr>
-          <td><strong>Net FOB Value in USD:</strong></td>
-          <td>$ <t t-esc="'{:.2f}'.format(doc.gross_total)"></t></td>
+          <td><strong>Net FOB Value in <t t-esc="currency_name"/>:</strong></td>
+          <td><t t-esc="currency_symbol"/> <t t-esc="'{:.2f}'.format(doc.gross_total)"></t></td>
         </tr>
         <!-- <tr>
           <td><strong>Freight:</strong></td>
-          <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
+          <td><t t-esc="currency_symbol"/> <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
         </tr> -->
         <tr>
           <td><strong>Freight:</strong></td>
-          <td>$ <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
+          <td><t t-esc="currency_symbol"/> <t t-esc="'{:.2f}'.format(doc.freight)" /></td>
         </tr>
         <tr t-if="doc.discount">
           <!-- <td><strong>Discount:</strong></td> -->
           <td><strong><t t-esc="doc.discount_reason"/></strong></td>
-          <td>$ <t t-esc="'{:.2f}'.format(doc.discount)" /></td>
+          <td><t t-esc="currency_symbol"/> <t t-esc="'{:.2f}'.format(doc.discount)" /></td>
         </tr>
 
         <!-- <tr t-if="doc.discount_reason">
@@ -418,11 +421,11 @@
         <tr>
           <td>
             <strong>
-              <t t-if="doc.freight and doc.freight > 0">Net CNF Value in USD:</t>
-              <t t-else="">Net FOB Value in USD:</t>
+              <t t-if="doc.freight and doc.freight &gt; 0">Net CNF Value in <t t-esc="currency_name"/>:</t>
+              <t t-else="">Net FOB Value in <t t-esc="currency_name"/>:</t>
             </strong>
           </td>
-          <td>$ <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+          <td><t t-esc="currency_symbol"/> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
         </tr>
       </table>
     </td>

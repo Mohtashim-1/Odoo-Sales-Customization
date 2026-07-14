@@ -38,6 +38,9 @@
                     }
                     </style>
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                    <t t-set="currency" t-value="doc.currency_id"/>
+                    <t t-set="currency_name" t-value="(currency and currency.name) or 'USD'"/>
+                    <t t-set="currency_symbol" t-value="(currency and (currency.symbol or currency.name)) or '$'"/>
                         <!-- Header Section -->
                         <t t-call="sales_customization.report_company_header">
                             <t t-set="company" t-value="doc.company_id"/>
@@ -288,11 +291,11 @@
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: center;width:12%">
                                                         <!-- <span t-esc="line.price_unit" /> -->
-                                                       $ <span t-esc="'{:.2f}'.format(line.price_unit)" />
+                                                       <t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(line.price_unit)" />
                                                     </td>
                                                     <td style="padding: 8px; border: 1px solid black; text-align: right;width:12%">
                                                         <!-- <span t-esc="line.price_total"/> -->
-                                                        $ <span t-esc="'{:.2f}'.format(line.price_total)" />
+                                                        <t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(line.price_total)" />
                                                     </td>
                                                 </tr>
                                             </t>
@@ -327,15 +330,15 @@
   <table style="width: 100%; font-size:11pt">
     <tr>
       <td style="width: 50%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
-      <td style="width: 15%;padding-top: 10px;"><strong>Net FOB Value in USD:</strong></td>
+      <td style="width: 15%;padding-top: 10px;"><strong>Net FOB Value in <t t-esc="currency_name"/>:</strong></td>
       <td style="width: 10%; padding-top: 10px;"></td>
-      <td style="width: 25%;padding-top: 10px;">$ <span t-esc="'{:.2f}'.format(doc.amount_total)" /></td>
+      <td style="width: 25%;padding-top: 10px;"><t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(doc.amount_total)" /></td>
     </tr>
     <tr>
       <td style="width: 50%; padding-top: 10px;"></td> <!-- Empty column for spacing -->
       <td style="width: 15%;"><strong>Freight:</strong></td>
       <td style="width: 10%; "></td>
-      <td style="width: 25%;">$ <span t-esc="'{:.2f}'.format(doc.freight)" /></td>
+      <td style="width: 25%;"><t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(doc.freight)" /></td>
     </tr>
     <tr>
       <td style="width: 50%;"></td> <!-- Empty column for spacing -->
@@ -348,12 +351,12 @@
       <td style="width: 50%;"></td> <!-- Empty column for spacing -->
       <td style="width: 25%;">
         <strong>
-          <t t-if="doc.total and doc.total > 0">Net CNF Value in USD:</t>
-          <t t-else="">Net FOB Value in USD:</t>
+          <t t-if="doc.total and doc.total &gt; 0">Net CNF Value in <t t-esc="currency_name"/>:</t>
+          <t t-else="">Net FOB Value in <t t-esc="currency_name"/>:</t>
         </strong>
       </td>
       <td style="width: 10%;"></td>
-      <td style="width: 15%;"> $ <t t-esc="'{:.2f}'.format(doc.total)" /></td>
+      <td style="width: 15%;"> <t t-esc="currency_symbol"/> <t t-esc="'{:.2f}'.format(doc.total)" /></td>
     </tr>
   </table>
 
@@ -364,7 +367,7 @@
     </tr> -->
     <tr>
       <!-- <td style="width:100px;"><strong>USD:</strong></td> -->
-      <td style="width:400px;">USD: <span t-esc="doc.total_in_words or ''" /></td>
+      <td style="width:400px;"><t t-esc="currency_name"/>: <span t-esc="doc.total_in_words or ''" /></td>
     </tr>
   </table>
                         

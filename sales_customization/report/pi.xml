@@ -37,6 +37,9 @@
                     }
                     </style>
                     <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                        <t t-set="currency" t-value="doc.currency_id"/>
+                        <t t-set="currency_name" t-value="(currency and currency.name) or 'USD'"/>
+                        <t t-set="currency_symbol" t-value="(currency and (currency.symbol or currency.name)) or '$'"/>
                         <!-- Header Section -->
                         <t t-call="sales_customization.report_company_header">
                             <t t-set="company" t-value="doc.company_id"/>
@@ -263,7 +266,7 @@
  CARTONS
                                     </td>
                                     <td colspan="6" style="padding: 4px; border: 1px solid black; text-align: right;">
-                                        TOAL FOB VALUE IN USD $ : 
+                                        TOTAL FOB VALUE IN <t t-esc="currency_name"/> <t t-esc="currency_symbol"/> : 
                                     </td>
                                     <td style="padding: 4px; border: 1px solid black;">
                                         <span t-field="doc.total"/>
@@ -272,7 +275,7 @@
                             </tfoot>
                         </table>
                         <br/>
-                        <p style="margin: 0; padding: 0;">USD$ <span t-field="doc.total_in_words"/>
+                        <p style="margin: 0; padding: 0;"><t t-esc="currency_name"/><t t-esc="currency_symbol"/> <span t-field="doc.total_in_words"/>
                         </p>
 
                         <br/>

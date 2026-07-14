@@ -68,6 +68,7 @@
                        readonly="state not in ['draft', 'sent']"
                        options="{'no_create': True, 'no_open': True}"/>
                 <field name="is_mtj_company" invisible="1"/>
+                <field name="use_order_currency" invisible="1"/>
                 <field name="collection_tag_id" invisible="1"/>
                 <field name="price_selection"
                        invisible="not is_mtj_company"
@@ -78,14 +79,14 @@
                        invisible="not is_mtj_company"/>
                 <field name="currency_id"
                        string="Order Currency"
-                       invisible="not is_mtj_company"
+                       invisible="not use_order_currency"
                        readonly="state not in ['draft', 'sent']"
                        force_save="1"
                        domain="[('active', '=', True)]"
                        options="{'no_create': True, 'no_open': True}"/>
                 <field name="total_value_label" invisible="1"/>
                 <field name="mtj_exchange_rate"
-                       invisible="not is_mtj_company or mtj_price_currency_id == currency_id"/>
+                       invisible="not use_order_currency or mtj_price_currency_id == currency_id"/>
                 <field name="partner_code"
                        readonly="1"
                        invisible="not is_mtj_company"/>
@@ -176,8 +177,13 @@
                        options="{'currency_field': 'currency_id'}"
                        invisible="not is_mtj_company or price_selection != 'local_pkr'"/>
                 <field name="total"
+                       string="Net FOB Value"
+                       widget="monetary"
+                       options="{'currency_field': 'currency_id'}"
+                       invisible="is_mtj_company or not use_order_currency"/>
+                <field name="total"
                        string="Total Amount"
-                       invisible="is_mtj_company"/>
+                       invisible="is_mtj_company or use_order_currency"/>
             </xpath>
 
             <!-- Chatter control -->
