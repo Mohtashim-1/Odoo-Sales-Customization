@@ -5,46 +5,38 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <style>
-                    .footer {
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        text-align: center;
-                        font-size:11pt;
-                        padding: 10px;
-                        border-top: 1px solid #000;
-                        z-index: 999;
-                    }
                     .footer img {
                         width: 100%;
                         max-width: 210mm;
                         height: auto;
                     }
                     table {
-                        border: 1px solid black;
                         width: 100%;
                         border-collapse: collapse;
                     }
                     th, td {
                         padding: 8px;
                         text-align: left;
-                        border: 1px solid black;
+                        border: none;
                     }
-                    .header:not(.header-mtj) img {
+                    /* Kill Bootstrap .table grid so borders match Proforma (row lines only) */
+                    .table, .table > :not(caption) > * > * {
+                        border: none !important;
+                        border-width: 0 !important;
+                    }
+                    .header.company-letterhead img {
                         width: 100%;
                         height: auto;
                     }
                     </style>
-                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 5px 30px 30px 30px;">
                         <!-- Header Section -->
                         <t t-call="sales_customization.report_company_header">
                             <t t-set="company" t-value="doc.company_id"/>
                         </t>
                         <!-- Custom Footer -->
-                        <!-- Custom Footer -->
-                        <div class="footer">
-                            <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 240mm; height: auto;" />
+                        <div class="footer" style="margin: 0; padding: 0; line-height: 0; font-size: 0;">
+                            <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
                         </div>
 
                         <!-- Header Section -->
@@ -58,13 +50,13 @@
                         <!-- Product Details Table -->
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size:11pt">
                             <thead>
-                                <tr style="background-color: #f2f2f2;">
-                                    <th style="padding: 4px; border: 1px solid black;">S#</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Image</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Description</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Packing</th>
-                                    <th style="padding: 4px; border: 1px solid black;">No. of Ctn</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Qty</th>
+                                <tr style="background-color: #C0C0C0;">
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">S#</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Image</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Description</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Packing</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">No. of Ctn</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Qty</th>
                                 </tr>
                             </thead>
                             <tbody >
@@ -110,18 +102,17 @@
                                         <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
 
                                         <tr>
-                                            <td style="padding: 8px; border: 1px solid black;"></td>
-
-                                            <td style="padding: 8px;border: 1px solid black; ;" />
-                                            <td style="padding: 8px; border: 1px solid black;">
+                                            <td style="background-color:#EDEDED;"></td>
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED; text-align: left;">
                                                 <strong>
                                                     <span t-esc="line.product_id.categ_id.name" />
                                                 </strong>
                                                 <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
                                             </td>
-                                            <td style="padding: 8px;border: 1px solid black; " />
-                                            <td style="padding: 8px; border: 1px solid black; " />
-                                            <td style="padding: 8px; border: 1px solid black;" > </td>
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;"></td>
                                         </tr>
 
                                         <t t-foreach="doc.order_line" t-as="line">
@@ -129,14 +120,14 @@
                                                 <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
 
                                                 <tr>
-                                                    <td style="padding: 8px; border: 1px solid black;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                                                         <span t-esc="s_no"/>
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
                                                     <!-- <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
                                                     </td> -->
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
     <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9; font-size:11pt;">
         <img 
             t-if="line.image" 
@@ -150,13 +141,13 @@
                                                         
                                                         <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
                                                     </td> -->
-                                                    <td style="padding: 8px; border: 1px solid black;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left; vertical-align: top;">
                                                         <span t-esc="line.product_id.display_name"/>
                                                     </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right; vertical-align: top;">
                                                         <t t-esc="line.packaging_detail_id.display_name"/>
                                                     </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                                                         <!-- <span t-esc="line.no_of_ctn" /> -->
                                                          <!-- <span t-esc="line.no_of_ctn"/> -->
                                                          <!-- <span t-esc="str(int(initial)) + ' to ' + str(int(final))"/> -->
@@ -166,7 +157,7 @@
                                                 <t t-set="final" t-value="initial + line.product_uom_qty - 1"/>
                                                 <span t-esc="str(int(initial)) + ' to ' + str(int(final))"/>
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;width:12%">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top; width:12%">
                                                         
                                                       <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
                                                     </td>

@@ -11,14 +11,18 @@
                         height: auto;
                     }
                     table {
-                        border: 1px solid black;
                         width: 100%;
                         border-collapse: collapse;
                     }
                     th, td {
                         padding: 8px;
                         text-align: left;
-                        border: 1px solid black;
+                        border: none;
+                    }
+                    /* Kill Bootstrap .table grid so borders match Proforma (row lines only) */
+                    .table, .table > :not(caption) > * > * {
+                        border: none !important;
+                        border-width: 0 !important;
                     }
                     .header.company-letterhead img {
                         width: 100%;
@@ -45,7 +49,7 @@
 
                         <!-- Shipment Details Section -->
                         <!-- Shipment Details Section -->
-                        <table class="table table-condensed" style="width:100%; margin-top:20px;">
+                        <table style="width:100%; margin-top:20px; border-spacing: 0; font-size:11pt;">
    <tr>
     <td colspan="2" style="width: 48%;" t-att-style="'background-color: {}; color: {}; vertical-align: middle;'.format(doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and '#0b7b3e' or '#fdb913', doc.company_id.name == 'Vital Products (Pvt.) Ltd.' and 'white' or 'black')">
         <strong>Consignee</strong>
@@ -145,9 +149,9 @@
 </table>
 
 <!-- Consignee Information -->
-<table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
+<table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
     <tr>
-        <td style="padding: 10px; width: 50%;">
+        <td style="padding: 10px 0; width: 50%;">
             <span>
                 <strong>Consignee's Name:</strong>
             </span>
@@ -155,7 +159,7 @@
         </td>
     </tr>
     <tr>
-        <td style="padding: 10px; width: 50%;">
+        <td style="padding: 10px 0; width: 50%;">
             <span>
                 <strong>Consignee's Address:</strong>
             </span>
@@ -170,17 +174,17 @@
                         <!-- Product Details Table -->
                         <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size:11pt">
                             <thead>
-                                <tr style="background-color: #f2f2f2;">
-                                    <th style="padding: 4px; border: 1px solid black;">S#</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Image</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Qty</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Description</th>
-                                    <th style="padding: 4px; border: 1px solid black;">HS Code</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Packing</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Weight KG(s)</th>
-                                    <th style="padding: 4px; border: 1px solid black;">Unit Price / <br/>
+                                <tr style="background-color: #C0C0C0;">
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">S#</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Image</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Qty</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Description</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">HS Code</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Packing</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Weight KG(s)</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black;">Unit Price / <br/>
  CTN(s)</th>
-                                    <th style="padding: 4px; border: 1px solid black;width:6%">Amount</th>
+                                    <th style="padding: 4px; border-bottom: 1px solid black; width:6%; text-align: right;">Amount</th>
                                 </tr>
                             </thead>
                             <tbody style="font-size:11pt;">
@@ -220,20 +224,20 @@
                                         <t t-set="sub_category_lst" t-value="sub_category_lst + [line.product_id.categ_id.name]"/>
 
                                         <tr>
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;">
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED; text-align: left;">
                                                 <strong>
                                                     <span t-esc="line.product_id.categ_id.name" />
                                                 </strong>
                                                 <!-- <strong><span t-esc="line.product_id.categ_id.parent_id.name" /> / <span t-esc="line.product_id.categ_id.name" /></strong> -->
                                             </td>
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
-                                            <td style="padding: 8px; border: 1px solid black;" />
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;" />
+                                            <td style="background-color:#EDEDED;" />
                                         </tr>
 
                                         <t t-foreach="doc.order_line" t-as="line">
@@ -241,14 +245,14 @@
                                                 <t t-set="product_lst" t-value="product_lst + [line.product_id.id]"/>
 
                                                 <tr>
-                                                    <td style="padding: 8px; border: 1px solid black;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                                                         <span t-esc="s_no"/>
                                                         <t t-set="s_no" t-value="s_no+1"/>
                                                     </td>
                                                     <!-- <td style="padding: 8px; border: 1px solid black; text-align: center;">
                                                         <img t-if="line.image" t-att-src="image_data_uri(line.image)" alt="Product Image" style="width: 50px; height: 50px;" />
                                                     </td> -->
-                                                    <td style="padding: 8px; border-bottom: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
     <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
         <img 
             t-if="line.image" 
@@ -258,29 +262,29 @@
         />
     </div>
 </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                                                         <!-- <span t-esc="line.product_uom_qty"/> -->
                                                         <!-- <span t-esc="int(line.product_uom_qty)"/> -->
                                                         <span t-esc="'{:.0f}'.format(line.product_uom_qty)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left; vertical-align: top;">
                                                         <span t-esc="line.product_id.display_name"/>
                                                     </td>
-                                                    <td style="padding: 4px; border: 1px solid black;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left; vertical-align: top;">
                                                         <t t-esc="line.hs_code_id.display_name"/>
                                                     </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: right;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right; vertical-align: top;">
                                                         <t t-esc="line.packaging_detail_id.display_name"/>
                                                     </td>
-                                                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                                                         <t t-esc="line.product_id.weight"/>
                                                         <span t-esc="'{:.0f}'.format(line.product_id.net_weight)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: center;width:12%">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top; width:12%">
                                                         <!-- <span t-esc="line.price_unit" /> -->
                                                        <t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(line.price_unit)" />
                                                     </td>
-                                                    <td style="padding: 8px; border: 1px solid black; text-align: right;width:12%">
+                                                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: right; vertical-align: top; width:12%">
                                                         <!-- <span t-esc="line.price_total"/> -->
                                                         <t t-esc="currency_symbol"/> <span t-esc="'{:.2f}'.format(line.price_total)" />
                                                     </td>
