@@ -62,6 +62,13 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
 
+            <!-- Customer: existing partners only — no create, no Search Worldwide -->
+            <xpath expr="//group[@name='partner_details']/field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('customer_rank', '&gt;', 0)]</attribute>
+                <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}</attribute>
+                <attribute name="context">{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}</attribute>
+            </xpath>
+
             <!-- Field groups after partner_id -->
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="company_id"

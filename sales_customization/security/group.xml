@@ -11,5 +11,12 @@
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
+    <!-- Only users in this group can manually change Unit Price on sale order lines. -->
+    <record id="group_sale_price_change" model="res.groups">
+        <field name="name">Sales / Price Change</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+        <field name="comment">Allows changing Unit Price on Sales Order lines. Assign this role only to users who may edit prices.</field>
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+    </record>
 
 </odoo>

@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.4.5',
+    'version': '2.4.17',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''

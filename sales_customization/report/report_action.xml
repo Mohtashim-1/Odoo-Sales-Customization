@@ -53,12 +53,14 @@
             <field name="name">A4 - Proforma Invoice</field>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">38</field>
-            <field name="margin_bottom">30</field>
+            <!-- Letterhead ~30mm; minimal header HTML (no Odoo chrome) keeps it flush at top. -->
+            <field name="margin_top">32</field>
+            <field name="margin_bottom">25</field>
             <field name="margin_left">10</field>
             <field name="margin_right">10</field>
-            <field name="header_spacing">12</field>
+            <field name="header_spacing">0</field>
             <field name="dpi">90</field>
+            <field name="disable_shrinking" eval="True"/>
         </record>
 
 

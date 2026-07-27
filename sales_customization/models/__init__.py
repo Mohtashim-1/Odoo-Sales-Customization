@@ -13,3 +13,4 @@ from . import res_users
 from . import crm_lead_old_sale
 from . import crm_tag
 from . import res_currency
+from . import ir_actions_report

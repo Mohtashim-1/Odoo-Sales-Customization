@@ -405,6 +405,14 @@ class SaleOrder(models.Model):
     def action_add_from_catalog(self):
         return super().action_add_from_catalog()
 
+    @api.model
+    def _normalize_partner_code_for_pi(self, value):
+        """Partner code on PI No is always max 3 characters (from partner Internal Reference)."""
+        code = (value or '').strip()
+        if not code:
+            return ''
+        return code[:3]
+
     @api.depends('customer_container', 'partner_code')
     def _compute_pi_mm_yyyy(self):
         current_month = datetime.now().strftime('%m')
@@ -416,10 +424,13 @@ class SaleOrder(models.Model):
     @api.depends('customer_container', 'partner_code')
     def _compute_pi_no(self):
         for record in self:
-            if record.customer_container and record.partner_code:
-                current_month = datetime.now().strftime('%m')  # Current month in MM format
-                current_year = datetime.now().strftime('%Y')  # Current year in YYYY format
-                record.pi_no = f"{record.partner_code}/{record.customer_container}/{current_month}-{current_year}"
+            partner_code = record._normalize_partner_code_for_pi(record.partner_code)
+            if record.customer_container and partner_code:
+                current_month = datetime.now().strftime('%m')
+                current_year = datetime.now().strftime('%Y')
+                record.pi_no = (
+                    f"{partner_code}/{record.customer_container}/{current_month}-{current_year}"
+                )
             else:
                 record.pi_no = ''
 

@@ -6,11 +6,13 @@ class SaleOrderLine(models.Model):
     _order = "categ_id_name asc, id asc"
 
     _RATE_EDIT_GROUPS = (
-        'sales_team.group_sale_manager',
-        'sales_team.group_sale_salesman_all_leads',
+        'sales_customization.group_sale_price_change',
     )
 
-    can_edit_sale_rates = fields.Boolean(compute='_compute_can_edit_sale_rates')
+    can_edit_sale_rates = fields.Boolean(
+        string='Can Edit Sale Rates',
+        compute='_compute_can_edit_sale_rates',
+    )
     categ_id_name = fields.Char(string='Category',related="product_id.categ_id.name", store=True, index=True)
 
     launch_date = fields.Date(string='Launch Date', related='product_id.product_tmpl_id.launch_date')
@@ -105,7 +107,7 @@ class SaleOrderLine(models.Model):
             and l.order_id.price_selection
         )
         if mtj_lines:
-            mtj_lines._compute_price_unit()
+            mtj_lines.with_context(allow_sale_price_update=True)._compute_price_unit()
 
     def _get_display_price(self):
         self.ensure_one()
@@ -182,11 +184,19 @@ class SaleOrderLine(models.Model):
         return lines
 
     def write(self, vals):
-        if 'price_unit' in vals and not self._user_can_edit_sale_rates():
-            protected_lines = self.filtered(lambda line: not line.display_type and line.price_unit != vals['price_unit'])
+        if (
+            'price_unit' in vals
+            and not self.env.context.get('allow_sale_price_update')
+            and not self._user_can_edit_sale_rates()
+        ):
+            new_price = vals['price_unit']
+            protected_lines = self.filtered(
+                lambda line: not line.display_type
+                and float(line.price_unit or 0.0) != float(new_price or 0.0)
+            )
             if protected_lines:
                 raise AccessError(
-                    "Only Sales Administrator or Sales / User: All Documents can change sale order rates."
+                    "Only users with the Sales / Price Change role can change sale order prices."
                 )
         return super().write(vals)
 
