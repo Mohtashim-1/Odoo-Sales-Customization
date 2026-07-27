@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- class="header" + company-letterhead: repeating letterhead; chrome stripped in ir_actions_report.py -->
     <template id="report_company_header">
         <t t-set="company_name" t-value="company.name or ''"/>
         <t t-set="is_mtj_company" t-value="company_name == 'MTJ' or company_name.startswith('MTJ ')"/>
         <t t-if="is_mtj_company and company.image_field_1">
-            <div style="position: fixed; top: 42px; right: 30px; z-index: 1000;">
+            <div class="header company-letterhead company-letterhead-mtj" style="text-align: right; margin: 0; padding: 0;">
                 <img t-att-src="image_data_uri(company.image_field_1)"
                      alt="Company Logo"
-                     style="width: 120px; height: auto; display: block;"/>
+                     style="width: 140px; max-width: 140px; height: auto; display: block; margin: 0 0 0 auto; padding: 0;"/>
             </div>
-            <div style="height: 82px;"></div>
         </t>
         <t t-elif="company.image_field_1">
-            <div class="header" style="text-align: center; margin-bottom: 30px;">
+            <div class="header company-letterhead" style="text-align: center; margin: 0; padding: 0; line-height: 0; font-size: 0;">
                 <img t-att-src="image_data_uri(company.image_field_1)"
                      alt="Company Logo"
-                     style="width: 100%; max-width: 210mm; height: 30mm; display: block; margin: 0 auto;"/>
+                     style="width: 100%; max-width: 100%; height: auto; display: block; margin: 0; padding: 0;"/>
             </div>
         </t>
     </template>
@@ -23,11 +23,11 @@
     <template id="report_company_footer">
         <t t-set="company_name" t-value="company.name or ''"/>
         <t t-set="is_mtj_company" t-value="company_name == 'MTJ' or company_name.startswith('MTJ ')"/>
-        <t t-if="is_mtj_company and company.image_field_2">
-            <div style="position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; z-index: 1000;">
+        <t t-if="company.image_field_2">
+            <div class="footer" style="margin: 0; padding: 0; line-height: 0; font-size: 0;">
                 <img t-att-src="image_data_uri(company.image_field_2)"
                      alt="Footer Logo"
-                     style="width: 100%; max-width: 240mm; height: auto; display: block; margin: 0 auto;"/>
+                     style="width: 100%; max-width: 100%; height: auto; display: block; margin: 0; padding: 0;"/>
             </div>
         </t>
     </template>

@@ -5,18 +5,6 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <style>
-                    .footer {
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        text-align: center;
-                        <!-- font-size: 12px; -->
-                        font-size:11pt;
-                        padding: 10px;
-                        border-top: 1px solid #000;
-                        z-index: 999;
-                    }
                     .footer img {
                         width: 100%;
                         max-width: 210mm;
@@ -32,12 +20,12 @@
                         text-align: left;
                         border: 1px solid black;
                     }
-                    .header:not(.header-mtj) img {
+                    .header.company-letterhead img {
                         width: 100%;
                         height: auto;
                     }
                     </style>
-                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 5px 30px 30px 30px;">
                     <t t-set="currency" t-value="doc.currency_id"/>
                     <t t-set="currency_name" t-value="(currency and currency.name) or 'USD'"/>
                     <t t-set="currency_symbol" t-value="(currency and (currency.symbol or currency.name)) or '$'"/>
@@ -46,9 +34,8 @@
                             <t t-set="company" t-value="doc.company_id"/>
                         </t>
                         <!-- Custom Footer -->
-                        <!-- Custom Footer -->
-                        <div class="footer">
-                            <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 240mm; height: auto;" />
+                        <div class="footer" style="margin: 0; padding: 0; line-height: 0; font-size: 0;">
+                            <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" style="width: 100%; max-width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
                         </div>
 
                         <!-- Header Section -->
