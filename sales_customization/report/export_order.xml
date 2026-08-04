@@ -5,37 +5,40 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <style>
-                    
                     .footer img {
                         width: 100%;
                         max-width: 210mm;
                         height: auto;
                     }
                     table {
-                        border: 1px solid black;
                         width: 100%;
                         border-collapse: collapse;
                     }
                     th, td {
                         padding: 8px;
                         text-align: left;
-                        border: 1px solid black;
+                        border: none;
                     }
-                    .header:not(.header-mtj) img {
+                    /* Kill Bootstrap .table grid so borders match Proforma (row lines only) */
+                    .table, .table > :not(caption) > * > * {
+                        border: none !important;
+                        border-width: 0 !important;
+                    }
+                    .header.company-letterhead img {
                         width: 100%;
                         height: auto;
                     }
                 </style>
-                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 30px;">
+                    <div class="page" style="font-family: Arial, sans-serif; margin: 0; padding: 5px 30px 30px 30px;">
                         <!-- Header Section -->
                         <t t-call="sales_customization.report_company_header">
                             <t t-set="company" t-value="doc.company_id"/>
                         </t>
 
                         
-            <div class="footer">
+            <div class="footer" style="margin: 0; padding: 0; line-height: 0; font-size: 0;">
     <img t-if="doc.company_id.image_field_2" t-att-src="image_data_uri(doc.company_id.image_field_2)" alt="Footer Logo" 
-         style="width: 100%; max-width: 240mm; height: auto;" />
+         style="width: 100%; max-width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
 </div>
 
                         <!-- <div style="text-align: center;">
@@ -49,7 +52,7 @@
                                 <h1 style="font-size: 24px; font-weight: bold;">EXPORT ORDER</h1>
                                 <p style="font-size: 11px; margin-top: 2px;">Grouped by export category tag — set tags on the order and on each product.</p>
                             </div>
-                        <table class="table table-condensed" style="width:100%; margin-top:20px; font-size:11pt">
+                        <table style="width:100%; margin-top:20px; border-spacing: 0; font-size:11pt">
                             <!-- <tr>
                                 <td>
                                     CARTONS OF VITAL TEA: 
@@ -135,18 +138,18 @@
                         
 
                         <!-- Products Table -->
-                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black; font-size:11pt">
-                            <thead style="background-color: #f4f4f4; font-weight: bold; text-align: left;">
-                                <tr>
-                                    <th style="padding: 8px; border: 1px solid black;">S.No.</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Image</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Description</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Ctns</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Pkts</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Lbs Oz</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Packaging</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Status</th>
-                                    <th style="padding: 8px; border: 1px solid black;">Description</th>
+                        <table class="table table-condensed" style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size:11pt">
+                            <thead>
+                                <tr style="background-color: #C0C0C0; font-weight: bold; text-align: left;">
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">S.No.</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Image</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Description</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Ctns</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Pkts</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Lbs Oz</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Packaging</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Status</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid black;">Description</th>
                                 </tr>
                             </thead>
                             <tbody style="font-size:11pt">
@@ -192,17 +195,17 @@
         <t t-set="tag_header_ids" t-value="tag_header_ids + [line_tag.id]"/>
 
         <tr>
-            <td style="padding: 8px; border: 1px solid black;" />
-            <td style="padding: 8px; border: 1px solid black;" />
-            <td style="padding: 8px; border: 1px solid black; font-weight: bold;">
+            <td style="background-color:#EDEDED;" />
+            <td style="background-color:#EDEDED;" />
+            <td style="background-color:#EDEDED; font-weight: bold; text-align: left;">
                 <span t-esc="line_tag.name"/>
             </td>
-            <td style="padding: 8px; border: 1px solid black;" />
-            <td style="padding: 8px; border: 1px solid black;" />
-            <td style="padding: 8px; border: 1px solid black;" />
-            <td style="padding: 8px; border: 1px solid black;" />
-            <td style="padding: 8px; border: 1px solid black;" />
-            <td style="padding: 8px; border: 1px solid black;" />
+            <td style="background-color:#EDEDED;" />
+            <td style="background-color:#EDEDED;" />
+            <td style="background-color:#EDEDED;" />
+            <td style="background-color:#EDEDED;" />
+            <td style="background-color:#EDEDED;" />
+            <td style="background-color:#EDEDED;" />
         </tr>
 
         <t t-foreach="doc.order_line" t-as="subline">
@@ -211,11 +214,11 @@
                 <t t-set="product_lst" t-value="product_lst + [subline.product_id.id]"/>
 
                 <tr>
-                    <td style="padding: 8px; border: 1px solid black;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                         <span t-esc="s_no"/>
                         <t t-set="s_no" t-value="s_no + 1"/>
                     </td>
-                    <td style="padding: 8px; border-bottom: 1px solid black; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: middle; width: 40px; height: 40px;">
                         <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 5px; background-color: #f9f9f9;">
                             <img 
                                 t-if="subline.image" 
@@ -225,25 +228,25 @@
                             />
                         </div>
                     </td>
-                    <td style="padding: 8px; border: 1px solid black;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left; vertical-align: top;">
                         <span t-esc="subline.name"/>
                     </td>
-                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                         <t t-esc="int(subline.product_uom_qty)"/>
                     </td>
-                    <td style="padding: 4px; border: 1px solid black; text-align: center;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                         <span t-esc="'{:.0f}'.format(subline.pkts)"/>
                     </td>
-                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                         <span t-esc="subline.lbs_oz"/>
                     </td>
-                    <td style="padding: 8px; border: 1px solid black; text-align: center;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: center; vertical-align: top;">
                         <span t-esc="subline.packaging_detail_id.display_name"/>
                     </td>
-                    <td style="padding: 8px; border: 1px solid black;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left; vertical-align: top;">
                         <span t-esc="subline.status"/>
                     </td>
-                    <td style="padding: 8px; border: 1px solid black;">
+                    <td style="padding: 8px; border-bottom: 1px solid lightgrey; text-align: left; vertical-align: top;">
                         <span t-esc="subline.description"/>
                     </td>
                 </tr>

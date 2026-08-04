@@ -2,8 +2,10 @@ import re
 
 from odoo import api, models
 
+# Path must stop at ?/# so the query string is not swallowed into the path
+# (otherwise we append a second ?access_token=... and mail clients get a placeholder).
 IMG_SRC_RE = re.compile(
-    r"""(<img\b[^>]*\bsrc=["'])(/web/image/(\d+)(?:-[^/"'\s]*)?(?:/[^"']*)?)([^"']*)(["'])""",
+    r"""(<img\b[^>]*\bsrc=["'])(/web/image/(\d+)(?:-[^/"'?#\s]*)?(?:/[^"'?#]*)?)([^"']*)(["'])""",
     re.IGNORECASE,
 )
 
@@ -28,17 +30,15 @@ class MailingMailing(models.Model):
                     attachment.generate_access_token()
                 if not attachment.public:
                     attachment.public = True
-                # Drop stale token from query and set the current one.
-                query = re.sub(r'([?&])access_token=[^&]*', '', query or '')
-                query = query.replace('?&', '?').rstrip('?&')
-                sep = '&' if query.startswith('?') or '?' in query else '?'
-                if not query:
-                    sep = '?'
-                    new_query = f'?access_token={attachment.access_token}'
-                elif 'access_token=' in query:
-                    new_query = query
+                # Drop every access_token (including malformed ?token=?token) then set one.
+                query = re.sub(r'[?&]access_token=[^&?]*', '', query or '')
+                query = query.replace('?&', '?').replace('&&', '&').rstrip('?&')
+                if query and not query.startswith('?'):
+                    query = '?' + query
+                if query:
+                    new_query = f'{query}&access_token={attachment.access_token}'
                 else:
-                    new_query = f'{query}{sep}access_token={attachment.access_token}'
+                    new_query = f'?access_token={attachment.access_token}'
                 return f'{prefix}{path}{new_query}{suffix}'
 
             new_body = IMG_SRC_RE.sub(_replace, body)

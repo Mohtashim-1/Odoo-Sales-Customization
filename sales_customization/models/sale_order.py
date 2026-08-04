@@ -581,12 +581,19 @@ class SaleOrder(models.Model):
         res = super().get_views(views, options)
         if self.env.user.has_group('sales_customization.sales_customer_group'):
             form_view = res.get('views', {}).get('form', {})
-            if form_view:
-                arch = form_view.get('arch', '')
-                old = 'name="partner_id"'
-                new = 'name="partner_id" domain="[(\'user_id\', \'=\', uid), (\'customer_rank\', \'&gt;\', 0)]"'
-                if old in arch and new not in arch:
-                    res['views']['form']['arch'] = arch.replace(old, new, 1)
+            arch = form_view.get('arch')
+            if arch:
+                from lxml import etree
+                root = etree.fromstring(arch if isinstance(arch, bytes) else arch.encode('utf-8'))
+                # Replace domain in-place (do not inject a second domain= attribute)
+                for node in root.xpath("//field[@name='partner_id']"):
+                    node.set(
+                        'domain',
+                        "['&', ('customer_rank', '>', 0), "
+                        "'|', ('user_id', '=', uid), ('user_ids', 'in', uid)]",
+                    )
+                    break
+                form_view['arch'] = etree.tostring(root, encoding='unicode')
         return res
 
     @api.depends('order_line.price_subtotal')

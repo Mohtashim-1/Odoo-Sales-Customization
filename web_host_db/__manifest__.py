@@ -1,6 +1,6 @@
 {
     'name': 'Web Host Database Router',
-    'version': '1.0.1',
+    'version': '1.0.2',
     'category': 'Technical',
     'summary': 'Route anonymous HTTP requests (email images) to the correct database by Host header',
     'depends': ['web', 'mass_mailing', 'website'],
