@@ -1,2 +1,3 @@
 from . import mailing_mailing
+from . import mail_mail
 from . import website_domain
