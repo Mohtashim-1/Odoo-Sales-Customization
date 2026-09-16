@@ -1,6 +1,6 @@
 {
     'name': 'Sales Customization',
-    'version': '2.4.24',
+    'version': '2.4.26',
     'category': 'Sales',
     'summary': 'Extend and enhance the Sales workflow by adding custom fields to the Product Template and Sales Orders for better data capture and reporting.',
     'description': '''
@@ -22,7 +22,7 @@
             'sales_customization/static/lib/apexcharts/apexcharts.min.js',
             'sales_customization/static/src/js/sales_dashboard.js',
             'sales_customization/static/src/xml/sales_dashboard.xml',
-            'sales_customization/static/src/scss/sales_dashboard.scss',
+            'sales_customization/static/src/css/sales_dashboard.css',
         ],
     },
     'depends': ['base', 'product', 'sale_management', 'web', 'crm', 'account', 'project'],

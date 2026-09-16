@@ -291,6 +291,7 @@ export class SalesDashboard extends Component {
             res_model: detail.model,
             domain: detail.domain || [],
             views: [[false, "list"], [false, "form"]],
+            view_mode: "list,form",
             target: "current",
         });
     }

@@ -159,7 +159,10 @@
 
 .o_sales_detail_overlay {
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: rgba(15, 23, 42, 0.45);
     z-index: 2000;
     display: flex;
@@ -169,7 +172,8 @@
 }
 
 .o_sales_detail_dialog {
-    width: min(960px, 100%);
+    width: 960px;
+    max-width: 100%;
     max-height: 90vh;
     overflow: auto;
     background: #ffffff;
@@ -189,7 +193,7 @@
 .o_sales_detail_title {
     margin: 0;
     font-size: 18px;
-    font-weight: 650;
+    font-weight: 600;
 }
 
 .o_sales_detail_explanation {
