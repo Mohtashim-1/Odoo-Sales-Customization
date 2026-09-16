@@ -15,6 +15,9 @@ _logger = logging.getLogger(__name__)
 HOST_DB_MAP = {
     'vitalimited.com': 'VPPL',
     'www.vitalimited.com': 'VPPL',
+    'vitallimited.com': 'VPPL',
+    'www.vitallimited.com': 'VPPL',
+    'odoo.vitallimited.com': 'VPPL',
     # Direct server access (DNS for vitalimited.com currently points elsewhere)
     '194.164.150.184': 'VPPL',
 }

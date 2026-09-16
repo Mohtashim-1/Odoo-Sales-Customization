@@ -1,6 +1,7 @@
 import logging
 from datetime import date as py_date, datetime as py_datetime
 from odoo import models, fields, api
+from odoo.osv import expression
 from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
@@ -273,11 +274,17 @@ class ResPartner(models.Model):
         return labels, total_series, count_series
 
     @api.model
-    def get_sales_dashboard_data(self, partner_id=False, start_date=False, end_date=False):
-        partner = self.browse(partner_id).exists() if partner_id else self.env['res.partner']
-        currency = self.env.company.currency_id
-
-        so_domain = [('state', 'in', ['sale', 'done'])]
+    def _sales_dashboard_base_domains(self, partner_id=False, start_date=False, end_date=False, so_domain_extra=None):
+        so_domain = list(so_domain_extra or [])
+        has_state_filter = any(
+            isinstance(leaf, (list, tuple)) and len(leaf) >= 3 and leaf[0] == 'state'
+            for leaf in so_domain
+        )
+        if not has_state_filter:
+            so_domain = (
+                expression.AND([so_domain, [('state', 'in', ['sale', 'done'])]])
+                if so_domain else [('state', 'in', ['sale', 'done'])]
+            )
         inv_domain = [
             ('move_type', 'in', ('out_invoice', 'out_refund')),
             ('state', '!=', 'cancel'),
@@ -303,6 +310,41 @@ class ResPartner(models.Model):
             so_domain.append(('date_order', '<=', filter_end))
             inv_domain.append(('invoice_date', '<=', filter_end))
             old_domain.append(('invoice_date', '<=', filter_end))
+
+        line_domain = [('order_id.state', 'in', ['sale', 'done'])]
+        if partner_id:
+            line_domain.append(('order_id.partner_id', '=', partner_id))
+        if filter_start:
+            line_domain.append(('order_id.date_order', '>=', filter_start))
+        if filter_end:
+            line_domain.append(('order_id.date_order', '<=', filter_end))
+
+        return {
+            'so_domain': so_domain,
+            'inv_domain': inv_domain,
+            'old_domain': old_domain,
+            'line_domain': line_domain,
+            'filter_start': filter_start,
+            'filter_end': filter_end,
+        }
+
+    @api.model
+    def get_sales_dashboard_data(self, partner_id=False, start_date=False, end_date=False, so_domain_extra=None):
+        partner = self.browse(partner_id).exists() if partner_id else self.env['res.partner']
+        currency = self.env.company.currency_id
+
+        domains = self._sales_dashboard_base_domains(
+            partner_id=partner_id,
+            start_date=start_date,
+            end_date=end_date,
+            so_domain_extra=so_domain_extra,
+        )
+        so_domain = domains['so_domain']
+        inv_domain = domains['inv_domain']
+        old_domain = domains['old_domain']
+        line_domain = domains['line_domain']
+        filter_start = domains['filter_start']
+        filter_end = domains['filter_end']
 
         so_total_data = self.env['sale.order'].read_group(so_domain, ['amount_total:sum'], [])
         so_total = so_total_data[0].get('amount_total', 0.0) if so_total_data else 0.0
@@ -394,15 +436,6 @@ class ResPartner(models.Model):
         if top_customers and so_total:
             top_customer_share = sum(c['total'] for c in top_customers[:5]) / so_total * 100.0
 
-        line_domain = [
-            ('order_id.state', 'in', ['sale', 'done']),
-        ]
-        if partner_id:
-            line_domain.append(('order_id.partner_id', '=', partner_id))
-        if filter_start:
-            line_domain.append(('order_id.date_order', '>=', filter_start))
-        if filter_end:
-            line_domain.append(('order_id.date_order', '<=', filter_end))
         top_items = []
         top_item_data = self.env['sale.order.line'].read_group(
             line_domain + [('product_id', '!=', False)],
@@ -452,6 +485,7 @@ class ResPartner(models.Model):
         for row in container_data:
             key = row.get('container_type') or 'unknown'
             container_types.append({
+                'key': key,
                 'label': container_labels.get(key, key),
                 'value': row.get('amount_total', row.get('amount_total_sum', 0.0)),
             })
@@ -764,6 +798,11 @@ class ResPartner(models.Model):
                 cohort_new.append(new_count)
                 cohort_returning.append(ret_count)
 
+        _, _, _, month_keys = self._sales_dashboard_months(
+            start_date=filter_start,
+            end_date=filter_end,
+        )
+
         return {
             'partner': {
                 'id': partner.id if partner_id else False,
@@ -800,6 +839,7 @@ class ResPartner(models.Model):
                 'margin_pct': margin_pct,
             },
             'labels': labels,
+            'month_keys': month_keys,
             'series': {
                 'sale_orders': {
                     'total': so_totals,
@@ -843,6 +883,555 @@ class ResPartner(models.Model):
             'sales_by_country': sales_by_country,
             'sales_by_port': sales_by_port,
             'payment_terms': payment_terms,
+        }
+
+    def _dashboard_month_bounds(self, month_key):
+        start = fields.Date.to_date(f"{month_key}-01")
+        end = start + relativedelta(months=1, days=-1)
+        return start, end
+
+    def _dashboard_json_domain(self, domain):
+        result = []
+        for leaf in domain:
+            if isinstance(leaf, (list, tuple)) and len(leaf) >= 3:
+                val = leaf[2]
+                if isinstance(val, py_datetime):
+                    val = fields.Datetime.to_string(val)
+                elif isinstance(val, py_date):
+                    val = fields.Date.to_string(val)
+                result.append([leaf[0], leaf[1], val])
+            else:
+                result.append(leaf)
+        return result
+
+    def _dashboard_with_month(self, domain, date_field, month_key):
+        domain = list(domain)
+        if not month_key:
+            return domain
+        start, end = self._dashboard_month_bounds(month_key)
+        return domain + [(date_field, '>=', start), (date_field, '<=', end)]
+
+    def _dashboard_sum(self, model, domain, field_name):
+        grouped = model.read_group(domain, [f'{field_name}:sum'], [])
+        if not grouped:
+            return 0.0
+        return grouped[0].get(field_name, grouped[0].get(f'{field_name}_sum', 0.0)) or 0.0
+
+    def _dashboard_detail_rows(self, records, name_get, date_get, amount_get, partner_get=None, extra_get=None):
+        rows = []
+        for rec in records:
+            date_val = date_get(rec) if date_get else False
+            if hasattr(date_val, 'strftime'):
+                date_val = date_val.strftime('%Y-%m-%d')
+            partner_name = ''
+            if partner_get:
+                partner_name = partner_get(rec) or ''
+            rows.append({
+                'id': rec.id,
+                'name': name_get(rec) if name_get else str(rec.id),
+                'date': date_val or '',
+                'partner': partner_name,
+                'amount': amount_get(rec) if amount_get else 0.0,
+                'extra': extra_get(rec) if extra_get else '',
+            })
+        return rows
+
+    def _dashboard_detail_payload(self, title, explanation, model, domain, records, count, amount,
+                                  name_get, date_get, amount_get, partner_get=None, extra_get=None,
+                                  amount_label='Total Amount', count_label='Records'):
+        rows = self._dashboard_detail_rows(
+            records, name_get, date_get, amount_get, partner_get, extra_get
+        )
+        return {
+            'title': title,
+            'explanation': explanation,
+            'model': model,
+            'domain': self._dashboard_json_domain(domain),
+            'count': count,
+            'amount': amount or 0.0,
+            'amount_label': amount_label,
+            'count_label': count_label,
+            'rows': rows,
+            'truncated': count > len(rows),
+            'shown': len(rows),
+        }
+
+    def _dashboard_so_detail(self, domain, title, explanation, limit=80):
+        orders = self.env['sale.order'].search(domain, limit=limit, order='date_order desc, id desc')
+        return self._dashboard_detail_payload(
+            title, explanation, 'sale.order', domain, orders,
+            self.env['sale.order'].search_count(domain),
+            self._dashboard_sum(self.env['sale.order'], domain, 'amount_total'),
+            lambda r: r.name,
+            lambda r: r.date_order,
+            lambda r: r.amount_total or 0.0,
+            lambda r: r.partner_id.display_name,
+            lambda r: r.state,
+            count_label='Orders',
+        )
+
+    def _dashboard_inv_detail(self, domain, title, explanation, amount_field='amount_total', limit=80):
+        invoices = self.env['account.move'].search(
+            domain, limit=limit, order='invoice_date desc, date desc, id desc'
+        )
+        return self._dashboard_detail_payload(
+            title, explanation, 'account.move', domain, invoices,
+            self.env['account.move'].search_count(domain),
+            self._dashboard_sum(self.env['account.move'], domain, amount_field),
+            lambda r: r.name,
+            lambda r: r.invoice_date or r.date,
+            lambda r: getattr(r, amount_field, 0.0) or 0.0,
+            lambda r: r.partner_id.display_name,
+            lambda r: r.payment_state,
+            count_label='Invoices',
+        )
+
+    def _dashboard_old_detail(self, domain, title, explanation, limit=80):
+        rows = self.env['crm.lead.old.sale'].search(domain, limit=limit, order='invoice_date desc, id desc')
+        return self._dashboard_detail_payload(
+            title, explanation, 'crm.lead.old.sale', domain, rows,
+            self.env['crm.lead.old.sale'].search_count(domain),
+            self._dashboard_sum(self.env['crm.lead.old.sale'], domain, 'invoice_value'),
+            lambda r: r.invoice_number or r.old_sales or r.lead_name or f'#{r.id}',
+            lambda r: r.invoice_date,
+            lambda r: r.invoice_value or 0.0,
+            lambda r: r.partner_id.display_name,
+            count_label='Old Sales',
+        )
+
+    def _dashboard_line_detail(self, domain, title, explanation, amount_field='price_total', limit=80):
+        lines = self.env['sale.order.line'].search(domain, limit=limit, order='id desc')
+
+        def _line_amount(line):
+            if amount_field == 'margin':
+                if 'margin' in line._fields:
+                    return line.margin or 0.0
+                unit_cost = line.purchase_price if 'purchase_price' in line._fields else (
+                    line.product_id.standard_price or 0.0
+                )
+                return (line.price_subtotal or 0.0) - (unit_cost * (line.product_uom_qty or 0.0))
+            return getattr(line, amount_field, 0.0) or 0.0
+
+        if amount_field == 'margin' and 'margin' not in self.env['sale.order.line']._fields:
+            amount = sum(_line_amount(line) for line in self.env['sale.order.line'].search(domain, limit=5000))
+        else:
+            amount = self._dashboard_sum(self.env['sale.order.line'], domain, amount_field)
+
+        return self._dashboard_detail_payload(
+            title, explanation, 'sale.order.line', domain, lines,
+            self.env['sale.order.line'].search_count(domain),
+            amount,
+            lambda r: r.product_id.display_name or r.name,
+            lambda r: r.order_id.date_order,
+            _line_amount,
+            lambda r: r.order_id.partner_id.display_name,
+            lambda r: r.order_id.name,
+            amount_label='Line Amount' if amount_field != 'margin' else 'Margin',
+            count_label='Order Lines',
+        )
+
+    def _dashboard_partner_ids_by_cohort(self, so_domain, filter_start, series_name, month_key=None):
+        first_sale_data = self.env['sale.order'].read_group(
+            so_domain,
+            ['date_order:min'],
+            ['partner_id'],
+        )
+        first_sale_map = {}
+        for row in first_sale_data:
+            partner_val = row.get('partner_id')
+            first_date = row.get('date_order_min')
+            if not partner_val or not first_date:
+                continue
+            first_sale_map[partner_val[0]] = fields.Date.to_date(first_date)
+
+        partner_ids = []
+        if month_key:
+            month_start, month_end = self._dashboard_month_bounds(month_key)
+            month_domain = self._dashboard_with_month(so_domain, 'date_order', month_key)
+            month_partners = self.env['sale.order'].read_group(
+                month_domain, ['partner_id'], ['partner_id']
+            )
+            for row in month_partners:
+                partner_val = row.get('partner_id')
+                if not partner_val:
+                    continue
+                first_date = first_sale_map.get(partner_val[0])
+                if not first_date:
+                    continue
+                is_new = month_start <= first_date <= month_end
+                if (series_name == 'new' and is_new) or (series_name != 'new' and not is_new):
+                    partner_ids.append(partner_val[0])
+            return partner_ids, month_domain
+
+        if not filter_start:
+            return [], so_domain
+        for partner_id, first_date in first_sale_map.items():
+            is_new = first_date >= filter_start
+            if (series_name == 'new' and is_new) or (series_name != 'new' and not is_new):
+                partner_ids.append(partner_id)
+        return partner_ids, so_domain
+
+    @api.model
+    def get_sales_dashboard_details(
+        self, chart_key, point=None, partner_id=False, start_date=False, end_date=False, so_domain_extra=None
+    ):
+        """Return source records and explanation for a dashboard KPI or chart point."""
+        point = point or {}
+        domains = self._sales_dashboard_base_domains(
+            partner_id=partner_id,
+            start_date=start_date,
+            end_date=end_date,
+            so_domain_extra=so_domain_extra,
+        )
+        so_domain = domains['so_domain']
+        inv_domain = domains['inv_domain']
+        old_domain = domains['old_domain']
+        line_domain = domains['line_domain']
+        filter_start = domains['filter_start']
+        paid_domain = list(inv_domain) + [('payment_state', '=', 'paid')]
+        open_domain = list(inv_domain) + [('payment_state', 'in', ['not_paid', 'partial'])]
+        refund_domain = list(inv_domain) + [('move_type', '=', 'out_refund')]
+        month_key = point.get('month_key') or False
+        label = point.get('label') or point.get('name') or ''
+        series_name = point.get('series_name') or ''
+        record_id = point.get('id') or False
+        record_key = point.get('key') or False
+        period = f' — {label}' if label else ''
+
+        if chart_key in ('sale_orders', 'kpi_sale_orders'):
+            domain = self._dashboard_with_month(so_domain, 'date_order', month_key)
+            return self._dashboard_so_detail(
+                domain,
+                f'Sales Orders{period}',
+                'Confirmed sales orders in the selected filters. Amount is the sum of order totals. Count is the number of orders.',
+            )
+
+        if chart_key in ('sale_invoices', 'kpi_sale_invoices'):
+            domain = self._dashboard_with_month(inv_domain, 'invoice_date', month_key)
+            return self._dashboard_inv_detail(
+                domain,
+                f'Sales Invoices{period}',
+                'Customer invoices and credit notes that are not cancelled. Amount is the sum of invoice totals.',
+            )
+
+        if chart_key in ('old_sales', 'kpi_old_sales'):
+            domain = self._dashboard_with_month(old_domain, 'invoice_date', month_key)
+            return self._dashboard_old_detail(
+                domain,
+                f'Historical (Old) Sales{period}',
+                'Imported historical sales rows (Old Sales) in the selected period. Amount is the sum of invoice values.',
+            )
+
+        if chart_key in ('paid', 'kpi_paid', 'kpi_paid_pct'):
+            domain = self._dashboard_with_month(paid_domain, 'invoice_date', month_key)
+            explanation = (
+                'Invoices whose payment state is Paid. Paid % = paid invoice total / all invoice total.'
+                if chart_key == 'kpi_paid_pct'
+                else 'Invoices whose payment state is Paid. Amount is the sum of those invoice totals.'
+            )
+            return self._dashboard_inv_detail(domain, f'Paid Invoices{period}', explanation)
+
+        if chart_key in ('open', 'kpi_open', 'kpi_open_pct'):
+            domain = self._dashboard_with_month(open_domain, 'invoice_date', month_key)
+            explanation = (
+                'Invoices that are Not Paid or Partially Paid. Open % uses outstanding residual / all invoice total.'
+                if chart_key == 'kpi_open_pct'
+                else 'Invoices that are Not Paid or Partially Paid. Amount is the outstanding residual.'
+            )
+            return self._dashboard_inv_detail(
+                domain, f'Open Invoices{period}', explanation, amount_field='amount_residual'
+            )
+
+        if chart_key in ('refunds', 'kpi_refund_total', 'kpi_refund_count', 'kpi_refund_pct'):
+            domain = self._dashboard_with_month(refund_domain, 'invoice_date', month_key)
+            explanation = (
+                'Customer credit notes (out_refund). Returns Impact % = credit note total / all invoice total.'
+                if chart_key == 'kpi_refund_pct'
+                else 'Customer credit notes (out_refund). Amount is the sum of credit note totals.'
+            )
+            return self._dashboard_inv_detail(domain, f'Credit Notes{period}', explanation)
+
+        if chart_key in ('kpi_avg_order',):
+            return self._dashboard_so_detail(
+                so_domain,
+                'Average Order Value',
+                'Average Order Value = total of confirmed sales orders / number of those orders.',
+            )
+
+        if chart_key in ('kpi_avg_invoice',):
+            return self._dashboard_inv_detail(
+                inv_domain,
+                'Average Invoice Value',
+                'Average Invoice Value = total of customer invoices and credit notes / number of those invoices.',
+            )
+
+        if chart_key == 'payment_states':
+            state = record_key or label or 'unknown'
+            domain = list(inv_domain)
+            if state == 'unknown':
+                domain.append(('payment_state', 'in', [False, '']))
+            else:
+                domain.append(('payment_state', '=', state))
+            return self._dashboard_inv_detail(
+                domain,
+                f'Invoices — {state}',
+                'Customer invoices grouped by payment state. The slice amount is the sum of invoice totals in that state.',
+            )
+
+        if chart_key == 'top_customers':
+            domain = list(so_domain)
+            if record_id:
+                domain.append(('partner_id', '=', record_id))
+            return self._dashboard_so_detail(
+                domain,
+                f'Top Customer{period}',
+                'Confirmed sales orders for this customer. The bar amount is the sum of those order totals.',
+            )
+
+        if chart_key == 'top_items':
+            domain = list(line_domain) + [('product_id', '!=', False)]
+            if record_id:
+                domain.append(('product_id', '=', record_id))
+            return self._dashboard_line_detail(
+                domain,
+                f'Top Item{period}',
+                'Sale order lines for this product on confirmed orders. The bar amount is the sum of line totals.',
+            )
+
+        if chart_key == 'top_categories':
+            domain = list(line_domain) + [('product_id', '!=', False)]
+            if record_id:
+                domain.append(('product_id.categ_id', '=', record_id))
+            return self._dashboard_line_detail(
+                domain,
+                f'Top Category{period}',
+                'Sale order lines whose product belongs to this category. The bar amount is the sum of line totals.',
+            )
+
+        if chart_key == 'container_types':
+            key = record_key or 'unknown'
+            domain = list(so_domain)
+            if key == 'unknown':
+                domain.append(('container_type', 'in', [False, '']))
+            else:
+                domain.append(('container_type', '=', key))
+            return self._dashboard_so_detail(
+                domain,
+                f'Container Type — {label or key}',
+                'Confirmed sales orders with this container type. The slice amount is the sum of order totals.',
+            )
+
+        if chart_key == 'aging':
+            today = fields.Date.context_today(self)
+            bucket = record_key or label or '0-30'
+            open_invoices = self.env['account.move'].search(
+                open_domain, limit=2000, order='invoice_date_due asc, date asc'
+            )
+            matching_ids = []
+            for inv in open_invoices:
+                due = inv.invoice_date_due or inv.invoice_date or inv.date
+                if not due:
+                    inv_bucket = '0-30'
+                else:
+                    days = (today - due).days
+                    if days <= 30:
+                        inv_bucket = '0-30'
+                    elif days <= 60:
+                        inv_bucket = '31-60'
+                    elif days <= 90:
+                        inv_bucket = '61-90'
+                    else:
+                        inv_bucket = '90+'
+                if inv_bucket == bucket:
+                    matching_ids.append(inv.id)
+            domain = [('id', 'in', matching_ids)]
+            return self._dashboard_inv_detail(
+                domain,
+                f'Invoice Aging — {bucket} days',
+                'Open invoices (not paid / partial) grouped by days past due. Amount is the outstanding residual. '
+                '0-30 also includes invoices that are not yet due or have no due date.',
+                amount_field='amount_residual',
+            )
+
+        if chart_key == 'paid_open':
+            base = paid_domain if series_name != 'open' else open_domain
+            amount_field = 'amount_total' if series_name != 'open' else 'amount_residual'
+            domain = self._dashboard_with_month(base, 'invoice_date', month_key)
+            title = f'{"Paid" if series_name != "open" else "Open"} Invoices{period}'
+            explanation = (
+                'Monthly paid invoices. Amount is the sum of paid invoice totals.'
+                if series_name != 'open'
+                else 'Monthly open invoices. Amount is the outstanding residual.'
+            )
+            return self._dashboard_inv_detail(domain, title, explanation, amount_field=amount_field)
+
+        if chart_key in ('margin', 'kpi_margin'):
+            domain = self._dashboard_with_month(line_domain, 'order_id.date_order', month_key)
+            return self._dashboard_line_detail(
+                domain,
+                f'Gross Margin{period}',
+                'Gross margin from confirmed sale order lines. Margin = sales subtotal minus cost. '
+                'Margin % = margin / subtotal.',
+                amount_field='margin',
+            )
+
+        if chart_key in ('cohort', 'kpi_new_customers', 'kpi_returning_customers'):
+            series = series_name or ('new' if chart_key == 'kpi_new_customers' else 'returning')
+            partner_ids, base_domain = self._dashboard_partner_ids_by_cohort(
+                so_domain, filter_start, series, month_key=month_key if chart_key == 'cohort' else None
+            )
+            domain = list(base_domain) + [('partner_id', 'in', partner_ids or [0])]
+            title = f'{"New" if series == "new" else "Returning"} Customers{period}'
+            explanation = (
+                'New customers are partners whose first confirmed order in the filtered period falls in this month. '
+                if series == 'new'
+                else 'Returning customers already had a confirmed order earlier in the filtered period. '
+            ) + 'The list shows their orders that contribute to this value.'
+            return self._dashboard_so_detail(domain, title, explanation)
+
+        if chart_key == 'salesperson':
+            domain = list(so_domain)
+            if record_id:
+                domain.append(('user_id', '=', record_id))
+            return self._dashboard_so_detail(
+                domain,
+                f'Salesperson{period}',
+                'Confirmed sales orders assigned to this salesperson. The bar amount is the sum of order totals.',
+            )
+
+        if chart_key == 'brand':
+            domain = list(line_domain) + [('product_id', '!=', False)]
+            if record_id:
+                domain.append(('product_id.product_tmpl_id.brand_id', '=', record_id))
+            elif record_id is False and (label == 'No Brand' or not label):
+                domain.append(('product_id.product_tmpl_id.brand_id', '=', False))
+            return self._dashboard_line_detail(
+                domain,
+                f'Brand{period}',
+                'Sale order lines whose product has this brand. The bar amount is the sum of line totals.',
+            )
+
+        if chart_key == 'country':
+            domain = list(so_domain)
+            if record_id:
+                domain.append(('partner_id.country_id', '=', record_id))
+            return self._dashboard_so_detail(
+                domain,
+                f'Country{period}',
+                'Confirmed sales orders whose customer is in this country. The bar amount is the sum of order totals.',
+            )
+
+        if chart_key == 'port':
+            domain = list(so_domain)
+            port_name = label or point.get('name')
+            if port_name and port_name != 'Unknown':
+                domain.append(('port_of_discharge', '=', port_name))
+            else:
+                domain.append(('port_of_discharge', 'in', [False, '']))
+            return self._dashboard_so_detail(
+                domain,
+                f'Port{period}',
+                'Confirmed sales orders with this port of discharge. The bar amount is the sum of order totals.',
+            )
+
+        if chart_key == 'payment_terms':
+            domain = list(inv_domain)
+            if record_id:
+                domain.append(('invoice_payment_term_id', '=', record_id))
+            return self._dashboard_inv_detail(
+                domain,
+                f'Payment Terms{period}',
+                'Customer invoices using this payment term. The bar amount is the sum of invoice totals.',
+            )
+
+        if chart_key == 'kpi_top_customer_share':
+            top_data = self.env['sale.order'].read_group(
+                so_domain,
+                ['amount_total:sum'],
+                ['partner_id'],
+                orderby='amount_total desc',
+                limit=5,
+            )
+            partner_ids = [row['partner_id'][0] for row in top_data if row.get('partner_id')]
+            domain = list(so_domain) + [('partner_id', 'in', partner_ids or [0])]
+            return self._dashboard_so_detail(
+                domain,
+                'Top 5 Customer Share',
+                'Share = total of the top 5 customers’ confirmed orders / total of all confirmed orders in the filters.',
+            )
+
+        if chart_key == 'kpi_avg_days_to_invoice':
+            domain = list(so_domain) + [('invoice_ids', '!=', False)]
+            orders = self.env['sale.order'].search(domain, limit=80, order='date_order desc')
+
+            def _days(order):
+                invoice_dates = [d for d in order.invoice_ids.mapped('invoice_date') if d]
+                if not invoice_dates or not order.date_order:
+                    return ''
+                return f'{(min(invoice_dates) - order.date_order.date()).days} days'
+
+            return self._dashboard_detail_payload(
+                'Average Days to Invoice',
+                'Average of (first invoice date − order date) for confirmed orders that have at least one invoice.',
+                'sale.order',
+                domain,
+                orders,
+                self.env['sale.order'].search_count(domain),
+                0.0,
+                lambda r: r.name,
+                lambda r: r.date_order,
+                lambda r: r.amount_total or 0.0,
+                lambda r: r.partner_id.display_name,
+                _days,
+                amount_label='Order Total',
+                count_label='Invoiced Orders',
+            )
+
+        if chart_key == 'kpi_avg_days_to_pay':
+            invoices = self.env['account.move'].search(
+                paid_domain, limit=80, order='invoice_date desc, date desc'
+            )
+            payment_model = self.env['account.payment']
+
+            def _pay_days(inv):
+                inv_date = inv.invoice_date or inv.date
+                if not inv_date or 'reconciled_invoice_ids' not in payment_model._fields:
+                    return ''
+                payments = payment_model.search(
+                    [('reconciled_invoice_ids', 'in', inv.id)], limit=1, order='date asc'
+                )
+                if not payments or not payments[0].date:
+                    return ''
+                return f'{(payments[0].date - inv_date).days} days'
+
+            return self._dashboard_detail_payload(
+                'Average Days to Pay',
+                'Average of (first payment date − invoice date) for paid customer invoices.',
+                'account.move',
+                paid_domain,
+                invoices,
+                self.env['account.move'].search_count(paid_domain),
+                self._dashboard_sum(self.env['account.move'], paid_domain, 'amount_total'),
+                lambda r: r.name,
+                lambda r: r.invoice_date or r.date,
+                lambda r: r.amount_total or 0.0,
+                lambda r: r.partner_id.display_name,
+                _pay_days,
+                count_label='Paid Invoices',
+            )
+
+        return {
+            'title': 'Details',
+            'explanation': 'No source records are available for this selection.',
+            'model': False,
+            'domain': [],
+            'count': 0,
+            'amount': 0.0,
+            'amount_label': 'Total Amount',
+            'count_label': 'Records',
+            'rows': [],
+            'truncated': False,
+            'shown': 0,
         }
 
     def _resolve_company_for_property_accounts(self):

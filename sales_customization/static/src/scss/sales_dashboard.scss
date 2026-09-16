@@ -1,3 +1,11 @@
+.o_sales_dashboard_layout {
+    height: 100%;
+}
+
+.o_sales_dashboard_layout .o_content {
+    overflow: auto;
+}
+
 .o_sales_dashboard {
     padding: 24px;
     height: 100%;
@@ -24,6 +32,12 @@
     color: #6c757d;
     font-size: 14px;
     margin-top: 4px;
+}
+
+.o_sales_dashboard_hint {
+    color: #6c757d;
+    font-size: 12px;
+    margin-top: 6px;
 }
 
 .o_sales_kpis {
@@ -75,6 +89,13 @@
     border-radius: 10px;
     padding: 16px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.o_kpi:hover {
+    border-color: #5b8def;
+    box-shadow: 0 4px 12px rgba(91, 141, 239, 0.12);
 }
 
 .o_kpi_label {
@@ -114,13 +135,125 @@
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.o_chart_hint {
+    font-size: 11px;
+    font-weight: 400;
+    color: #6c757d;
 }
 
 .o_chart {
     min-height: 300px;
+    cursor: pointer;
 }
 
 .o_sales_dashboard_loading {
     padding: 24px;
     color: #6c757d;
+}
+
+.o_sales_detail_overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.o_sales_detail_dialog {
+    width: min(960px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    padding: 20px 22px;
+}
+
+.o_sales_detail_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.o_sales_detail_title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 650;
+}
+
+.o_sales_detail_explanation {
+    color: #495057;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.o_sales_detail_summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    margin-bottom: 12px;
+}
+
+.o_sales_detail_stat_value {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.o_sales_detail_note {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 8px;
+}
+
+.o_sales_detail_loading,
+.o_sales_detail_empty {
+    color: #6c757d;
+    padding: 16px 0;
+}
+
+.o_sales_detail_table_wrap {
+    overflow: auto;
+    max-height: 52vh;
+    border: 1px solid #e6e9ef;
+    border-radius: 8px;
+}
+
+.o_sales_detail_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.o_sales_detail_table th,
+.o_sales_detail_table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eef1f5;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.o_sales_detail_table tbody tr {
+    cursor: pointer;
+}
+
+.o_sales_detail_table tbody tr:hover {
+    background: #f5f8ff;
+}
+
+.o_sales_detail_num {
+    text-align: right !important;
 }

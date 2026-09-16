@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sales_dashboard_search" model="ir.ui.view">
+        <field name="name">sale.order.sales.dashboard.search</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <search string="Sales Dashboard">
+                <field name="name" string="Order"/>
+                <field name="partner_id" operator="child_of"/>
+                <field name="user_id"/>
+                <field name="team_id"/>
+                <field name="date_order"/>
+
+                <filter string="My Orders" name="my_sales_orders_filter" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Quotations" name="draft" domain="[('state', 'in', ('draft', 'sent'))]"/>
+                <filter string="Sales Orders" name="sales" domain="[('state', 'in', ('sale', 'done'))]"/>
+                <separator/>
+                <filter string="Order Date" name="order_date" date="date_order"/>
+                <separator/>
+                <filter string="To Invoice" name="to_invoice" domain="[('invoice_status', '=', 'to invoice')]"/>
+                <filter string="Invoiced" name="invoiced" domain="[('invoice_status', '=', 'invoiced')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Salesperson" name="salesperson" context="{'group_by': 'user_id'}"/>
+                    <filter string="Customer" name="customer" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Sales Team" name="sales_team" context="{'group_by': 'team_id'}"/>
+                    <filter string="Order Date" name="order_month" context="{'group_by': 'date_order:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>
