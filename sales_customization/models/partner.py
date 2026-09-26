@@ -178,12 +178,26 @@ class ResPartner(models.Model):
             },
         }
 
+    @api.model
+    def get_sales_dashboard_search_view_id(self):
+        """Resolve dashboard search view without requiring ir.model.data ACL."""
+        data = self.env['ir.model.data'].sudo().search([
+            ('module', '=', 'sales_customization'),
+            ('name', '=', 'view_sales_dashboard_search'),
+            ('model', '=', 'ir.ui.view'),
+        ], limit=1)
+        return data.res_id if data else False
+
     def action_open_sales_dashboard(self):
         self.ensure_one()
+        search_view_id = self.get_sales_dashboard_search_view_id()
         return {
             'type': 'ir.actions.client',
             'name': 'Sales Dashboard',
             'tag': 'sales_customization.sales_dashboard',
+            'params': {
+                'search_view_id': search_view_id,
+            },
             'context': {
                 'partner_id': self.id,
             },

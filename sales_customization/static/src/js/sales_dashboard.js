@@ -641,7 +641,21 @@ export class SalesDashboardAction extends Component {
     }
 
     async _getSearchViewId() {
-        return this.props.action.params?.search_view_id || false;
+        // Prefer action params (set on the client action / partner opener).
+        // Never read ir.model.data from JS — non-admin users lack that ACL.
+        const fromParams = this.props.action.params?.search_view_id;
+        if (fromParams) {
+            return fromParams;
+        }
+        try {
+            return await this.orm.call(
+                "res.partner",
+                "get_sales_dashboard_search_view_id",
+                []
+            );
+        } catch (_err) {
+            return false;
+        }
     }
 }
 
