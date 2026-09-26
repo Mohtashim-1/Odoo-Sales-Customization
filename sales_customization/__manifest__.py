@@ -60,8 +60,8 @@
     "views/old_sales_report.xml",
     'views/sale_order_line.xml',
     'views/sale_order_customer_rule.xml',
-    'views/sales_dashboard_menu.xml',
     'views/sales_dashboard_search.xml',
+    'views/sales_dashboard_menu.xml',
     
     # report
     "report/company_report_header.xml",

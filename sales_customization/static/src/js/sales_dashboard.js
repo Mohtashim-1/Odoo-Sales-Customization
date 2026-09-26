@@ -641,16 +641,7 @@ export class SalesDashboardAction extends Component {
     }
 
     async _getSearchViewId() {
-        const rows = await this.orm.searchRead(
-            "ir.model.data",
-            [
-                ["module", "=", "sales_customization"],
-                ["name", "=", "view_sales_dashboard_search"],
-            ],
-            ["res_id"],
-            { limit: 1 }
-        );
-        return rows.length ? rows[0].res_id : false;
+        return this.props.action.params?.search_view_id || false;
     }
 }
 
